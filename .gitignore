@@ -1,2 +1,6 @@
 *.un~
 *.swp
+docs/*.aux
+docs/*.log
+docs/*.gz
+docs/tmp.inputs

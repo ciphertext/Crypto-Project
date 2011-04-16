@@ -1,0 +1,110 @@
+\documentclass[12pt]{amsart}
+\usepackage{geometry} 
+\usepackage{calc}
+\usepackage{eucal}
+\usepackage{cite}
+
+\pagestyle{plain}
+\geometry{letterpaper}
+
+\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{textcomp}
+\usepackage{pstricks}
+\usepackage{pdftricks}
+\begin{psinputs}
+	\usepackage{pstricks}
+	\usepackage{color}
+	\usepackage{pstcol}
+	\usepackage{pst-plot}
+	\usepackage{pst-tree}
+	\usepackage{pst-eps}
+	\usepackage{multido}
+	\usepackage{pst-node}
+	\usepackage{pst-eps}
+\end{psinputs}
+
+\usepackage[linesnumbered,vlined,ruled]{algorithm2e}
+%%
+
+\newcommand{\mmod}{\hspace{-6pt}\pmod}
+\newcommand{\defeq}{\stackrel{\text{\tiny def}}{=}}
+\newcommand{\defmark}{$\mathbf{Definition.}$ }
+\newcommand{\exmark}{$\mathbf{Ex.}$ }
+\newcommand{\forcevspace}[1][8pt]{$ $\\\vspace{#1}}
+
+\newcommand{\adv}[2][]{\mathbf{Adv}^{#1}_{#2}}
+\renewcommand{\exp}[2][]{\mathbf{Exp}^{#1}_{#2}}
+\newcommand{\pr}[1][]{\mathbf{Pr}[#1]}
+\newcommand{\C}{\mathcal{C}}
+\renewcommand{\P}{\mathcal{P}}
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+
+\newcommand{\Zz}{\mathbb{Z}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\title{Homomorphic Encryption}
+\author{Justin Sahs}
+%%% BEGIN DOCUMENT
+\begin{document}
+\maketitle
+\section{Correctness of the Somewhat Homomorphic Scheme}
+
+\defmark A somewhat homomorphic scheme is said to be \emph{correct} if $D_\E(E_\E(m)) = m$, and for $c_i = E_\E(m_i)$, $D_\E(V_\E(C,\langle c_0, \ldots, c_n \rangle)) = C(\langle m_0,\ldots,m_n\rangle)$.
+
+\begin{lemma}\label{ecorrect}
+If $c$ is output from $E_\E(m)$, then $c = a\cdot p + (2b + m)$ where $|2b+m| < p$.
+\end{lemma}
+\begin{proof}
+From Lemma A.1, $c = a\cdot p + (2b + m)$ for some $a$ and $b$ such that $|2b+m| \le \tau 2^{\rho+3}$. Then,
+
+\begin{IEEEeqnarray*}{r;l}
+	|2b+m| &\le \tau 2^{\rho+3}\\
+		   &= \gamma \omega(\log\lambda) 2^{\rho+3}\\
+		   &= \gamma \omega(\log\lambda) 2^{\omega(\log\lambda)}\\
+		   &= \omega(\eta^2\log\lambda) \omega(\log\lambda) 2^{\omega(\log\lambda)}\\
+		   &= \omega(\rho\Theta(\lambda\log^2\lambda)\log\lambda) \omega(\log\lambda) 2^{\omega(\log\lambda)}\\
+		   &= \omega(\omega(\log\lambda)\Theta(\lambda\log^2\lambda)\log\lambda) \omega(\log\lambda) 2^{\omega(\log\lambda)}\\
+		   &= \omega(\lambda\log^5\lambda 2^{\log\lambda})\\
+\noalign{Additionally,}\\
+	p &= \omega(2^\eta)\\
+	  &= \omega(2^{\rho\Theta(\lambda\log^2\lambda)})\\
+	  &= \omega(2^{\omega(\log\lambda)\Theta(\lambda\log^2\lambda)})\\
+	  &= \omega(2^{\lambda\log^3\lambda})\\
+\end{IEEEeqnarray*}
+so we have
+$$2^{\log\lambda} \le |2b+m| \le 2^{\log^2\lambda}$$
+so $|2b+m| < 2^{\lambda\log^3\lambda} \le p$.
+\end{proof}
+
+\begin{theorem}
+$\E$ is correct.
+\end{theorem}
+\begin{proof}
+From Lemma ~\ref{ecorrect} and Lemma A.2, we have that
+\begin{IEEEeqnarray*}{r;l}
+m' &\leftarrow (c\bmod p) \bmod 2\\
+	&= 2b+m \bmod 2\\
+	&= m \bmod 2\\
+	&= m
+\end{IEEEeqnarray*}
+for any $c = E_\E(m)$ or $c = V_\E(C,\langle c_0,\ldots,c_n\rangle)$, so the scheme is correct.
+\end{proof}
+
+\section{Correctness of the Fully Homomorphic Scheme}
+
+
+
+\bibliography{citations}{}
+\bibliographystyle{plain}
+
+\end{document}
