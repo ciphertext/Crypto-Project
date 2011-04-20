@@ -1,0 +1,23 @@
+Phase 1 (end Wednesday, April 20):
+ - Basic Design, classes, datatypes (Tucker)
+ - Implement KeyGen, related datatypes (Tammy)
+ - Implement Encrypt, Decrypt, related datatypes (Justin)
+ - Test (All)
+
+Phase 2 (end Monday, April 25):
+ - Design input language
+ - Implement language interpreter
+ - Implement bootstrapping
+ - Test (All)
+
+Phase 3 (end Saturday, April 30):
+ - Design user interface
+ - Implement user interface
+ - Design network protocols (if server-client model)
+ - Implement network protocols (if server-client model)
+ - Test (All)
+
+Phase 4 (end Monday, May 2 (Due date)):
+ - Tweak UI/Network/etc. if necessary
+ - Add optimizations if possible
+ - Test (All)
