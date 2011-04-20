@@ -1,17 +1,16 @@
 #include <exception>
 #include <string>
 using namespace std;
+using namespace Encryption;
+using namespace Encryption::Keys;
 
-#include "Encryption/Encryptor.h"
-#include "Encryption/Ciphertext.h"
-#include "Encryption/Keys/PublicKey.h"
-#include "Encryption/Keys/PrivateKey.h"
+#include "Encryption/Encryptor.hpp"
 
-Encryption::Ciphertext Encryption::Encryptor::encrypt(string aM, Encryption::Keys::PublicKey aPk) {
-	throw "Not yet implemented";
+static Cipherbit Encryptor::encrypt(string aM, PublicKey aPk)
+{
 }
 
-string Encryption::Encryptor::decrypt(Encryption::Ciphertext aC, Encryption::Keys::PrivateKey aSk) {
-	throw "Not yet implemented";
-}
 
+static string Encryptor::decrypt(Cipherbit aC, PrivateKey aSk)
+{
+}

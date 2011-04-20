@@ -1,10 +1,14 @@
 #include <exception>
+#include "Encryption/Keys/PrivateKey.hpp"
+
 using namespace std;
+using namespace Encryption;
+using namespace Encryption::Keys;
 
-#include "Encryption/Keys/PrivateKey.h"
-#include "Encryption/Keys/PublicKey.h"
-
-Encryption::Keys::PublicKey Encryption::Keys::PrivateKey::getPublicKey() {
-	throw "Not yet implemented";
+PrivateKey::PrivateKey(vector<bool> bits)
+{
 }
 
+bool PrivateKey::getBit(int index)
+{
+}

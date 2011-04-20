@@ -1,33 +1,23 @@
 #include <exception>
 #include <string>
-using namespace std;
 
 #ifndef __Encryption__Encryptor_h__
 #define __Encryption__Encryptor_h__
 
-#include "Encryption/Ciphertext.h"
-#include "Encryption/Keys/PublicKey.h"
-#include "Encryption/Keys/PrivateKey.h"
+#include "Encryption/Cipherbit.hpp"
+#include "Encryption/Keys/PublicKey.hpp"
+#include "Encryption/Keys/PrivateKey.hpp"
 
-namespace Encryption
-{
-	class Ciphertext;
-	class Encryptor;
-	namespace Keys
-	{
-		class PublicKey;
-		class PrivateKey;
-	}
-}
+
 
 namespace Encryption
 {
 	class Encryptor
 	{
+	   public:
+	         static Cipherbit encrypt(std::string aM, Keys::PublicKey aPk);
 
-		public: Encryption::Ciphertext encrypt(string aM, Encryption::Keys::PublicKey aPk);
-
-		public: string decrypt(Encryption::Ciphertext aC, Encryption::Keys::PrivateKey aSk);
+		 static std::string decrypt(Cipherbit aC, Keys::PrivateKey aSk);
 	};
 }
 
