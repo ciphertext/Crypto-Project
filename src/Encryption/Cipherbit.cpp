@@ -9,7 +9,7 @@ int Cipherbit::getValue()
 {
 }
 
-boost::rational Cipherbit::getZ(int index)
+boost::rational<int> Cipherbit::getZ(int index)
 {
 }
 

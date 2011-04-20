@@ -1,16 +1,18 @@
 #include <exception>
 #include <string>
+#include "Encryption/Encryptor.hpp"
 using namespace std;
 using namespace Encryption;
 using namespace Encryption::Keys;
 
-#include "Encryption/Encryptor.hpp"
 
-static Cipherbit Encryptor::encrypt(string aM, PublicKey aPk)
+Cipherbit Encryptor::encrypt(string aM, PublicKey aPk)
 {
+  return Cipherbit();
 }
 
 
-static string Encryptor::decrypt(Cipherbit aC, PrivateKey aSk)
+string Encryptor::decrypt(Cipherbit aC, PrivateKey aSk)
 {
+  return "";
 }

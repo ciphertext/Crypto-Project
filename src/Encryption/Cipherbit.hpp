@@ -9,7 +9,7 @@ namespace Encryption
 	class Cipherbit
 	{
 	  int getValue();
-	  boost::rational getZ(int index);
+	  boost::rational<int> getZ(int index);
 	  int getMultCount();
 	  void setMultCount(int c);
 	};
