@@ -47,7 +47,7 @@ KeyPair::KeyPair()
 	// x_0 largest and restart unless x_0 is odd and x_0 mod p is even
 	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
 			generate_q(base_gen,
-					   boost::uniform_int<>(0, (int) pow(2.0,(double) _gamma)/p) - 1);
+					   boost::uniform_int<>(0, (int) pow(2.0,(double) _gamma)/p - 1));
 
 	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
 			generate_r(base_gen,
@@ -66,7 +66,7 @@ KeyPair::KeyPair()
 			
 			pk.push_back(x);
 			
-			if( x > pk.at(largestIndex))
+			if( x > pk[largestIndex])
 				largestIndex = i;
 		}
 		
@@ -74,7 +74,7 @@ KeyPair::KeyPair()
 		// store temp value
 		// delete from location
 		// insert to front of vector
-		long int temp = pk.at(largestIndex);
+		long int temp = pk[largestIndex];
 		pk.erase(pk.begin() + largestIndex - 1);
 		it = pk.begin();
 		pk.insert (it , temp);
@@ -102,7 +102,7 @@ KeyPair::KeyPair()
 		int temp = generate_s();
 		bool found = false;
 		for(unsigned int i = 0; i < S.size(); i++)
-			if(S.at(i) == temp)
+			if(S[i] == temp)
 				found = true;
 
 		if(!found)
@@ -114,7 +114,7 @@ KeyPair::KeyPair()
 	// set indices i in S to 1
 	vector<bool> sArrow;
 	for(unsigned int i = 0; i < S.size(); i++)
-		sArrow.at(S.at(i)) = true;
+		sArrow[S[i]] = true;
 	
 	// generate u_i = [0, 2^k+1) for i = 1...big-_theta
 	// sum of u_i, where i in S, = x_p mod 2^k+1
@@ -127,13 +127,13 @@ KeyPair::KeyPair()
 				generate_u(base_gen,
 						   boost::uniform_int<>(0, (int) pow(2.0, (double) _kappa+1) -1));
 											
-		for(int i = 0; i < _bigTheta, i++)
-			u.at(i) = generate_u();
+		for(int i = 0; i < _bigTheta; i++)
+			u[i] = generate_u();
 		
 		// check sum
 		long int sum = 0;
 		for(unsigned int y = 0; y < S.size(); y++) {
-			sum = sum + u.at(S.at(y));
+			sum = sum + u[S[y]];
 			sum = sum % (int) pow(2.0, (double) _kappa +1);
 		}
 		
@@ -146,7 +146,7 @@ KeyPair::KeyPair()
 	// calculate y_i = u_i/2^k
 	vector<boost::rational<long int> > y;
 	for(int i = 0; i < _bigTheta; i++)
-		y.push_back(boost::rational<long int>(u.at(i), (int) pow(2.0, (double) _kappa)));
+		y.push_back(boost::rational<long int>(u[i], (int) pow(2.0, (double) _kappa)));
 	
 	// private key is sArrow
 	this->privateKey = PrivateKey(sArrow);
@@ -156,7 +156,7 @@ KeyPair::KeyPair()
 	this->publicKey = PublicKey(pk, y, sk);
 
 	for(unsigned int z = 0; z < sArrow.size(); z++)
-		sk.at(z) = Encryptor.encrypt(sArrow.at(z));
+		sk[z] = Encryptor.encrypt(sArrow[z]);
 
 	this->publicKey = PublicKey(pk, y, sk);
 }
