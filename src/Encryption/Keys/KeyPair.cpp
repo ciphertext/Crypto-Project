@@ -35,7 +35,7 @@ KeyPair::KeyPair()
 	boost::rand48 base_gen(time(0)); 
 	boost::variate_generator<boost::rand48, boost::uniform_int<> >
 			generate_p(base_gen&,
-					   boost::uniform_int<>(pow(2, eta-1)/2, pow(2, eta)/2 - 1));
+					   boost::uniform_int<>((int) pow(2.0, eta-1)/2, (int) pow(2.0, eta)/2 - 1));
 
 	long int p = (2 * generate_p()) - 1;
 	
@@ -47,11 +47,11 @@ KeyPair::KeyPair()
 	// x_0 largest and restart unless x_0 is odd and x_0 mod p is even
 	boost::variate_generator<boost::rand48, boost::uniform_int<> >
 			generate_q(base_gen&,
-					   boost::uniform_int<>(0, pow(2,gamma)/p) - 1);
+					   boost::uniform_int<>(0, (int) pow(2.0,gamma)/p) - 1);
 
 	boost::variate_generator<boost::rand48, boost::uniform_int<> >
 			generate_r(base_gen&,
-					   boost::uniform_int<>(-pow(2, rho) + 1, pow(2, rho) - 1));
+					   boost::uniform_int<>(-(int) pow(2.0, rho) + 1, (int) pow(2.0, rho) - 1));
 
 	bool restart = true;
 	vector<long int> pk;	
@@ -88,7 +88,7 @@ KeyPair::KeyPair()
 	}
 	
 	// x_p = round(2^k/p)
-	long int xP = (long int) round((pow(2, kappa)) / p);
+	long int xP = (long int) round(((int) pow(2.0, kappa)) / p);
 	
 	// sArrow = random big-theta bit bector with hamming weight theta
 	boost::variate_generator<boost::rand48, boost::uniform_int<> >
@@ -125,7 +125,7 @@ KeyPair::KeyPair()
 	while(restart) {
 		boost::variate_generator<boost::rand48, boost::uniform_int<> >
 				generate_u(base_gen&,
-						   boost::uniform_int<>(0, pow(2, kappa+1) -1));
+						   boost::uniform_int<>(0, (int) pow(2.0, kappa+1) -1));
 											
 		for(int i = 0; i < bigTheta, i++)
 			u.at(i) = generate_u();
@@ -134,10 +134,10 @@ KeyPair::KeyPair()
 		long int sum = 0;
 		for(int y = 0; y < S.size(); y++) {
 			sum = sum + u.at(S.at(y));
-			sum = sum % pow(2, kappa +1);
+			sum = sum % (int) pow(2.0, kappa +1);
 		}
 		
-		if(sum == (xP % pow(2, kappa + 1)))
+		if(sum == (xP % (int) pow(2.0, kappa + 1)))
 			restart = false;
 		else
 			u.clear();
@@ -146,7 +146,7 @@ KeyPair::KeyPair()
 	// calculate y_i = u_i/2^k
 	vector<rational<long int> > y;
 	for(int i = 0; i < bigTheta; i++)
-		y.push_back(boost::rational(u.at(i), pow(2, kappa)));
+		y.push_back(boost::rational(u.at(i), (int) pow(2.0, kappa)));
 	
 	// private key is sArrow
 	this.privateKey = PrivateKey(sArrow);

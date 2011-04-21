@@ -5,7 +5,7 @@ using namespace boost;
 using namespace std;
 using namespace Encryption;
 
-Cipherbit::Cipherbit(int c, vector<boost::rational<int> > z)
+Cipherbit::Cipherbit(int c, vector<boost::rational<long int> > z)
 {
 	this.value = c;
 	this.Z = z;
@@ -15,7 +15,7 @@ int Cipherbit::getValue()
 	return this.value;
 }
 
-boost::rational<int> Cipherbit::getZ(int index)
+boost::rational<long int> Cipherbit::getZ(int index)
 {
 	return this.Z[i];
 }

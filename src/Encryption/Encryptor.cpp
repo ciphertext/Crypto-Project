@@ -11,21 +11,21 @@ const int secondary_noise = 8;
 const int tau = 20;
 const int precision_bits = 5;
 
-boost::rational<int> r_floor(boost::rational<int> n) {
-	return boost::rational<int>(n.numerator() - (n.numerator() % n.denominator()), n.denominator());
+boost::rational<long int> r_floor(boost::rational<long int> n) {
+	return boost::rational<long int>(n.numerator() - (n.numerator() % n.denominator()), n.denominator());
 }
 
-boost::rational<int> r_round(boost::rational<int> n) {
-	boost::rational<int> half(1,2);
+boost::rational<long int> r_round(boost::rational<long int> n) {
+	boost::rational<long int> half(1,2);
 	return r_floor(n + half);
 }
 
-boost::rational<int> r_modulo(boost::rational<int> a, int b) {
-	return boost::rational<int>(a.numerator() % (b*a.denominator()),a.denominator());
+boost::rational<long int> r_modulo(boost::rational<long int> a, int b) {
+	return boost::rational<long int>(a.numerator() % (b*a.denominator()),a.denominator());
 }
 
-boost::rational<int> fix_precision_bits(boost::rational<int> a, int bits) {
-	int power = 2^bits;
+boost::rational<long int> fix_precision_bits(boost::rational<long int> a, int bits) {
+	int power = (int) pow(2.0, bits);
 	return r_floor(a * power) / power;
 }
 
@@ -35,7 +35,7 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	boost::rand48 base_gen(time(0)); // Seed based on current time; TODO: better seed
 	boost::variate_generator<boost::rand48, boost::uniform_int<> >
 			generator_1(base_gen&,
-						boost::uniform_int<>(-pow(2,secondary_noise)+1, pow(2,secondary_noise)-1));
+						boost::uniform_int<>((int) -pow(2.0,secondary_noise)+1, (int) pow(2.0,secondary_noise)-1));
 
 	int r = generator_1();
 
@@ -46,7 +46,7 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	boost::variate_generator<boost::rand48, boost::uniform_int<> >
 			generator_2(base_gen&, boost::uniform_int<>(1,tau));
 	
-	int count = generator_2();
+	unsigned int count = generator_2();
 	set<int> S;
 	while(S.size() < count)
 		S.insert(generator_2());
@@ -63,7 +63,7 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 
 	/* calculate z_i = (c* . y_i) mod 2, i \in {0,...,\Theta} */
 	int i;
-	vector<boost::rational<int> > Z;
+	vector<boost::rational<long int> > Z;
 	for(i = 0; i < aPk.size(); i++)
 		Z.push_back(fix_precision_bits(r_modulo(c_val * aPk.getY(i), 2),precision_bits));
 	
@@ -74,10 +74,10 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 bool Encryptor::decrypt(Cipherbit aC, PrivateKey aSk)
 {
 	int i;
-	boost::rational<int> sum;
+	boost::rational<long int> sum;
 	for(i = 0; i < aSk.size(); i++) {
 		sum += aSk.getBit(i) * aC.getZ(i);
 	}
 
-	return (r_modulo((aC.getValue() - r_round(sum))) == 1)? true : false;
+	return (r_modulo((aC.getValue() - r_round(sum)),2) == 1)? true : false;
 }

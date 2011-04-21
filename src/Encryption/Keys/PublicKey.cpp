@@ -6,7 +6,7 @@ using namespace Encryption;
 using namespace Encryption::Keys;
 
 
-PublicKey::PublicKey(vector<int> x, vector<boost::rational<int> > Y, vector<Cipherbit> sk)
+PublicKey::PublicKey(vector<int> x, vector<boost::rational<long int> > Y, vector<Cipherbit> sk)
 {
 	this.pk = x;
 	this.y = Y;
