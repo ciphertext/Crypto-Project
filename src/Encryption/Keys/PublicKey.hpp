@@ -13,9 +13,9 @@ namespace Encryption
 		class PublicKey
 		{
 			private:
-				vector<long int> pk;
-				vector<rational<long int>> y;
-				vector<Cipherbit> encryptedPrivateKey;  
+				std::vector<long int> pk;
+				std::vector<rational<long int> > y;
+				std::vector<Cipherbit> encryptedPrivateKey;  
 
 			public:
 				PublicKey(std::vector<long int> x,
@@ -24,7 +24,7 @@ namespace Encryption
 				long int getX(int index);
 				boost::rational<long int> getY(int index);
 				Cipherbit getEncryptedSkBit(int index);
-				int getSize();
+				int size();
 		};
 	}
 }

@@ -10,9 +10,10 @@ namespace Encryption
 	{
 		private:
 			int value;
-			vector<boost::rational<int>> Z;
+			std::vector<boost::rational<int> > Z;
 			int multCount;
 		public:
+			Cipherbit(int c, std::vector<boost::rational<int> > z);
 			int getValue();
 			boost::rational<int> getZ(int index);
 			int getMultCount();

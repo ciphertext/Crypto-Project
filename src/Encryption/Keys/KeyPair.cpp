@@ -137,7 +137,7 @@ KeyPair::KeyPair()
 	}
 	
 	// calculate y_i = u_i/2^k
-	vector<rational<long int>> y;
+	vector<rational<long int> > y;
 	for(int i = 0; i < bigTheta; i++)
 		y.push_back(boost::rational(u.at(i), pow(2, kappa)));
 	

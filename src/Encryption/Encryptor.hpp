@@ -8,6 +8,7 @@
 #include <cmath>
 #include <boost/random/uniform_real.hpp>
 #include <boost/random/linear_congruential.hpp>
+#include <boost/random/variate_generator.hpp>
 #include "Encryption/Cipherbit.hpp"
 #include "Encryption/Keys/PublicKey.hpp"
 #include "Encryption/Keys/PrivateKey.hpp"

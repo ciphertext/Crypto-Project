@@ -29,7 +29,7 @@ Cipherbit PublicKey::getEncryptedSkBit(int index)
 	return this.encryptedPrivateKey[index];
 }
 
-int PublicKey::getSize()
+int PublicKey::size()
 {
 	return this.pk.size();
 }

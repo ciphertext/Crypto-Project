@@ -13,11 +13,12 @@ namespace Encryption
 		class PrivateKey
 		{
 			private:
-				vector<bool> sArrow;
+				std::vector<bool> sArrow;
 
 			public:
 				PrivateKey(std::vector<bool> bits);
 				bool getBit(int index);
+				int size();
 		};
 	}
 }

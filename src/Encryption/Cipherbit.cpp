@@ -5,6 +5,11 @@ using namespace boost;
 using namespace std;
 using namespace Encryption;
 
+Cipherbit::Cipherbit(int c, vector<boost::rational<int> > z)
+{
+	this.value = c;
+	this.Z = z;
+}
 int Cipherbit::getValue()
 {
 	return this.value;

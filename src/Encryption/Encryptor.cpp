@@ -14,16 +14,16 @@ const int tau = 20;
 const int precision_bits = 5;
 
 boost::rational<int> r_floor(boost::rational<int> n) {
-	return boost::rational(n.numerator() - (n.numerator() % n.denominator()), n.denominator());
+	return boost::rational<int>(n.numerator() - (n.numerator() % n.denominator()), n.denominator());
 }
 
 boost::rational<int> r_round(boost::rational<int> n) {
 	boost::rational<int> half(1,2);
-	return r_floor<int>(n + half);
+	return r_floor(n + half);
 }
 
 boost::rational<int> r_modulo(boost::rational<int> a, int b) {
-	return boost::rational(a.numerator() % (b*a.denominator()),a.denominator);
+	return boost::rational<int>(a.numerator() % (b*a.denominator()),a.denominator);
 }
 
 boost::rational<int> fix_precision_bits(boost::rational<int> a, int bits) {
@@ -64,7 +64,7 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 
 	/* calculate z_i = (c* . y_i) mod 2, i \in {0,...,\Theta} */
 	int i;
-	vector<boost::rational<int>> Z;
+	vector<boost::rational<int> > Z;
 	for(i = 0; i < aPk.size(); i++)
 		Z.push_back(fix_precision_bits(r_modulo(c_val * aPk.getY(i), 2),precision_bits));
 	
