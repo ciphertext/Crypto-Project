@@ -7,15 +7,15 @@ using namespace Encryption::Keys;
 
 PrivateKey::PrivateKey(vector<bool> bits)
 {
-	this.sArrow = bits;
+	this->sArrow = bits;
 }
 
 bool PrivateKey::getBit(int index)
 {
-	return this.sArrow[index];
+	return this->sArrow[index];
 }
 
 int PrivateKey::size()
 {
-	return this.sArrow.size();
+	return this->sArrow.size();
 }
