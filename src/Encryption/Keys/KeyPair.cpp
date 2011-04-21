@@ -82,14 +82,12 @@ KeyPair::KeyPair()
 		// if not, restart
 		if((temp % 2 == 1) && ((temp % p)%2 == 0))
 			restart = false;
-		else {
+		else
 			pk.clear();
-			cout << "Restarting x_i generation" << endl;
-		}
 	}
 	
 	// x_p = round(2^k/p)
-	long int xP = (long int) round(((int) pow(2.0, (double) _kappa)) / p);
+	long int xP = (long int) round(pow(2.0, (double) _kappa) / p);
 	
 	// sArrow = random big-_theta bit bector with hamming weight _theta
 	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
@@ -106,7 +104,7 @@ KeyPair::KeyPair()
 	// create sArrow
 	// set all values to 0
 	// set indices i in S to 1
-	vector<bool> sArrow;
+	vector<bool> sArrow(_bigTheta, false);
 	for(set<int>::iterator it = S.begin(); it != S.end(); it++)
 		sArrow[*it] = true;
 	
@@ -117,21 +115,21 @@ KeyPair::KeyPair()
 	restart = true;
 	vector<long int> u;
 	while(restart) {
-		boost::variate_generator<boost::rand48&, boost::uniform_int<> >
+		boost::variate_generator<boost::rand48&, boost::uniform_int<long int> >
 				generate_u(base_gen,
-						   boost::uniform_int<>(0, (int) pow(2.0, (double) _kappa+1) -1));
+						   boost::uniform_int<long int>(0, (long int) pow(2.0, (double) _kappa+1) -1));
 											
 		for(int i = 0; i < _bigTheta; i++)
-			u[i] = generate_u();
+			u.push_back(generate_u());
 		
 		// check sum
 		long int sum = 0;
 		for(set<int>::iterator it = S.begin(); it != S.end(); it++) {
 			sum = sum + u[*it];
-			sum = sum % (int) pow(2.0, (double) _kappa +1);
+			sum = sum % (long int) pow(2.0, (double) _kappa +1);
 		}
 		
-		if(sum == (xP % (int) pow(2.0, (double) _kappa + 1)))
+		if(sum == (xP % (long int) pow(2.0, (double) _kappa + 1)))
 			restart = false;
 		else {
 			u.clear();
