@@ -1,5 +1,3 @@
-#include <exception>
-#include <string>
 #include "Encryption/Encryptor.hpp"
 using namespace std;
 using namespace Encryption;
@@ -23,7 +21,7 @@ boost::rational<int> r_round(boost::rational<int> n) {
 }
 
 boost::rational<int> r_modulo(boost::rational<int> a, int b) {
-	return boost::rational<int>(a.numerator() % (b*a.denominator()),a.denominator);
+	return boost::rational<int>(a.numerator() % (b*a.denominator()),a.denominator());
 }
 
 boost::rational<int> fix_precision_bits(boost::rational<int> a, int bits) {
@@ -35,9 +33,9 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 {
 	// generate a random number r in the range (-2^{\rho'},2^{\rho'})
 	boost::rand48 base_gen(time(0)); // Seed based on current time; TODO: better seed
-	boost::variate_generator generator_1(base_gen&,
-										 boost::uniform_int<>(-pow(2,secondary_noise)+1,
-															  pow(2,secondary_noise)-1));
+	boost::variate_generator<boost::rand48, boost::uniform_int<> >
+			generator_1(base_gen&,
+						boost::uniform_int<>(-pow(2,secondary_noise)+1, pow(2,secondary_noise)-1));
 
 	int r = generator_1();
 
@@ -45,7 +43,8 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	 * by selecting a random integer count in [1,\tau],
 	 * and selecting count random integers in [1,\tau],
 	 * not counting duplicates */
-	boost::variate_generator generator_2(base_gen&, boost::uniform_int<>(1,tau));
+	boost::variate_generator<boost::rand48, boost::uniform_int<> >
+			generator_2(base_gen&, boost::uniform_int<>(1,tau));
 	
 	int count = generator_2();
 	set<int> S;
@@ -80,5 +79,5 @@ bool Encryptor::decrypt(Cipherbit aC, PrivateKey aSk)
 		sum += aSk.getBit(i) * aC.getZ(i);
 	}
 
-	return (bool) ((aC.getValue() - r_round(sum)) % 2);
+	return (r_modulo((aC.getValue() - r_round(sum))) == 1)? true : false;
 }

@@ -3,6 +3,7 @@
 #define __Encryption__Cipherbit_h__
 
 #include <boost/rational.hpp>
+#include <vector>
 
 namespace Encryption
 {

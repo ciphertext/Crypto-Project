@@ -33,8 +33,9 @@ KeyPair::KeyPair()
 	// generate random number between 2^eta-1 / 2, 2^eta / 2
 	// multiply by 2, subtract 1 to ensure odd number
 	boost::rand48 base_gen(time(0)); 
-	boost::variate_generator generate_p(base_gen&,
-										boost::uniform_int<>(pow(2, eta-1)/2, pow(2, eta)/2 - 1));
+	boost::variate_generator<boost::rand48, boost::uniform_int<> >
+			generate_p(base_gen&,
+					   boost::uniform_int<>(pow(2, eta-1)/2, pow(2, eta)/2 - 1));
 
 	long int p = (2 * generate_p()) - 1;
 	
@@ -44,10 +45,14 @@ KeyPair::KeyPair()
 	// choose random r, (-2^rho, 2^rho)
 	// x_i = pq+r
 	// x_0 largest and restart unless x_0 is odd and x_0 mod p is even
-	boost::variate_generator generate_q(base_gen&,
-										boost::uniform_int<>(0, pow(2,gamma)/p) - 1);
-	boost::variate_generator generate_r(base_gen&,
-										boost::uniform_int<>(-pow(2, rho) + 1, pow(2, rho) - 1));
+	boost::variate_generator<boost::rand48, boost::uniform_int<> >
+			generate_q(base_gen&,
+					   boost::uniform_int<>(0, pow(2,gamma)/p) - 1);
+
+	boost::variate_generator<boost::rand48, boost::uniform_int<> >
+			generate_r(base_gen&,
+					   boost::uniform_int<>(-pow(2, rho) + 1, pow(2, rho) - 1));
+
 	bool restart = true;
 	vector<long int> pk;	
 	vector<long int>::iterator it;
@@ -86,14 +91,15 @@ KeyPair::KeyPair()
 	long int xP = (long int) round((pow(2, kappa)) / p);
 	
 	// sArrow = random big-theta bit bector with hamming weight theta
-	boost::variate_generator generator_s(base_gen&,
-										 boost::uniform_int<>(0,bigTheta-1));
+	boost::variate_generator<boost::rand48, boost::uniform_int<> >
+			generate_s(base_gen&,
+						boost::uniform_int<>(0,bigTheta-1));
 	
 	// choose random S
 	int count = theta;
 	vector<int> S;
 	while(S.size() < count) {
-		int temp = generator_s();
+		int temp = generate_s();
 		bool found = false;
 		for(int i = 0; i < S.size(); i++)
 			if(S.at(i) == temp)
@@ -117,8 +123,9 @@ KeyPair::KeyPair()
 	restart = true;
 	vector<long int> u;
 	while(restart) {
-		boost::variate_generator generate_u(base_gen&,
-											boost::uniform_int<>(0, pow(2, kappa+1) -1));
+		boost::variate_generator<boost::rand48, boost::uniform_int<> >
+				generate_u(base_gen&,
+						   boost::uniform_int<>(0, pow(2, kappa+1) -1));
 											
 		for(int i = 0; i < bigTheta, i++)
 			u.at(i) = generate_u();

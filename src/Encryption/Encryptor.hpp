@@ -6,7 +6,8 @@
 #include <set>
 #include <ctime>
 #include <cmath>
-#include <boost/random/uniform_real.hpp>
+#include <boost/rational.hpp>
+#include <boost/random/uniform_int.hpp>
 #include <boost/random/linear_congruential.hpp>
 #include <boost/random/variate_generator.hpp>
 #include "Encryption/Cipherbit.hpp"

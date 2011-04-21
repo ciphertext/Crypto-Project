@@ -14,7 +14,7 @@ namespace Encryption
 		{
 			private:
 				std::vector<long int> pk;
-				std::vector<rational<long int> > y;
+				std::vector<boost::rational<long int> > y;
 				std::vector<Cipherbit> encryptedPrivateKey;  
 
 			public:
