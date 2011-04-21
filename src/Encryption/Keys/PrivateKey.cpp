@@ -5,14 +5,12 @@ using namespace std;
 using namespace Encryption;
 using namespace Encryption::Keys;
 
-vector<bool> sArrow;
-
 PrivateKey::PrivateKey(vector<bool> bits)
 {
-	sArrow = bits;
+	this.sArrow = bits;
 }
 
 bool PrivateKey::getBit(int index)
 {
-	return sArrow.at(index);
+	return this.sArrow[index];
 }

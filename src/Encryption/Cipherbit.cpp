@@ -7,20 +7,20 @@ using namespace Encryption;
 
 int Cipherbit::getValue()
 {
-	return value;
+	return this.value;
 }
 
 boost::rational<int> Cipherbit::getZ(int index)
 {
-	return Z[i];
+	return this.Z[i];
 }
 
 int Cipherbit::getMultCount()
 {
-	return multCount;
+	return this.multCount;
 }
 
 void Cipherbit::setMultCount(int c)
 {
-	multCount = c;
+	this.multCount = c;
 }

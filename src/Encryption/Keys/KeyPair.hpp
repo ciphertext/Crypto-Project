@@ -14,14 +14,16 @@ namespace Encryption
 	{
 		class KeyPair
 		{
+			private:
+				PrivateKey privateKey;
+				PublicKey publicKey;
 
-			public: 
-			      KeyPair();
-			      PublicKey getPublicKey();
-			      PrivateKey getPrivateKey();
+			public:
+				KeyPair();
+				PublicKey getPublicKey();
+				PrivateKey getPrivateKey();
 		};
 	}
 }
 
 #endif
- 
