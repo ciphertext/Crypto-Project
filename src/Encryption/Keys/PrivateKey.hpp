@@ -16,6 +16,7 @@ namespace Encryption
 				std::vector<bool> sArrow;
 
 			public:
+				PrivateKey();
 				PrivateKey(std::vector<bool> bits);
 				bool getBit(int index);
 				unsigned int size();

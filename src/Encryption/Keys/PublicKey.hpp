@@ -18,6 +18,7 @@ namespace Encryption
 				std::vector<Cipherbit> encryptedPrivateKey;  
 
 			public:
+				PublicKey();
 				PublicKey(std::vector<long int> x,
 						  std::vector<boost::rational<long int> > Y,
 						  std::vector<Cipherbit> sk);

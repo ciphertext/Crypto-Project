@@ -6,6 +6,10 @@ using namespace Encryption;
 using namespace Encryption::Keys;
 
 
+PublicKey::PublicKey()
+{
+}
+
 PublicKey::PublicKey(vector<long int> x, vector<boost::rational<long int> > Y, vector<Cipherbit> sk)
 {
 	this->pk = x;

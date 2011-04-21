@@ -5,6 +5,10 @@ using namespace std;
 using namespace Encryption;
 using namespace Encryption::Keys;
 
+PrivateKey::PrivateKey()
+{
+}
+
 PrivateKey::PrivateKey(vector<bool> bits)
 {
 	this->sArrow = bits;
