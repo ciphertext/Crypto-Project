@@ -1,5 +1,4 @@
 #include "Encryption/Keys/KeyPair.hpp"
-#include <math.h>
 
 using namespace std;
 using namespace Encryption;
@@ -156,7 +155,7 @@ KeyPair::KeyPair()
 	this->publicKey = PublicKey(pk, y, sk);
 
 	for(unsigned int z = 0; z < sArrow.size(); z++)
-		sk[z] = Encryptor.encrypt(sArrow[z]);
+		sk.push_back(Encryptor.encrypt(sArrow[z]));
 
 	this->publicKey = PublicKey(pk, y, sk);
 }
