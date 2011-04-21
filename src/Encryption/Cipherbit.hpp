@@ -8,10 +8,15 @@ namespace Encryption
 {
 	class Cipherbit
 	{
-	  int getValue();
-	  boost::rational<int> getZ(int index);
-	  int getMultCount();
-	  void setMultCount(int c);
+		private:
+			int value;
+			vector<boost::rational<int>> Z;
+			int multCount;
+		public:
+			int getValue();
+			boost::rational<int> getZ(int index);
+			int getMultCount();
+			void setMultCount(int c);
 	};
 }
 
