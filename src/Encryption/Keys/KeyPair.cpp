@@ -173,7 +173,14 @@ KeyPair::KeyPair()
 	privateKey = PrivateKey(sArrow);
 	
 	// public key is pk, y, and encrypted private key	
-	publicKey = PublicKey(pk, y);
+	vector<Cipherbit> sk;
+	Encryptor enc();
+	publicKey = PublicKey(pk, y, sk);
+	for(int z = 0; z < sArrow.size(); z++)
+	{
+		sk.at(z) = enc.encrypt(sArrow.at(z));
+	}
+	publicKey = PublicKey(pk, y, sk);
 }
 
 
