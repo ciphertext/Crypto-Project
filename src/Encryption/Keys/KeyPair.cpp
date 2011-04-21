@@ -19,11 +19,11 @@ const long int _lambda = 4;
 const long int _rho = 4;
 const long int _rho2 = 8;
 const long int _eta = 16;
-const long int _gamma = 16;
-const long int _tau = 20;
-const long int _kappa = 32;
+const long int _gamma = 30;
+const long int _tau = 34;
+const long int _kappa = 60;
 const long int _theta = 4;
-const long int _bigTheta = 32;
+const long int _bigTheta = 60;
 
 KeyPair::KeyPair()
 {
