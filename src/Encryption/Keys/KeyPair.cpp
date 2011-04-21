@@ -82,8 +82,10 @@ KeyPair::KeyPair()
 		// if not, restart
 		if((temp % 2 == 1) && ((temp % p)%2 == 0))
 			restart = false;
-		else
+		else {
 			pk.clear();
+			cout << "Restarting x_i generation" << endl;
+		}
 	}
 	
 	// x_p = round(2^k/p)
@@ -96,24 +98,17 @@ KeyPair::KeyPair()
 	
 	// choose random S
 	unsigned int count = _theta;
-	vector<int> S;
+	set<int> S; //Use set to guarantee unique elements
 	while(S.size() < count) {
-		int temp = generate_s();
-		bool found = false;
-		for(unsigned int i = 0; i < S.size(); i++)
-			if(S[i] == temp)
-				found = true;
-
-		if(!found)
-			S.push_back(temp);
+		S.insert(generate_s());
 	}
 	
 	// create sArrow
 	// set all values to 0
 	// set indices i in S to 1
 	vector<bool> sArrow;
-	for(unsigned int i = 0; i < S.size(); i++)
-		sArrow[S[i]] = true;
+	for(set<int>::iterator it = S.begin(); it != S.end(); it++)
+		sArrow[*it] = true;
 	
 	// generate u_i = [0, 2^k+1) for i = 1...big-_theta
 	// sum of u_i, where i in S, = x_p mod 2^k+1
@@ -131,15 +126,17 @@ KeyPair::KeyPair()
 		
 		// check sum
 		long int sum = 0;
-		for(unsigned int y = 0; y < S.size(); y++) {
-			sum = sum + u[S[y]];
+		for(set<int>::iterator it = S.begin(); it != S.end(); it++) {
+			sum = sum + u[*it];
 			sum = sum % (int) pow(2.0, (double) _kappa +1);
 		}
 		
 		if(sum == (xP % (int) pow(2.0, (double) _kappa + 1)))
 			restart = false;
-		else
+		else {
 			u.clear();
+			cout << "Restarting u_i generation" << endl;
+		}
 	}
 	
 	// calculate y_i = u_i/2^k
