@@ -149,25 +149,25 @@ KeyPair::KeyPair()
 		y.push_back(boost::rational(u.at(i), (int) pow(2.0, kappa)));
 	
 	// private key is sArrow
-	this.privateKey = PrivateKey(sArrow);
+	this->privateKey = PrivateKey(sArrow);
 	
 	// public key is pk, y, and encrypted private key	
 	vector<Cipherbit> sk;
-	this.publicKey = PublicKey(pk, y, sk);
+	this->publicKey = PublicKey(pk, y, sk);
 	for(int z = 0; z < sArrow.size(); z++)
 	{
 		sk.at(z) = Encryptor.encrypt(sArrow.at(z));
 	}
-	this.publicKey = PublicKey(pk, y, sk);
+	this->publicKey = PublicKey(pk, y, sk);
 }
 
 
 PublicKey KeyPair::getPublicKey()
 {
-	return this.publicKey;
+	return this->publicKey;
 }
 
 PrivateKey KeyPair::getPrivateKey()
 {	
-	return this.privateKey;
+	return this->privateKey;
 }
