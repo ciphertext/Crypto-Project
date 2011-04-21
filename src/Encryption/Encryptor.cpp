@@ -8,10 +8,10 @@ using namespace Encryption::Keys;
 /* XXX: these should be defined in terms of lambda,
  *      which should be stored as part of the public
  *      and private keys. */
-const int lambda = 5; // small so we don't need bigint types
-const int secondary_noise = 10;
-const int tau = 30;
-const int precision_bits = 6;
+const int lambda = 4; // small so we don't need bigint types
+const int secondary_noise = 8;
+const int tau = 20;
+const int precision_bits = 5;
 
 boost::rational<int> r_floor(boost::rational<int> n) {
 	return boost::rational(n.numerator() - (n.numerator() % n.denominator()), n.denominator());
