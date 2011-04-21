@@ -17,7 +17,7 @@ int Cipherbit::getValue()
 
 boost::rational<long int> Cipherbit::getZ(int index)
 {
-	return this->Z[i];
+	return this->Z[index];
 }
 
 int Cipherbit::getMultCount()
