@@ -33,8 +33,8 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 {
 	// generate a random number r in the range (-2^{\rho'},2^{\rho'})
 	boost::rand48 base_gen(time(0)); // Seed based on current time; TODO: better seed
-	boost::variate_generator<boost::rand48, boost::uniform_int<> >
-			generator_1(base_gen&,
+	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
+			generator_1(base_gen,
 						boost::uniform_int<>((int) -pow(2.0,secondary_noise)+1, (int) pow(2.0,secondary_noise)-1));
 
 	int r = generator_1();
@@ -43,8 +43,8 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	 * by selecting a random integer count in [1,\tau],
 	 * and selecting count random integers in [1,\tau],
 	 * not counting duplicates */
-	boost::variate_generator<boost::rand48, boost::uniform_int<> >
-			generator_2(base_gen&, boost::uniform_int<>(1,tau));
+	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
+			generator_2(base_gen, boost::uniform_int<>(1,tau));
 	
 	unsigned int count = generator_2();
 	set<int> S;

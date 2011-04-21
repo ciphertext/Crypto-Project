@@ -32,9 +32,9 @@ KeyPair::KeyPair()
 	// p = random odd number [2^eta-1, 2^eta)
 	// generate random number between 2^eta-1 / 2, 2^eta / 2
 	// multiply by 2, subtract 1 to ensure odd number
-	boost::rand48 base_gen(time(0)); 
-	boost::variate_generator<boost::rand48, boost::uniform_int<> >
-			generate_p(base_gen&,
+	boost::rand48& base_gen(time(0)); 
+	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
+			generate_p(base_gen,
 					   boost::uniform_int<>((int) pow(2.0, eta-1)/2, (int) pow(2.0, eta)/2 - 1));
 
 	long int p = (2 * generate_p()) - 1;
@@ -45,12 +45,12 @@ KeyPair::KeyPair()
 	// choose random r, (-2^rho, 2^rho)
 	// x_i = pq+r
 	// x_0 largest and restart unless x_0 is odd and x_0 mod p is even
-	boost::variate_generator<boost::rand48, boost::uniform_int<> >
-			generate_q(base_gen&,
+	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
+			generate_q(base_gen,
 					   boost::uniform_int<>(0, (int) pow(2.0,gamma)/p) - 1);
 
-	boost::variate_generator<boost::rand48, boost::uniform_int<> >
-			generate_r(base_gen&,
+	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
+			generate_r(base_gen,
 					   boost::uniform_int<>(-(int) pow(2.0, rho) + 1, (int) pow(2.0, rho) - 1));
 
 	bool restart = true;
@@ -91,8 +91,8 @@ KeyPair::KeyPair()
 	long int xP = (long int) round(((int) pow(2.0, kappa)) / p);
 	
 	// sArrow = random big-theta bit bector with hamming weight theta
-	boost::variate_generator<boost::rand48, boost::uniform_int<> >
-			generate_s(base_gen&,
+	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
+			generate_s(base_gen,
 						boost::uniform_int<>(0,bigTheta-1));
 	
 	// choose random S
@@ -123,8 +123,8 @@ KeyPair::KeyPair()
 	restart = true;
 	vector<long int> u;
 	while(restart) {
-		boost::variate_generator<boost::rand48, boost::uniform_int<> >
-				generate_u(base_gen&,
+		boost::variate_generator<boost::rand48&, boost::uniform_int<> >
+				generate_u(base_gen,
 						   boost::uniform_int<>(0, (int) pow(2.0, kappa+1) -1));
 											
 		for(int i = 0; i < bigTheta, i++)
