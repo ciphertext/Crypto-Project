@@ -31,7 +31,7 @@ boost::rational<int> fix_precision_bits(boost::rational<int> a, int bits) {
 	return r_floor(a * power) / power;
 }
 
-Cipherbit Encryptor::encrypt(string aM, PublicKey aPk)
+Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 {
 	// generate a random number r in the range (-2^{\rho'},2^{\rho'})
 	boost::rand48 base_gen(time(0)); // Seed based on current time; TODO: better seed
