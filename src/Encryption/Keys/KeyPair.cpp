@@ -155,7 +155,7 @@ KeyPair::KeyPair()
 	this->publicKey = PublicKey(pk, y, sk);
 
 	for(unsigned int z = 0; z < sArrow.size(); z++)
-		sk.push_back(Encryptor.encrypt(sArrow[z]));
+		sk.push_back(Encryptor::encrypt(sArrow[z], this->publicKey));
 
 	this->publicKey = PublicKey(pk, y, sk);
 }
