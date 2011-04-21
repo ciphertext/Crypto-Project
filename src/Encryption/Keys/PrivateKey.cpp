@@ -15,7 +15,7 @@ bool PrivateKey::getBit(int index)
 	return this->sArrow[index];
 }
 
-int PrivateKey::size()
+unsigned int PrivateKey::size()
 {
 	return this->sArrow.size();
 }

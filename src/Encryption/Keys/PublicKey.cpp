@@ -28,7 +28,7 @@ Cipherbit PublicKey::getEncryptedSkBit(int index)
 	return this->encryptedPrivateKey[index];
 }
 
-int PublicKey::size()
+unsigned int PublicKey::size()
 {
 	return this->pk.size();
 }

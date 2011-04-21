@@ -24,7 +24,7 @@ namespace Encryption
 				long int getX(int index);
 				boost::rational<long int> getY(int index);
 				Cipherbit getEncryptedSkBit(int index);
-				int size();
+				unsigned int size();
 		};
 	}
 }

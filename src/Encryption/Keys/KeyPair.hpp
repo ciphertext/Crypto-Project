@@ -9,6 +9,7 @@
 #include <boost/random/variate_generator.hpp>
 #include "Encryption/Keys/PublicKey.hpp"
 #include "Encryption/Keys/PrivateKey.hpp"
+#include "Encryption/Encryptor.hpp"
 
 
 

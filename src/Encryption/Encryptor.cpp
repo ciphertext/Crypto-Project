@@ -6,9 +6,8 @@ using namespace Encryption::Keys;
 /* XXX: these should be defined in terms of lambda,
  *      which should be stored as part of the public
  *      and private keys. */
-const int lambda = 4; // small so we don't need bigint types
 const int secondary_noise = 8;
-const int tau = 20;
+const int _tau = 20;
 const int precision_bits = 5;
 
 boost::rational<long int> r_floor(boost::rational<long int> n) {
@@ -44,7 +43,7 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	 * and selecting count random integers in [1,\tau],
 	 * not counting duplicates */
 	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
-			generator_2(base_gen, boost::uniform_int<>(1,tau));
+			generator_2(base_gen, boost::uniform_int<>(1,_tau));
 	
 	unsigned int count = generator_2();
 	set<int> S;
@@ -53,8 +52,7 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	
 	/* compute the sum of x_i \in aPk.X, i \in S */
 	int sum_x = 0;
-	set<int>::iterator it;
-	for(it = S.begin(); it != S.end(); it++)
+	for(set<int>::iterator it = S.begin(); it != S.end(); it++)
 		sum_x += aPk.getX(*it);
 	
 	/* c* = (m + 2r + 2sum_x) mod 2, as in the
@@ -62,9 +60,8 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	int c_val = (aM + 2*r + 2*sum_x) % aPk.getX(0);
 
 	/* calculate z_i = (c* . y_i) mod 2, i \in {0,...,\Theta} */
-	int i;
 	vector<boost::rational<long int> > Z;
-	for(i = 0; i < aPk.size(); i++)
+	for(unsigned int i = 0; i < aPk.size(); i++)
 		Z.push_back(fix_precision_bits(r_modulo(c_val * aPk.getY(i), 2),precision_bits));
 	
 	return Cipherbit(c_val, Z);
@@ -73,9 +70,8 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 
 bool Encryptor::decrypt(Cipherbit aC, PrivateKey aSk)
 {
-	int i;
 	boost::rational<long int> sum;
-	for(i = 0; i < aSk.size(); i++) {
+	for(unsigned int i = 0; i < aSk.size(); i++) {
 		sum += aSk.getBit(i) * aC.getZ(i);
 	}
 

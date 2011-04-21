@@ -18,7 +18,7 @@ namespace Encryption
 			public:
 				PrivateKey(std::vector<bool> bits);
 				bool getBit(int index);
-				int size();
+				unsigned int size();
 		};
 	}
 }
