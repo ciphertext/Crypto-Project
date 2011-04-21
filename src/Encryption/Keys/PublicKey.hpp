@@ -14,10 +14,10 @@ namespace Encryption
 		{
 		  
 		  public:
-		    PublicKey(std::vector<int> x, std::vector<boost::rational<int> > Y, std::vector<Cipherbit> sk); 
+		    PublicKey(std::vector<long int> x, std::vector<boost::rational<long int> > Y, std::vector<Cipherbit> sk); 
 		    
 		    int getX(int index);
-		    boost::rational<int> getY(int index);
+		    boost::rational<long int> getY(int index);
 		    Cipherbit getEncryptedSkBit(int index);
 		    
 
