@@ -35,7 +35,7 @@ KeyPair::KeyPair()
 	boost::rand48 base_gen(time(0)); 
 	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
 			generate_p(base_gen,
-					   boost::uniform_int<>((int) pow(2.0, _eta-1)/2, (int) pow(2.0, _eta)/2 - 1));
+					   boost::uniform_int<>((int) pow(2.0, (double) _eta-1)/2, (int) pow(2.0, (double) _eta)/2 - 1));
 
 	long int p = (2 * generate_p()) - 1;
 	
@@ -47,11 +47,11 @@ KeyPair::KeyPair()
 	// x_0 largest and restart unless x_0 is odd and x_0 mod p is even
 	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
 			generate_q(base_gen,
-					   boost::uniform_int<>(0, (int) pow(2.0,_gamma)/p) - 1);
+					   boost::uniform_int<>(0, (int) pow(2.0,(double) _gamma)/p) - 1);
 
 	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
 			generate_r(base_gen,
-					   boost::uniform_int<>(-(int) pow(2.0, _rho) + 1, (int) pow(2.0, _rho) - 1));
+					   boost::uniform_int<>(-(int) pow(2.0, (double) _rho) + 1, (int) pow(2.0, (double) _rho) - 1));
 
 	bool restart = true;
 	vector<long int> pk;	
@@ -88,7 +88,7 @@ KeyPair::KeyPair()
 	}
 	
 	// x_p = round(2^k/p)
-	long int xP = (long int) round(((int) pow(2.0, _kappa)) / p);
+	long int xP = (long int) round(((int) pow(2.0, (double) _kappa)) / p);
 	
 	// sArrow = random big-_theta bit bector with hamming weight _theta
 	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
@@ -125,7 +125,7 @@ KeyPair::KeyPair()
 	while(restart) {
 		boost::variate_generator<boost::rand48&, boost::uniform_int<> >
 				generate_u(base_gen,
-						   boost::uniform_int<>(0, (int) pow(2.0, _kappa+1) -1));
+						   boost::uniform_int<>(0, (int) pow(2.0, (double) _kappa+1) -1));
 											
 		for(int i = 0; i < _bigTheta, i++)
 			u.at(i) = generate_u();
@@ -134,10 +134,10 @@ KeyPair::KeyPair()
 		long int sum = 0;
 		for(unsigned int y = 0; y < S.size(); y++) {
 			sum = sum + u.at(S.at(y));
-			sum = sum % (int) pow(2.0, _kappa +1);
+			sum = sum % (int) pow(2.0, (double) _kappa +1);
 		}
 		
-		if(sum == (xP % (int) pow(2.0, _kappa + 1)))
+		if(sum == (xP % (int) pow(2.0, (double) _kappa + 1)))
 			restart = false;
 		else
 			u.clear();
@@ -146,7 +146,7 @@ KeyPair::KeyPair()
 	// calculate y_i = u_i/2^k
 	vector<boost::rational<long int> > y;
 	for(int i = 0; i < _bigTheta; i++)
-		y.push_back(boost::rational<long int>(u.at(i), (int) pow(2.0, _kappa)));
+		y.push_back(boost::rational<long int>(u.at(i), (int) pow(2.0, (double) _kappa)));
 	
 	// private key is sArrow
 	this->privateKey = PrivateKey(sArrow);
