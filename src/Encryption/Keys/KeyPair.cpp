@@ -46,7 +46,7 @@ KeyPair::KeyPair()
 	// x_0 largest and restart unless x_0 is odd and x_0 mod p is even
 	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
 			generate_q(base_gen,
-					   boost::uniform_int<>(0, (int) pow(2.0,(double) _gamma)/p - 1));
+					   boost::uniform_int<>(0, (long int) pow(2.0,(double) _gamma)/p - 1));
 
 	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
 			generate_r(base_gen,
@@ -145,7 +145,7 @@ KeyPair::KeyPair()
 	// calculate y_i = u_i/2^k
 	vector<boost::rational<long int> > y;
 	for(int i = 0; i < _bigTheta; i++)
-		y.push_back(boost::rational<long int>(u[i], (int) pow(2.0, (double) _kappa)));
+		y.push_back(boost::rational<long int>(u[i], (long int) pow(2.0, (double) _kappa)));
 	
 	// private key is sArrow
 	this->privateKey = PrivateKey(sArrow);

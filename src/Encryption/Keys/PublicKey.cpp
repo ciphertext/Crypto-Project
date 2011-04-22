@@ -34,5 +34,5 @@ Cipherbit PublicKey::getEncryptedSkBit(int index)
 
 unsigned int PublicKey::size()
 {
-	return this->pk.size();
+	return this->y.size();
 }

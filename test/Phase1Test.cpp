@@ -24,8 +24,8 @@ int main()
                 cout << "Decrypting zero bit." << endl;
                 bool zero_bit = Encryptor::decrypt(c_zero_bit,sk);
 
-                cout << "One bit: " << (one_bit?"PASSED\n":"FAILED\n");
-                cout << "Zero bit: " << (!zero_bit?"PASSED\n":"FAILED\n");
+                cout << "One bit: " << one_bit;
+                cout << "Zero bit: " << zero_bit;
         }
         return 0;
 	
