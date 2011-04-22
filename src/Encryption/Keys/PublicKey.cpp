@@ -12,14 +12,14 @@ PublicKey::PublicKey()
 
 PublicKey::PublicKey(vector<long int> x, vector<boost::rational<long int> > Y, vector<Cipherbit> sk)
 {
-	this->pk = x;
+	this->x = x;
 	this->y = Y;
 	this->encryptedPrivateKey = sk;
 }
 
 long int PublicKey::getX(int index)
 {
-	return this->pk[index];
+	return this->x[index];
 }
 
 boost::rational<long int> PublicKey::getY(int index)
@@ -32,7 +32,12 @@ Cipherbit PublicKey::getEncryptedSkBit(int index)
 	return this->encryptedPrivateKey[index];
 }
 
-unsigned int PublicKey::size()
+unsigned int PublicKey::ysize()
 {
 	return this->y.size();
+}
+
+unsigned int PublicKey::xsize()
+{
+	return this->x.size();
 }
