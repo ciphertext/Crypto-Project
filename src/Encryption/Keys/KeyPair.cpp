@@ -95,9 +95,8 @@ KeyPair::KeyPair()
 						boost::uniform_int<>(0,_bigTheta-1));
 	
 	// choose random S
-	unsigned int count = _theta;
 	set<int> S; //Use set to guarantee unique elements
-	while(S.size() < count) {
+	while(S.size() < (unsigned long int) _theta) {
 		S.insert(generate_s());
 	}
 	
@@ -110,45 +109,37 @@ KeyPair::KeyPair()
 	
 	// generate u_i = [0, 2^k+1) for i = 1...big-_theta
 	// sum of u_i, where i in S, = x_p mod 2^k+1
-	// else restart
-	
-	restart = true;
 	vector<long int> u;
-	while(restart) {
-		boost::variate_generator<boost::rand48&, boost::uniform_int<long int> >
-				generate_u(base_gen,
-						   boost::uniform_int<long int>(0, (long int) pow(2.0, (double) _kappa+1) -1));
-											
-		/* generate _bigTheta - _theta random integers */
-		for(int i = 0; i < _bigTheta - _theta; i++)
-			u.push_back(generate_u());
-		
-		/* generate _theta - 1 more random integers */
-		vector<long int> u2;
-		for(int i = 0; i < _theta - 1; i++)
-			u2.push_back(generate_u());
+	boost::variate_generator<boost::rand48&, boost::uniform_int<long int> >
+			generate_u(base_gen,
+					   boost::uniform_int<long int>(0, (long int) pow(2.0, (double) _kappa+1) -1));
+										
+	/* generate _bigTheta - _theta random integers */
+	for(int i = 0; i < _bigTheta - _theta; i++)
+		u.push_back(generate_u());
+	
+	/* generate _theta - 1 more random integers */
+	vector<long int> u2;
+	for(int i = 0; i < _theta - 1; i++)
+		u2.push_back(generate_u());
 
-		/* calculate a final integer such that the sum
-		 * of the u2 integers = xP mod 2^k+1 */
-		long int sum = 0;
-		for(vector<long int>::iterator it = u2.begin(); it != u2.end(); it++) {
-			sum = sum + u[*it];
-			sum = sum % (long int) pow(2.0, (double) _kappa +1);
-		}
-		long int u_final = (xP - sum) % (long int) pow(2.0, (double) _kappa +1);
+	/* calculate a final integer such that the sum
+	 * of the u2 integers = xP mod 2^k+1 */
+	long int sum = 0;
+	for(vector<long int>::iterator it = u2.begin(); it != u2.end(); it++) {
+		sum = sum + *it;
+		sum = sum % (long int) pow(2.0, (double) _kappa +1);
+	}
+	long int u_final = (xP - sum) % (long int) pow(2.0, (double) _kappa +1);
 
-		for(set<int>::iterator it = S.begin(); it != S.end(); it++) {
-			vector<long int>::iterator ind = u.begin() + *it;
-			if(!u2.empty()){
-			cout << u2.back() << " + ";
-				u.insert(ind, u2.back());
-				u2.pop_back();
-			}
-			else {
-			cout << u_final << " = " << sum << " + " << u_final << " = " << ((sum + u_final) % (long int) pow(2.0, (double) _kappa +1)) << "   vs " << xP % (long int) pow(2.0, (double) _kappa +1);
-				u.insert(ind, u_final);
-			}
+	for(set<int>::iterator it = S.begin(); it != S.end(); it++) {
+		vector<long int>::iterator ind = u.begin() + *it;
+		if(!u2.empty()) {
+			u.insert(ind, u2.back());
+			u2.pop_back();
 		}
+		else 
+			u.insert(ind, u_final);
 	}
 	
 	// calculate y_i = u_i/2^k
