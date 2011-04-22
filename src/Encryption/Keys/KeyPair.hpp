@@ -42,8 +42,8 @@ namespace Encryption
 				typedef std::vector<int_t> publicKey_array_t;
 				typedef std::vector<int_t> u_array_t;
 				typedef std::set<int> s_set_t; 
-				typedef std::vector<boost::rational<int_t> > y_rational_t;
-				typedef std::vector<Cipherbit> encryptedSecretKey_t;
+				typedef std::vector<boost::rational<int_t> > y_rational_array_t;
+				typedef std::vector<Cipherbit> encryptedSecretKey_array_t;
 				
 				publicKey_array_t getPk(int_t p);
 				s_set_t getS();
@@ -52,8 +52,8 @@ namespace Encryption
 				u_array_t getU2();
 				int_t getUFinal(int_t p, u_array_t u2);
 				void stillNeedADamnedName(s_set_t S, u_array_t & u, u_array_t u2, int_t u_final);
-				y_rational_t getY(u_array_t u);
-				encryptedSecretKey_t getSk(bitmap_t sArrow, publicKey_array_t pk, y_rational_t y);
+				y_rational_array_t getY(u_array_t u);
+				encryptedSecretKey_array_t getSk(bitmap_t sArrow, publicKey_array_t pk, y_rational_array_t y);
 				
 
 

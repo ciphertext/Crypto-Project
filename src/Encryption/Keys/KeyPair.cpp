@@ -53,13 +53,13 @@ KeyPair::KeyPair()
 
 	stillNeedADamnedName(S,u,u2,u_final);
 	
-	y_rational_t y = getY(u);
+	y_rational_array_t y = getY(u);
 
 	// private key is sArrow
 	privateKey = PrivateKey(sArrow);
 	// public key is pk, y, and encrypted private key	
 	
-   encryptedSecretKey_t sk = getSk(sArrow,pk,y);
+   encryptedSecretKey_array_t sk = getSk(sArrow,pk,y);
 
 	publicKey = PublicKey(pk, y, sk);
 }
@@ -221,19 +221,19 @@ void KeyPair::stillNeedADamnedName(s_set_t S, u_array_t & u, u_array_t u2, int_t
 
 
 
-KeyPair::y_rational_t KeyPair::getY(u_array_t u)
+KeyPair::y_rational_array_t KeyPair::getY(u_array_t u)
 {
 	// calculate y_i = u_i/2^k
-	y_rational_t y;
+	y_rational_array_t y;
 	for(int i = 0; i < _bigTheta; i++)
 		y.push_back(rational<long int>(u[i], (long int) pow(2.0, (double) _kappa)));
 	
 	return y;
 }	
 
-KeyPair::encryptedSecretKey_t  KeyPair::getSk(bitmap_t sArrow, publicKey_array_t pk, y_rational_t y)
+KeyPair::encryptedSecretKey_array_t  KeyPair::getSk(bitmap_t sArrow, publicKey_array_t pk, y_rational_array_t y)
 {
-	encryptedSecretKey_t sk;
+	encryptedSecretKey_array_t sk;
 	
 	for(unsigned int z = 0; z < sArrow.size(); z++)
 		sk.push_back(Encryptor::encrypt(sArrow[z], PublicKey(pk, y, sk)));
