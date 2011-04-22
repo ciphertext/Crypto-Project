@@ -54,7 +54,7 @@ KeyPair::KeyPair()
 					   boost::uniform_int<>(-(int) pow(2.0, (double) _rho) + 1, (int) pow(2.0, (double) _rho) - 1));
 
 	bool restart = true;
-	vector<long int> pk;	
+	vector<long int> pk(_tau+1);
 	vector<long int>::iterator it;
 	
 	while(restart) {	
@@ -77,7 +77,7 @@ KeyPair::KeyPair()
 		long int temp = pk[largestIndex];
 		pk.erase(pk.begin() + largestIndex - 1);
 		it = pk.begin();
-		pk.insert (it , temp);
+		pk.insert(it , temp);
 		
 		// check if x_0 is odd and x_0 mod p is even
 		// if not, restart
@@ -110,7 +110,7 @@ KeyPair::KeyPair()
 	
 	// generate u_i = [0, 2^k+1) for i = 1...big-_theta
 	// sum of u_i, where i in S, = x_p mod 2^k+1
-	vector<long int> u;
+	vector<long int> u(_bigTheta + 1);
 	boost::variate_generator<boost::mt19937&, boost::uniform_int<long int> >
 			generate_u(base_gen,
 					   boost::uniform_int<long int>(0, (long int) pow(2.0, (double) _kappa+1) -1));
@@ -120,7 +120,7 @@ KeyPair::KeyPair()
 		u.push_back(generate_u());
 	
 	/* generate _theta - 1 more random integers */
-	vector<long int> u2;
+	vector<long int> u2(_theta);
 	for(int i = 0; i < _theta - 1; i++)
 		u2.push_back(generate_u());
 
@@ -144,7 +144,7 @@ KeyPair::KeyPair()
 	}
 	
 	// calculate y_i = u_i/2^k
-	vector<boost::rational<long int> > y;
+	vector<boost::rational<long int> > y(_bigTheta + 1);
 	for(int i = 0; i < _bigTheta; i++)
 		y.push_back(boost::rational<long int>(u[i], (long int) pow(2.0, (double) _kappa)));
 	
@@ -152,7 +152,7 @@ KeyPair::KeyPair()
 	this->privateKey = PrivateKey(sArrow);
 	
 	// public key is pk, y, and encrypted private key	
-	vector<Cipherbit> sk;
+	vector<Cipherbit> sk(sArrow.size() + 1);
 	this->publicKey = PublicKey(pk, y, sk);
 
 	for(unsigned int z = 0; z < sArrow.size(); z++)
