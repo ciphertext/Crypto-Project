@@ -20,7 +20,7 @@ TESTDIR = test
 #include and library directories
 INCLUDES = -I/home/004/t/ts/tss063000/boost -I$(SRCDIR)
 CLIBRARIES= -L/home/004/t/ts/tss063000/boost/lib 
-LLIBRARIES= -L/home/004/t/ts/tss063000/boost/lib/lib
+LLIBRARIES= -L/home/004/t/ts/tss063000/boost/lib
 
 #compiler
 CC = g++
