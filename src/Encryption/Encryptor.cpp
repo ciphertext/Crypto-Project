@@ -61,7 +61,7 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	int c_val = (aM + 2*r + 2*sum_x) % aPk.getX(0);
 
 	/* calculate z_i = (c* . y_i) mod 2, i \in {0,...,\Theta} */
-	vector<boost::rational<long int> > Z(aPk.ysize()+1);
+	vector<boost::rational<long int> > Z;
 	for(unsigned int i = 0; i < aPk.ysize(); i++)
 		Z.push_back(fix_precision_bits(r_modulo(c_val * aPk.getY(i), 2),precision_bits));
 	

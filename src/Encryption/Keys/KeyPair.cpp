@@ -54,7 +54,7 @@ KeyPair::KeyPair()
 					   boost::uniform_int<>(-(int) pow(2.0, (double) _rho) + 1, (int) pow(2.0, (double) _rho) - 1));
 
 	bool restart = true;
-	vector<long int> pk(_tau+1);
+	vector<long int> pk;
 	vector<long int>::iterator it;
 	
 	while(restart) {	
@@ -110,7 +110,7 @@ KeyPair::KeyPair()
 	
 	// generate u_i = [0, 2^k+1) for i = 1...big-_theta
 	// sum of u_i, where i in S, = x_p mod 2^k+1
-	vector<long int> u(_bigTheta + 1);
+	vector<long int> u;
 	boost::variate_generator<boost::mt19937&, boost::uniform_int<long int> >
 			generate_u(base_gen,
 					   boost::uniform_int<long int>(0, (long int) pow(2.0, (double) _kappa+1) -1));
@@ -120,7 +120,7 @@ KeyPair::KeyPair()
 		u.push_back(generate_u());
 	
 	/* generate _theta - 1 more random integers */
-	vector<long int> u2(_theta);
+	vector<long int> u2;
 	for(int i = 0; i < _theta - 1; i++)
 		u2.push_back(generate_u());
 
@@ -144,7 +144,7 @@ KeyPair::KeyPair()
 	}
 	
 	// calculate y_i = u_i/2^k
-	vector<boost::rational<long int> > y(_bigTheta + 1);
+	vector<boost::rational<long int> > y;
 	for(int i = 0; i < _bigTheta; i++)
 		y.push_back(boost::rational<long int>(u[i], (long int) pow(2.0, (double) _kappa)));
 	
