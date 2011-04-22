@@ -152,7 +152,7 @@ KeyPair::KeyPair()
 	this->privateKey = PrivateKey(sArrow);
 	
 	// public key is pk, y, and encrypted private key	
-	vector<Cipherbit> sk(sArrow.size() + 1);
+	vector<Cipherbit> sk;
 	this->publicKey = PublicKey(pk, y, sk);
 
 	for(unsigned int z = 0; z < sArrow.size(); z++)
