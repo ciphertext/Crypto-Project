@@ -141,7 +141,8 @@ KeyPair::KeyPair()
 			vector<long int>::iterator ind = u.begin() + *it;
 			if(!u2.empty()){
 			cout << u2.back() << " + ";
-				u.insert(ind, u2.pop_back());
+				u.insert(ind, u2.back());
+				u2.pop_back();
 			}
 			else {
 			cout << u_final << " = " << sum << " + " << u_final << " = " << ((sum + u_final) % (long int) pow(2.0, (double) _kappa +1)) << "   vs " << xP % (long int) pow(2.0, (double) _kappa +1);
