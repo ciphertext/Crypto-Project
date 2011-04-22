@@ -119,21 +119,33 @@ KeyPair::KeyPair()
 				generate_u(base_gen,
 						   boost::uniform_int<long int>(0, (long int) pow(2.0, (double) _kappa+1) -1));
 											
-		for(int i = 0; i < _bigTheta; i++)
+		/* generate _bigTheta - _theta random integers */
+		for(int i = 0; i < _bigTheta - _theta; i++)
 			u.push_back(generate_u());
 		
-		// check sum
+		/* generate _theta - 1 more random integers */
+		vector<long int> u2;
+		for(int i = 0; i < _theta - 1; i++)
+			u2.push_back(generate_u());
+
+		/* calculate a final integer such that the sum
+		 * of the u2 integers = xP mod 2^k+1 */
 		long int sum = 0;
-		for(set<int>::iterator it = S.begin(); it != S.end(); it++) {
+		for(vector<long int>::iterator it = u2.begin(); it != u2.end(); it++) {
 			sum = sum + u[*it];
 			sum = sum % (long int) pow(2.0, (double) _kappa +1);
 		}
-		
-		if(sum == (xP % (long int) pow(2.0, (double) _kappa + 1)))
-			restart = false;
-		else {
-			u.clear();
-			cout << "Restarting u_i generation" << endl;
+		long int u_final = (xP - sum) % (long int) pow(2.0, (double) _kappa +1);
+
+		for(set<int>::iterator it = S.begin(); it != S.end(); it++) {
+			vector<long int>::iterator u_ind = u.begin() + *it;
+			if(!u2.empty()){
+			cout << u2.back() << " + ";
+				u.insert(ind, u2.pop_back());
+			}
+			else {
+			cout << u_final << " = " << sum << " + " << u_final << " = " << ((sum + u_final) % (long int) pow(2.0, (double) _kappa +1)) << "   vs " << xP % (long int) pow(2.0, (double) _kappa +1);
+				u.insert(ind, u_final);
 		}
 	}
 	
