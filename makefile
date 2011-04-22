@@ -27,7 +27,7 @@ CC = g++
 
 #compiler and linker flags
 CFLAGS = -g -c -Wall $(INCLUDES) $(CLIBRARIES)
-LFLAGS = $(LLIBRARIES)
+LFLAGS = $(LLIBRARIES) -lboost_random
 
 
 
