@@ -31,8 +31,9 @@ KeyPair::KeyPair()
 	// p = random odd number [2^_eta-1, 2^_eta)
 	// generate random number between 2^_eta-1 / 2, 2^_eta / 2
 	// multiply by 2, subtract 1 to ensure odd number
-	boost::rand48 base_gen(time(0)); 
-	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
+	boost::random_device rd;
+	boost::mt19937 base_gen(rd()); // seed based on random output from /dev/urandom
+	boost::variate_generator<boost::mt19937&, boost::uniform_int<> >
 			generate_p(base_gen,
 					   boost::uniform_int<>((int) pow(2.0, (double) _eta-1)/2, (int) pow(2.0, (double) _eta)/2 - 1));
 
@@ -44,11 +45,11 @@ KeyPair::KeyPair()
 	// choose random r, (-2^_rho, 2^_rho)
 	// x_i = pq+r
 	// x_0 largest and restart unless x_0 is odd and x_0 mod p is even
-	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
+	boost::variate_generator<boost::mt19937&, boost::uniform_int<> >
 			generate_q(base_gen,
 					   boost::uniform_int<>(0, (long int) pow(2.0,(double) _gamma)/p - 1));
 
-	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
+	boost::variate_generator<boost::mt19937&, boost::uniform_int<> >
 			generate_r(base_gen,
 					   boost::uniform_int<>(-(int) pow(2.0, (double) _rho) + 1, (int) pow(2.0, (double) _rho) - 1));
 
@@ -90,7 +91,7 @@ KeyPair::KeyPair()
 	long int xP = (long int) round(pow(2.0, (double) _kappa) / p);
 	
 	// sArrow = random big-_theta bit bector with hamming weight _theta
-	boost::variate_generator<boost::rand48&, boost::uniform_int<> >
+	boost::variate_generator<boost::mt19937&, boost::uniform_int<> >
 			generate_s(base_gen,
 						boost::uniform_int<>(0,_bigTheta-1));
 	
@@ -110,7 +111,7 @@ KeyPair::KeyPair()
 	// generate u_i = [0, 2^k+1) for i = 1...big-_theta
 	// sum of u_i, where i in S, = x_p mod 2^k+1
 	vector<long int> u;
-	boost::variate_generator<boost::rand48&, boost::uniform_int<long int> >
+	boost::variate_generator<boost::mt19937&, boost::uniform_int<long int> >
 			generate_u(base_gen,
 					   boost::uniform_int<long int>(0, (long int) pow(2.0, (double) _kappa+1) -1));
 										
