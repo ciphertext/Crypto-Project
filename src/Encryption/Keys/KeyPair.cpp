@@ -39,27 +39,27 @@ KeyPair::KeyPair()
 
 	int_t p = (2 * generate_p()) - 1;
 	
-	pk_t pk = getPk(p);	
+	publicKey_array_t pk = getPk(p);	
 	
-	s_t S = getS();
+	s_set_t S = getS();
 	
 	bitmap_t sArrow= getSArrow(S);
 	
-	theta_t u = getBigTheta();
+	u_array_t u = getU();
 	
-	theta_t u2= getTheta();
+	u_array_t u2= getU2();
 	
 	int_t u_final = getUFinal(p,u2);
 
-	doSomethingWithU(S,u,u2,u_final);
+	stillNeedADamnedName(S,u,u2,u_final);
 	
-	y_t y = getY(u);
+	y_rational_t y = getY(u);
 
 	// private key is sArrow
 	privateKey = PrivateKey(sArrow);
 	// public key is pk, y, and encrypted private key	
 	
-   sk_t sk = getSk(sArrow,pk,y);
+   encryptedSecretKey_t sk = getSk(sArrow,pk,y);
 
 	publicKey = PublicKey(pk, y, sk);
 }
@@ -81,7 +81,7 @@ PrivateKey KeyPair::getPrivateKey()
 
 
 
-KeyPair::pk_t KeyPair::getPk(int_t p)
+KeyPair::publicKey_array_t KeyPair::getPk(int_t p)
 {
   
   	// pk*
@@ -96,7 +96,7 @@ KeyPair::pk_t KeyPair::getPk(int_t p)
 	var_gen_t generate_r(base_gen,
 					   uniform_int<>(-(int) pow(2.0, (double) _rho) + 1, (int) pow(2.0, (double) _rho) - 1));
   
-  	pk_t pk;
+  	publicKey_array_t pk;
 	
 	while(true) {	
 		int largestIndex = 0;
@@ -132,13 +132,13 @@ KeyPair::pk_t KeyPair::getPk(int_t p)
 }
 
 
-KeyPair::s_t KeyPair::getS()
+KeyPair::s_set_t KeyPair::getS()
 {
  	// sArrow = random big-_theta bit bector with hamming weight _theta
 	var_gen_t generate_s(base_gen, uniform_int<>(0,_bigTheta-1));
 	
 	// choose random S
-	s_t S; //Use set to guarantee unique elements
+	s_set_t S; //Use set to guarantee unique elements
 	while(S.size() < (uint_t) _theta) {
 		S.insert(generate_s());
 	} 
@@ -147,24 +147,24 @@ KeyPair::s_t KeyPair::getS()
 }
 
 
-KeyPair::bitmap_t KeyPair::getSArrow(s_t S)
+KeyPair::bitmap_t KeyPair::getSArrow(s_set_t S)
 {
 	// create sArrow
 	// set all values to 0
 	// set indices i in S to 1
 	vector<bool> sArrow(_bigTheta, false);
-	for(s_t::iterator it = S.begin(); it != S.end(); it++)
+	for(s_set_t::iterator it = S.begin(); it != S.end(); it++)
 		sArrow[*it] = true;
 	return sArrow;
 }
 
 
-KeyPair::theta_t KeyPair::getBigTheta()
+KeyPair::u_array_t KeyPair::getU()
 {
 		// generate u_i = [0, 2^k+1) for i = 1...big-_theta
 	// sum of u_i, where i in S, = x_p mod 2^k+1
-	theta_t u;
-	var_gen_theta_t generate_u(base_gen,
+	u_array_t u;
+	var_gen_u_t generate_u(base_gen,
 					   uniform_int<long int>(0, (long int) pow(2.0, (double) _kappa+1) -1));
 	
 	/* generate _bigTheta - _theta random integers */
@@ -175,12 +175,12 @@ KeyPair::theta_t KeyPair::getBigTheta()
 }
 
 
-KeyPair::theta_t KeyPair::getTheta()
+KeyPair::u_array_t KeyPair::getU2()
 {
 		// generate u_i = [0, 2^k+1) for i = 1...big-_theta
 	// sum of u_i, where i in S, = x_p mod 2^k+1
-	theta_t u2;
-	var_gen_theta_t generate_u(base_gen,
+	u_array_t u2;
+	var_gen_u_t generate_u(base_gen,
 					   uniform_int<long int>(0, (long int) pow(2.0, (double) _kappa+1) -1));
 	
 	/* generate _theta - 1 more random integers */
@@ -190,7 +190,7 @@ KeyPair::theta_t KeyPair::getTheta()
 	return u2;
 }
 
-KeyPair::int_t KeyPair::getUFinal(int_t p, theta_t u2)
+KeyPair::int_t KeyPair::getUFinal(int_t p, u_array_t u2)
 {
 	int_t xP = (int_t) round(pow(2.0, (double) _kappa) / p);
 	
@@ -206,9 +206,9 @@ KeyPair::int_t KeyPair::getUFinal(int_t p, theta_t u2)
 	return (xP - sum) % (int_t) pow(2.0, (double) _kappa +1);
 }
 
-void KeyPair::doSomethingWithU(s_t S, theta_t & u, theta_t u2, int_t u_final)
+void KeyPair::stillNeedADamnedName(s_set_t S, u_array_t & u, u_array_t u2, int_t u_final)
 {
-	for(s_t::iterator it = S.begin(); it != S.end(); it++) {
+	for(s_set_t::iterator it = S.begin(); it != S.end(); it++) {
 		vector<long int>::iterator ind = u.begin() + *it;
 		if(!u2.empty()) {
 			u.insert(ind, u2.back());
@@ -221,19 +221,19 @@ void KeyPair::doSomethingWithU(s_t S, theta_t & u, theta_t u2, int_t u_final)
 
 
 
-KeyPair::y_t KeyPair::getY(theta_t u)
+KeyPair::y_rational_t KeyPair::getY(u_array_t u)
 {
 	// calculate y_i = u_i/2^k
-	y_t y;
+	y_rational_t y;
 	for(int i = 0; i < _bigTheta; i++)
 		y.push_back(rational<long int>(u[i], (long int) pow(2.0, (double) _kappa)));
 	
 	return y;
 }	
 
-KeyPair::sk_t  KeyPair::getSk(bitmap_t sArrow, pk_t pk, y_t y)
+KeyPair::encryptedSecretKey_t  KeyPair::getSk(bitmap_t sArrow, publicKey_array_t pk, y_rational_t y)
 {
-	sk_t sk;
+	encryptedSecretKey_t sk;
 	
 	for(unsigned int z = 0; z < sArrow.size(); z++)
 		sk.push_back(Encryptor::encrypt(sArrow[z], PublicKey(pk, y, sk)));
