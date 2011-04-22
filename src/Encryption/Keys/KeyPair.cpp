@@ -147,6 +147,7 @@ KeyPair::KeyPair()
 			else {
 			cout << u_final << " = " << sum << " + " << u_final << " = " << ((sum + u_final) % (long int) pow(2.0, (double) _kappa +1)) << "   vs " << xP % (long int) pow(2.0, (double) _kappa +1);
 				u.insert(ind, u_final);
+			}
 		}
 	}
 	
