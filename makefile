@@ -26,7 +26,7 @@ LLIBRARIES= -L/home/004/t/ts/tss063000/boost/lib/lib
 CC = g++
 
 #compiler and linker flags
-CFLAGS = -c -Wall $(INCLUDES) $(CLIBRARIES)
+CFLAGS = -g -c -Wall $(INCLUDES) $(CLIBRARIES)
 LFLAGS = $(LLIBRARIES)
 
 
