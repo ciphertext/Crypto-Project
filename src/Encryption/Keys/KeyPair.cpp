@@ -138,7 +138,7 @@ KeyPair::KeyPair()
 		long int u_final = (xP - sum) % (long int) pow(2.0, (double) _kappa +1);
 
 		for(set<int>::iterator it = S.begin(); it != S.end(); it++) {
-			vector<long int>::iterator u_ind = u.begin() + *it;
+			vector<long int>::iterator ind = u.begin() + *it;
 			if(!u2.empty()){
 			cout << u2.back() << " + ";
 				u.insert(ind, u2.pop_back());
