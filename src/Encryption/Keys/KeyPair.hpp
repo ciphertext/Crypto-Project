@@ -4,8 +4,9 @@
 #include <exception>
 #include <vector>
 #include <boost/rational.hpp>
+#include <boost/nondet_random.hpp>
 #include <boost/random/uniform_int.hpp>
-#include <boost/random/linear_congruential.hpp>
+#include <boost/random/mersenne_twister.hpp>
 #include <boost/random/variate_generator.hpp>
 #include "Encryption/Keys/PublicKey.hpp"
 #include "Encryption/Keys/PrivateKey.hpp"
