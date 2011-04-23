@@ -187,6 +187,9 @@ KeyPair::u_array_t KeyPair::getU(int_t p, s_set_t S)
 	}
 	
 	int_t u_final = xP - sum % (2L << _kappa);
+	if(u_final < 0) {
+		u_final += 2L << _kappa;
+	}
 	if(final_index < u.size())
 		u.insert(u.begin() + final_index, u_final);
 	else
