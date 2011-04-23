@@ -33,9 +33,10 @@ KeyPair::KeyPair()
 	// sk* = p
 	// p = random odd number [2^_eta-1, 2^_eta)
 	// generate random number between 2^_eta-1 / 2, 2^_eta / 2
+	// == (2 << _eta-2)/2, (2 << _eta-1)/2 == 2 << _eta-3, 2 << _eta-2
 	// multiply by 2, subtract 1 to ensure odd number
 	var_gen_t generate_p(base_gen,
-					   uniform_int<>((int) pow(2.0, (double) _eta-1)/2, (int) pow(2.0, (double) _eta)/2 - 1));
+					     uniform_int<>((int) 2 << (_eta-3), (int) 2 << (_eta - 2) - 1));
 
 	int_t p = (2 * generate_p()) - 1;
 	
@@ -45,13 +46,7 @@ KeyPair::KeyPair()
 	
 	bitmap_t sArrow= getSArrow(S);
 	
-	u_array_t u = getU();
-	
-	u_array_t u2= getU2();
-	
-	int_t u_final = getUFinal(p,u2);
-
-	stillNeedADamnedName(S,u,u2,u_final);
+	u_array_t u = getU(p,S);
 	
 	y_rational_array_t y = getY(u);
 
@@ -91,10 +86,10 @@ KeyPair::publicKey_array_t KeyPair::getPk(int_t p)
 	// x_i = pq+r
 	// x_0 largest and restart unless x_0 is odd and x_0 mod p is even
 	var_gen_t generate_q(base_gen,
-					   uniform_int<>(0, (long int) pow(2.0,(double) _gamma)/p - 1));
+					   uniform_int<>(0, (2 << (_gamma-1))/p - 1));
 
 	var_gen_t generate_r(base_gen,
-					   uniform_int<>(-(int) pow(2.0, (double) _rho) + 1, (int) pow(2.0, (double) _rho) - 1));
+					   uniform_int<>((int) -(2 << (_rho-1)) + 1, (int) (2 << (_rho-1)) - 1));
   
   	publicKey_array_t pk;
 	
@@ -159,74 +154,55 @@ KeyPair::bitmap_t KeyPair::getSArrow(s_set_t S)
 }
 
 
-KeyPair::u_array_t KeyPair::getU()
+KeyPair::u_array_t KeyPair::getU(int_t p, s_set_t S)
 {
-		// generate u_i = [0, 2^k+1) for i = 1...big-_theta
-	// sum of u_i, where i in S, = x_p mod 2^k+1
+	// generate u_i = [0, 2^k+1) for i = 1...big-_theta
+	// where, 2^k+1 == 2 << k
 	u_array_t u;
 	var_gen_u_t generate_u(base_gen,
-					   uniform_int<long int>(0, (long int) pow(2.0, (double) _kappa+1) -1));
+						   uniform_int<int_t>(0, (2 << _kappa) -1));
 	
-	/* generate _bigTheta - _theta random integers */
-	for(int i = 0; i < _bigTheta - _theta; i++)
+	/* generate _bigTheta - 1 random integers */
+	for(int i = 0; i < _bigTheta - 1; i++)
 		u.push_back(generate_u());
+	
+	// xP = round(2^k/p)
+	int_t xP = (int_t) round((2 << (_kappa -1)) / p);
+
+	// then, ensure that 
+	// sum of u_i, where i in S, = x_p mod 2^k+1
+	// by generating the final u_i from the
+	// theta - 1 other u_i, i in S
+	int_t sum = 0;
+	int final_index = 0;
+	for(s_set_t::iterator it = S.begin(); it != S.end(); it++)
+	{
+		// only sum S.size() - 1 elements,
+		// skipping any element of S >= u.size(),
+		// or the last element of S.
+		if(*it >= u.size() || (final_index == 0 && it == S.end()))
+			final_index = *it;
+		else {
+			sum += u[*it];
+			sum %= 2 << _kappa;
+		}
+	}
+	
+	int_t u_final = xP - sum % (2 << _kappa);
+	if(final_index < u.size())
+		u.insert(u.begin() + final_index, u_final);
+	else
+		u.push_back(u_final);
 	
 	return u;
 }
-
-
-KeyPair::u_array_t KeyPair::getU2()
-{
-		// generate u_i = [0, 2^k+1) for i = 1...big-_theta
-	// sum of u_i, where i in S, = x_p mod 2^k+1
-	u_array_t u2;
-	var_gen_u_t generate_u(base_gen,
-					   uniform_int<long int>(0, (long int) pow(2.0, (double) _kappa+1) -1));
-	
-	/* generate _theta - 1 more random integers */
-	for(int i = 0; i < _theta - 1; i++)
-		u2.push_back(generate_u());
-	
-	return u2;
-}
-
-KeyPair::int_t KeyPair::getUFinal(int_t p, u_array_t u2)
-{
-	int_t xP = (int_t) round(pow(2.0, (double) _kappa) / p);
-	
-		/* calculate a final integer such that the sum
-	 * of the u2 integers = xP mod 2^k+1 */
-	int_t sum = 0;
-	BOOST_FOREACH(int_t i , u2)
-	{
-		sum += i;
-		sum %= (int_t) pow(2.0, (double) _kappa +1);
-	}
-	
-	return (xP - sum) % (int_t) pow(2.0, (double) _kappa +1);
-}
-
-void KeyPair::stillNeedADamnedName(s_set_t S, u_array_t & u, u_array_t u2, int_t u_final)
-{
-	for(s_set_t::iterator it = S.begin(); it != S.end(); it++) {
-		vector<long int>::iterator ind = u.begin() + *it;
-		if(!u2.empty()) {
-			u.insert(ind, u2.back());
-			u2.pop_back();
-		}
-		else 
-			u.insert(ind, u_final);
-	}
-}
-
-
 
 KeyPair::y_rational_array_t KeyPair::getY(u_array_t u)
 {
 	// calculate y_i = u_i/2^k
 	y_rational_array_t y;
 	for(int i = 0; i < _bigTheta; i++)
-		y.push_back(rational<long int>(u[i], (long int) pow(2.0, (double) _kappa)));
+		y.push_back(rational<int_t>(u[i], 2 << (_kappa - 1)));
 	
 	return y;
 }	

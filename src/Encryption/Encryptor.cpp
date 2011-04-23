@@ -24,7 +24,7 @@ boost::rational<long int> r_modulo(boost::rational<long int> a, int b) {
 }
 
 boost::rational<long int> fix_precision_bits(boost::rational<long int> a, int bits) {
-	int power = (int) pow(2.0, bits);
+	int power = (int) 2 << (bits-1);
 	return r_floor(a * power) / power;
 }
 
@@ -35,7 +35,7 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	boost::mt19937 base_gen(rd()); // seed based on random output from /dev/urandom
 	boost::variate_generator<boost::mt19937&, boost::uniform_int<> >
 			generator_1(base_gen,
-						boost::uniform_int<>((int) -pow(2.0,secondary_noise)+1, (int) pow(2.0,secondary_noise)-1));
+						boost::uniform_int<>(-(2 << (secondary_noise - 1))+1, (2 << (secondary_noise-1))-1));
 
 	int r = generator_1();
 
