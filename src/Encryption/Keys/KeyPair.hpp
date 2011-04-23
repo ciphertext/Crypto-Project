@@ -41,7 +41,7 @@ namespace Encryption
 				typedef std::vector<bool> bitmap_t;
 				typedef std::vector<int_t> publicKey_array_t;
 				typedef std::vector<int_t> u_array_t;
-				typedef std::set<int> s_set_t; 
+				typedef std::set<unsigned int> s_set_t; 
 				typedef std::vector<boost::rational<int_t> > y_rational_array_t;
 				typedef std::vector<Cipherbit> encryptedSecretKey_array_t;
 				

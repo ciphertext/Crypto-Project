@@ -74,8 +74,6 @@ PrivateKey KeyPair::getPrivateKey()
 
 
 
-
-
 KeyPair::publicKey_array_t KeyPair::getPk(int_t p)
 {
   
@@ -174,7 +172,7 @@ KeyPair::u_array_t KeyPair::getU(int_t p, s_set_t S)
 	// by generating the final u_i from the
 	// theta - 1 other u_i, i in S
 	int_t sum = 0;
-	int final_index = 0;
+	unsigned int final_index = 0;
 	for(s_set_t::iterator it = S.begin(); it != S.end(); it++)
 	{
 		// only sum S.size() - 1 elements,
