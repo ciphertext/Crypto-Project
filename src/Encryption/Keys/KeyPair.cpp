@@ -160,14 +160,14 @@ KeyPair::u_array_t KeyPair::getU(int_t p, s_set_t S)
 	// where, 2^k+1 == 2 << k
 	u_array_t u;
 	var_gen_u_t generate_u(base_gen,
-						   uniform_int<int_t>(0, (2 << _kappa) -1));
+						   uniform_int<int_t>(0, (2L << _kappa) -1));
 	
 	/* generate _bigTheta - 1 random integers */
 	for(int i = 0; i < _bigTheta - 1; i++)
 		u.push_back(generate_u());
 	
 	// xP = round(2^k/p)
-	int_t xP = (int_t) round((2 << (_kappa -1)) / p);
+	int_t xP = (int_t) round((2L << (_kappa -1)) / p);
 
 	// then, ensure that 
 	// sum of u_i, where i in S, = x_p mod 2^k+1
@@ -184,11 +184,11 @@ KeyPair::u_array_t KeyPair::getU(int_t p, s_set_t S)
 			final_index = *it;
 		else {
 			sum += u[*it];
-			sum %= 2 << _kappa;
+			sum %= 2L << _kappa;
 		}
 	}
 	
-	int_t u_final = xP - sum % (2 << _kappa);
+	int_t u_final = xP - sum % (2L << _kappa);
 	if(final_index < u.size())
 		u.insert(u.begin() + final_index, u_final);
 	else
@@ -202,7 +202,7 @@ KeyPair::y_rational_array_t KeyPair::getY(u_array_t u)
 	// calculate y_i = u_i/2^k
 	y_rational_array_t y;
 	for(int i = 0; i < _bigTheta; i++)
-		y.push_back(rational<int_t>(u[i], 2 << (_kappa - 1)));
+		y.push_back(rational<int_t>(u[i], 2L << (_kappa - 1)));
 	
 	return y;
 }	
