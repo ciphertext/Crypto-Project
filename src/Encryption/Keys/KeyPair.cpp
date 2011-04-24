@@ -26,6 +26,16 @@ const long int _kappa = 60;
 const long int _theta = 4;
 const long int _bigTheta = 60;
 
+// TODO: move these to a utilities class or something
+mpq_class r_floor(mpq_class n) {
+	return mpq_class(n.get_num() - (n.get_num() % n.get_den()), n.get_den());
+}
+
+mpq_class r_round(mpq_class n) {
+	mpq_class half(1,2);
+	return r_floor(n + half);
+}
+
 KeyPair::KeyPair()
 : rd(),
   rand_gen(gmp_randinit_mt)
@@ -114,7 +124,7 @@ KeyPair::s_set_t KeyPair::getS()
 	mpz_class s_ubound = _bigTheta;
 	s_set_t S; //Use set to guarantee unique elements
 	while(S.size() < (unsigned int) _theta) {
-		S.insert((unsigned int) mpz_get_ui(rand_gen.get_z_range(s_ubound).get_mpz_t()));
+		S.insert((unsigned int) mpz_get_ui(((mpz_class) rand_gen.get_z_range(s_ubound)).get_mpz_t()));
 	} 
 	
 	return S;
@@ -146,7 +156,7 @@ KeyPair::u_array_t KeyPair::getU(mpz_class p, s_set_t S)
 	
 	// xP = round(2^k/p)
 	mpz_class k2 = mpz_class(2) << (_kappa -1);
-	mpz_class xP = round(mpq_class(k2,p)); //XXX: round?
+	mpz_class xP = r_round(mpq_class(k2,p));
 
 	// then, ensure that 
 	// sum of u_i, where i in S, = x_p mod 2^k+1
