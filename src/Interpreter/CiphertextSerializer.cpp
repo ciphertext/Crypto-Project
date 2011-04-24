@@ -1,16 +1,16 @@
+#include "Interpreter/CiphertextSerializer.hpp"
+
 #include <exception>
 #include <string>
 using namespace std;
+using namespace Interpreter;
+using namespace Encryption;
 
-#include "Interpreter/CiphertextSerializer.h"
-#include "Encryption/Ciphertext.h"
-#include "Interpreter/InterpreterFacade.h"
-
-string Interpreter::CiphertextSerializer::serialize(Encryption::Ciphertext aC) {
+string CiphertextSerializer::serialize(Cipherbit aC) {
 	throw "Not yet implemented";
 }
 
-Encryption::Ciphertext Interpreter::CiphertextSerializer::unserialize(string aSerialized) {
+Cipherbit CiphertextSerializer::unserialize(string aSerialized) {
 	throw "Not yet implemented";
 }
 

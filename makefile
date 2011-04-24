@@ -6,10 +6,15 @@ CLASSES = Encryption/Encryptor \
           Encryption/Cipherbit \
           Encryption/Keys/PublicKey \
           Encryption/Keys/PrivateKey \
-          Encryption/Keys/KeyPair 
+          Encryption/Keys/KeyPair \
+          Interpreter/CiphertextSerializer \
+          Interpreter/KeySerializer \
+          Interpreter/ProgramLoader \
+          Interpreter/InterpreterFacade
 
 #list of testcases
-TESTCASES = Phase1Test
+TESTCASES = Phase1Test \
+            Phase2Test
 
 #directory of source
 SRCDIR = ./src

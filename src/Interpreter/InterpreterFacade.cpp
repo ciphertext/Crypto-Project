@@ -1,27 +1,25 @@
-#include <exception>
-#include <string>
-#include <list>
+
+
+#include "Interpreter/InterpreterFacade.hpp"
+
 using namespace std;
+using namespace Interpreter;
 
-#include "Interpreter/InterpreterFacade.h"
-#include "Interpreter/ProgramLoader.h"
-#include "Interpreter/CiphertextSerializer.h"
-#include "Interpreter/KeySerializer.h"
-#include "UI/UserInterface.h"
 
-string Interpreter::InterpreterFacade::executeProgram(string aProgramdata, list<string> aArgs, string aKey) {
+
+string InterpreterFacade::executeProgram(string aProgramdata, list<string> aArgs, string aKey) {
 	throw "Not yet implemented";
 }
 
-string Interpreter::InterpreterFacade::decrypt(string aCiphertext, string aKey) {
+string InterpreterFacade::decrypt(string aCiphertext, string aKey) {
 	throw "Not yet implemented";
 }
 
-void Interpreter::InterpreterFacade::encrypt(string aMessage, string aKey, string aOutput) {
+void InterpreterFacade::encrypt(string aMessage, string aKey, string aOutput) {
 	throw "Not yet implemented";
 }
 
-pair<publicKey : string, privateKey : string> Interpreter::InterpreterFacade::genKeyPair() {
+pair<string,string> InterpreterFacade::genKeyPair() {
 	throw "Not yet implemented";
 }
 

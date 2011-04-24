@@ -1,44 +1,37 @@
-#include <exception>
-#include <string>
-#include <list>
-using namespace std;
+
 
 #ifndef __Interpreter__InterpreterFacade_h__
 #define __Interpreter__InterpreterFacade_h__
 
-// #include "Interpreter/ProgramLoader.h"
-// #include "Interpreter/CiphertextSerializer.h"
-// #include "Interpreter/KeySerializer.h"
-// #include "UI/UserInterface.h"
+
+#include <exception>
+#include <string>
+#include <utility>
+#include <list>
+#include "Interpreter/ProgramLoader.hpp"
+#include "Interpreter/CiphertextSerializer.hpp"
+#include "Interpreter/KeySerializer.hpp"
+#include "UI/UserInterface.hpp"
+
 
 namespace Interpreter
 {
-	class ProgramLoader;
-	class CiphertextSerializer;
-	class KeySerializer;
-	class InterpreterFacade;
-}
-namespace UI
-{
-	class UserInterface;
-}
-
-namespace Interpreter
-{
+	
 	class InterpreterFacade
 	{
-		public: UI::UserInterface* _unnamed_UserInterface_;
-		public: Interpreter::ProgramLoader* _unnamed_ProgramLoader_;
-		public: Interpreter::CiphertextSerializer* _unnamed_CiphertextSerializer_;
-		public: Interpreter::KeySerializer* _unnamed_KeySerializer_;
+		public:
+			
+			ProgramLoader mProgramLoader;
+			CiphertextSerializer mCiphertextSerializer;
+			KeySerializer mKeySerializer;
 
-		public: string executeProgram(string aProgramdata, list<string> aArgs, string aKey);
+			string executeProgram(std::string aProgramdata, std::list<std::string> aArgs, std::string aKey);
 
-		public: string decrypt(string aCiphertext, string aKey);
+			string decrypt(std::string aCiphertext, std::string aKey);
 
-		public: void encrypt(string aMessage, string aKey, string aOutput);
+			void encrypt(std::string aMessage, std::string aKey, std::string aOutput);
 
-		public: pair<publicKey : string, privateKey : string> genKeyPair();
+			std::pair<std::string, std::string> genKeyPair();
 	};
 }
 

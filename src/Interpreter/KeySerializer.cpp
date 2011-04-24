@@ -1,25 +1,29 @@
+
+#include "Interpreter/KeySerializer.hpp"
+#include "Encryption/Keys/PublicKey.hpp"
+#include "Encryption/Keys/PrivateKey.hpp"
+#include "Interpreter/InterpreterFacade.hpp"
+
 #include <exception>
 #include <string>
 using namespace std;
+using namespace Interpreter;
+using namespace Encryption;
+using namespace Encryption::Keys;
 
-#include "Interpreter/KeySerializer.h"
-#include "Encryption/Keys/PublicKey.h"
-#include "Encryption/Keys/PrivateKey.h"
-#include "Interpreter/InterpreterFacade.h"
-
-string Interpreter::KeySerializer::serialize(Encryption::Keys::PublicKey aP) {
+string KeySerializer::serialize(PublicKey aP) {
 	throw "Not yet implemented";
 }
 
-string Interpreter::KeySerializer::serialize(Encryption::Keys::PrivateKey aP) {
+string KeySerializer::serialize(PrivateKey aP) {
 	throw "Not yet implemented";
 }
 
-Encryption::Keys::PublicKey Interpreter::KeySerializer::unserializePk(string aPk) {
+PublicKey KeySerializer::unserializePk(string aPk) {
 	throw "Not yet implemented";
 }
 
-Encryption::Keys::PrivateKey Interpreter::KeySerializer::unserializeSk(string aSk) {
+PrivateKey KeySerializer::unserializeSk(string aSk) {
 	throw "Not yet implemented";
 }
 
