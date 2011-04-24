@@ -11,6 +11,7 @@
 #include "Encryption/Cipherbit.hpp"
 #include "Encryption/Keys/PublicKey.hpp"
 #include "Encryption/Keys/PrivateKey.hpp"
+#include "Encryption/RationalUtilities.hpp"
 
 
 

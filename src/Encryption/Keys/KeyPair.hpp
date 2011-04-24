@@ -8,9 +8,7 @@
 #include "Encryption/Keys/PublicKey.hpp"
 #include "Encryption/Keys/PrivateKey.hpp"
 #include "Encryption/Encryptor.hpp"
-#include <algorithm>
-#include <boost/foreach.hpp>
-
+#include "Encryption/RationalUtilities.hpp"
 
 namespace Encryption
 {

@@ -26,16 +26,6 @@ const long int _kappa = 60;
 const long int _theta = 4;
 const long int _bigTheta = 60;
 
-// TODO: move these to a utilities class or something
-mpq_class r_floor(mpq_class n) {
-	return mpq_class(n.get_num() - (n.get_num() % n.get_den()), n.get_den());
-}
-
-mpq_class r_round(mpq_class n) {
-	mpq_class half(1,2);
-	return r_floor(n + half);
-}
-
 KeyPair::KeyPair()
 : rd(),
   rand_gen(gmp_randinit_mt)
