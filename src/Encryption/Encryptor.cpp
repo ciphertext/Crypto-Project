@@ -60,7 +60,7 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	/* calculate z_i = (c* . y_i) mod 2, i \in {0,...,\Theta} */
 	vector<mpq_class> Z;
 	for(unsigned int i = 0; i < aPk.ysize(); i++)
-		Z.push_back(fix_precision_bits((c_val * aPk.getY(i)) % 2,precision_bits));
+		Z.push_back(fix_precision_bits(r_modulo((c_val * aPk.getY(i)), 2),precision_bits));
 	
 	return Cipherbit(c_val, Z);
 }
