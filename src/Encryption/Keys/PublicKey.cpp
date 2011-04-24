@@ -17,17 +17,17 @@ PublicKey(vector<mpz_class> x, vector<mpq_class> Y, vector<Cipherbit> sk)
 	this->encryptedPrivateKey = sk;
 }
 
-mpz_class getX(unsigned int index);
+mpz_class getX(unsigned int index)
 {
 	return this->x[index];
 }
 
-mpq_class getY(unsigned int index);
+mpq_class getY(unsigned int index)
 {
 	return this->y[index];
 }
 
-Cipherbit getEncryptedSkBit(unsigned int index);
+Cipherbit getEncryptedSkBit(unsigned int index)
 {
 	return this->encryptedPrivateKey[index];
 }
