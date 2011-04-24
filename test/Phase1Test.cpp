@@ -1,5 +1,6 @@
 #include "Encryption/Encryptor.hpp"
 #include "Encryption/Keys/KeyPair.hpp"
+#include <iostream>
 
 using namespace std;
 using namespace Encryption;
