@@ -1,31 +1,30 @@
 
 #include "Encryption/Cipherbit.hpp"
 
-using namespace boost;
 using namespace std;
 using namespace Encryption;
 
-Cipherbit::Cipherbit(int c, vector<boost::rational<long int> > z)
+Cipherbit::Cipherbit(mpz_class c, vector<mpq_class> z)
 {
 	this->value = c;
 	this->Z = z;
 }
-int Cipherbit::getValue()
+mpz_class Cipherbit::getValue()
 {
 	return this->value;
 }
 
-boost::rational<long int> Cipherbit::getZ(int index)
+mpq_class Cipherbit::getZ(unsigned int index)
 {
 	return this->Z.at(index);
 }
 
-int Cipherbit::getMultCount()
+unsigned int Cipherbit::getMultCount()
 {
 	return this->multCount;
 }
 
-void Cipherbit::setMultCount(int c)
+void Cipherbit::setMultCount(unsigned int c)
 {
 	this->multCount = c;
 }

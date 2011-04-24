@@ -10,24 +10,24 @@ PublicKey::PublicKey()
 {
 }
 
-PublicKey::PublicKey(vector<long int> x, vector<boost::rational<long int> > Y, vector<Cipherbit> sk)
+PublicKey(vector<mpz_class> x, vector<mpq_class> Y, vector<Cipherbit> sk)
 {
 	this->x = x;
 	this->y = Y;
 	this->encryptedPrivateKey = sk;
 }
 
-long int PublicKey::getX(int index)
+mpz_class getX(unsigned int index);
 {
 	return this->x[index];
 }
 
-boost::rational<long int> PublicKey::getY(int index)
+mpq_class getY(unsigned int index);
 {
 	return this->y[index];
 }
 
-Cipherbit PublicKey::getEncryptedSkBit(int index)
+Cipherbit getEncryptedSkBit(unsigned int index);
 {
 	return this->encryptedPrivateKey[index];
 }

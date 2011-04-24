@@ -2,23 +2,23 @@
 #ifndef __Encryption__Cipherbit_h__
 #define __Encryption__Cipherbit_h__
 
-#include <boost/rational.hpp>
 #include <vector>
+#include <gmpxx.h>
 
 namespace Encryption
 {
 	class Cipherbit
 	{
 		private:
-			int value;
-			std::vector<boost::rational<long int> > Z;
-			int multCount;
+			mpz_class value;
+			std::vector<mpq_class> Z;
+			unsigned int multCount;
 		public:
-			Cipherbit(int c, std::vector<boost::rational<long int> > z);
-			int getValue();
-			boost::rational<long int> getZ(int index);
-			int getMultCount();
-			void setMultCount(int c);
+			Cipherbit(mpz_class c, std::vector<mpq_class> z);
+			mpz_class getValue();
+			mpq_class getZ(unsigned int index);
+			unsigned int getMultCount();
+			void setMultCount(unsigned int c);
 	};
 }
 
