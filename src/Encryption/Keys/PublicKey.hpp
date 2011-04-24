@@ -3,7 +3,6 @@
 
 #include "Encryption/Cipherbit.hpp"
 #include <vector>
-#include <gmp.h>
 #include <gmpxx.h>
 
 namespace Encryption

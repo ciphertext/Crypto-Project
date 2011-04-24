@@ -6,7 +6,6 @@
 #include <set>
 #include <ctime>
 #include <cmath>
-#include <gmp.h>
 #include <gmpxx.h>
 #include <boost/nondet_random.hpp>
 #include "Encryption/Cipherbit.hpp"
