@@ -43,14 +43,14 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	 * by selecting a random integer count in [1,\tau],
 	 * and selecting count random integers in [1,\tau],
 	 * not counting duplicates */
-	unsigned int count = (unsigned int) mpz_get_ui(rand_gen.get_z_range(mpz_class(_tau)).get_mpz_t) + 1;
+	unsigned int count = (unsigned int) mpz_get_ui(((mpz_class) rand_gen.get_z_range(mpz_class(_tau))).get_mpz_t) + 1;
 	set<unsigned int> S;
 	while(S.size() < count)
-		S.insert((unsigned int) mpz_get_ui(rand_gen.get_z_range(mpz_class(_tau)).get_mpz_t) + 1);
+		S.insert((unsigned int) mpz_get_ui(((mpz_class) rand_gen.get_z_range(mpz_class(_tau))).get_mpz_t) + 1);
 	
 	/* compute the sum of x_i \in aPk.X, i \in S */
 	mpz_class sum_x = 0;
-	for(set<int>::iterator it = S.begin(); it != S.end(); it++)
+	for(set<unsigned int>::iterator it = S.begin(); it != S.end(); it++)
 		sum_x += aPk.getX(*it);
 	
 	/* c* = (m + 2r + 2sum_x) mod 2, as in the
