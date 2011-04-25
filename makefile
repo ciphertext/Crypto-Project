@@ -6,10 +6,17 @@ CLASSES = Encryption/Encryptor \
           Encryption/Cipherbit \
           Encryption/Keys/PublicKey \
           Encryption/Keys/PrivateKey \
-          Encryption/Keys/KeyPair 
+          Encryption/Keys/KeyPair \
+          Encryption/Operations/CipherStringBinaryOperation \
+          Encryption/Operations/AddOperation \
+          Encryption/Operations/AndOperation \
+          Encryption/Operations/XorOperation \
+          Encryption/Cipherstring \
+          Encryption/EncryptionFacade
 
 #list of testcases
-TESTCASES = Phase1Test
+TESTCASES = Phase1Test \
+            Phase2Test
 
 #directory of source
 SRCDIR = ./src
