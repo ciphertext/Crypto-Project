@@ -6,9 +6,9 @@ using namespace Encryption::Keys;
 /* XXX: these should be defined in terms of lambda,
  *      which should be stored as part of the public
  *      and private keys. */
-const int secondary_noise = 8;
-const int _tau = 20;
-const int precision_bits = 5;
+const int secondary_noise = 40;
+const int _tau = 420;
+const int precision_bits = 8;
 
 Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 {

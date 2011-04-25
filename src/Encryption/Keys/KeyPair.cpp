@@ -6,7 +6,7 @@ using namespace Encryption::Keys;
 using namespace boost;
 
 // Lambda - security parameter
-const long int _lambda = 4;
+const long int _lambda = 20;
 
 // Key generation parameters calculated based off lamdba
 // rho - bit length of noise = lambda
@@ -17,14 +17,14 @@ const long int _lambda = 4;
 // kappa = (gamma * eta)/rho'
 // theta = lambda
 // big-theta = k * log_2(lambda)
-const long int _rho = 4;
-const long int _rho2 = 8;
-const long int _eta = 16;
-const long int _gamma = 30;
-const long int _tau = 34;
-const long int _kappa = 60;
-const long int _theta = 4;
-const long int _bigTheta = 60;
+const long int _rho		 = 20;
+const long int _rho2	 = 40;
+const long int _eta		 = 400;
+const long int _gamma	 = 400;
+const long int _tau		 = 420;
+const long int _kappa	 = 4000;
+const long int _theta	 = 20;
+const long int _bigTheta = 6000;
 
 KeyPair::KeyPair()
 : rd(),
