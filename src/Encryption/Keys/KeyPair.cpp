@@ -161,16 +161,14 @@ KeyPair::u_array_t KeyPair::getU(mpz_class p, s_set_t S)
 		// or the last element of S.
 		if(*it >= u.size() || (final_index == 0 && distance(it,S.end()) == 1))
 			final_index = *it;
-		else {
+		else
 			sum += u[*it];
-			sum %= mpz_class(2) << _kappa;
-		}
 	}
 	
-	mpz_class u_final = xP - sum % (mpz_class(2) << _kappa);
-	if(u_final < 0) {
+	mpz_class u_final = (xP - sum) % (mpz_class(2) << _kappa);
+	if(u_final < 0)
 		u_final += mpz_class(2) << _kappa;
-	}
+
 	if(final_index < u.size())
 		u.insert(u.begin() + final_index, u_final);
 	else
@@ -183,8 +181,10 @@ KeyPair::y_rational_array_t KeyPair::getY(u_array_t u)
 {
 	// calculate y_i = u_i/2^k
 	y_rational_array_t y;
-	for(unsigned int i = 0; i < _bigTheta; i++)
+	for(unsigned int i = 0; i < _bigTheta; i++) {
 		y.push_back(mpq_class(u[i], mpz_class(2) << (_kappa - 1)));
+		y.back().canonicalize();
+	}
 	
 	return y;
 }	
