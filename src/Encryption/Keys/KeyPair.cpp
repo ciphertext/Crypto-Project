@@ -159,7 +159,7 @@ KeyPair::u_array_t KeyPair::getU(mpz_class p, s_set_t S)
 		// only sum S.size() - 1 elements,
 		// skipping any element of S >= u.size(),
 		// or the last element of S.
-		if(*it >= u.size() || (final_index == 0 && it == S.end()))
+		if(*it >= u.size() || (final_index == 0 && distance(it,S.end()) == 1))
 			final_index = *it;
 		else {
 			sum += u[*it];

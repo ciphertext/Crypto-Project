@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <vector>
+#include <iterator>
 #include <gmpxx.h>
 #include <boost/nondet_random.hpp>
 #include "Encryption/Keys/PublicKey.hpp"
