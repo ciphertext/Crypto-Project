@@ -29,18 +29,16 @@ int main()
 		cout << ")" << endl;*/
 		
 		for(int j = 0; j < 10; j++) {
-			cout << "Encrypting one bit." << endl;
 			Cipherbit c_one_bit = Encryptor::encrypt(1,pk);
-			cout << "Encrypting zero bit." << endl;
-			Cipherbit c_zero_bit = Encryptor::encrypt(0,pk);
-		
-			cout << "Decrypting one bit." << endl;
 			bool one_bit = Encryptor::decrypt(c_one_bit,sk);
-			cout << "Decrypting zero bit." << endl;
+			if(!one_bit)
+				cout << "FAILED (1 -> 0)." << endl;
+
+			Cipherbit c_zero_bit = Encryptor::encrypt(0,pk);
 			bool zero_bit = Encryptor::decrypt(c_zero_bit,sk);
+			if(zero_bit)
+				cout << "FAILED (0 -> 1)." << endl;
 		
-			cout << "One bit: " << one_bit << endl;
-			cout << "Zero bit: " << zero_bit << endl;
 		}
 	}
 	return 0;
