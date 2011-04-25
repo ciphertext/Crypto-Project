@@ -163,7 +163,7 @@ KeyPair::u_array_t KeyPair::getU(mpz_class p, s_set_t S)
 			final_index = *it;
 		else {
 			sum += u[*it];
-			sum %= 2L << _kappa;
+			sum %= mpz_class(2) << _kappa;
 		}
 	}
 	
