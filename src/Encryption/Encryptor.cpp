@@ -19,7 +19,7 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 
 	mpz_class r_lbound = -(mpz_class(2) << (secondary_noise - 1)) + 1;
 	mpz_class r_ubound = (mpz_class(2) << (secondary_noise - 1));
-	mpz_class r = rand_gen.get_z_range(r_ubound - r_lbound) + r_ubound;
+	mpz_class r = rand_gen.get_z_range(r_ubound - r_lbound) + r_lbound;
 
 	/* select a random subset S of {1,2,...,\tau}
 	 * by selecting a random integer count in [1,\tau],
