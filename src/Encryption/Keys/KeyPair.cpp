@@ -38,7 +38,7 @@ KeyPair::KeyPair()
 	// by generating a number in [0, 2^_eta-2) and adding 2^_eta-2
 	// then multiply by 2, subtract 1 to ensure odd number
 
-	mpz_class exp = mpz_class(2) << (_eta - 2);
+	mpz_class exp = mpz_class(2) << (_eta - 3);
 	mpz_class p = (2 * (rand_gen.get_z_range(exp) + exp)) - 1;
 	
 	publicKey_array_t pk = getPk(p);	
@@ -146,7 +146,9 @@ KeyPair::u_array_t KeyPair::getU(mpz_class p, s_set_t S)
 	
 	// xP = round(2^k/p)
 	mpz_class k2 = mpz_class(2) << (_kappa -1);
-	mpz_class xP = r_round(mpq_class(k2,p));
+	mpq_class xPq = mpq_class(k2,p);
+	xPq.canonicalize();
+	mpz_class xP = r_round(xPq);
 
 	// then, ensure that 
 	// sum of u_i, where i in S, = x_p mod 2^k+1
