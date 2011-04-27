@@ -16,3 +16,9 @@ unsigned int Cipherstring::size()
 {
 	return mBits.size();
 }
+
+template<class Archive>
+void Cipherstring::serialize( Archive & ar, const unsigned int version)
+{
+	ar & mBits;
+}

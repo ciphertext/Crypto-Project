@@ -3,6 +3,8 @@
 
 #include <boost/rational.hpp>
 #include "Encryption/Cipherbit.hpp"
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/vector.hpp>
 #include <vector>
 
 namespace Encryption
@@ -12,10 +14,6 @@ namespace Encryption
 	 
 		class PublicKey
 		{
-			private:
-				std::vector<long int> x;
-				std::vector<boost::rational<long int> > y;
-				std::vector<Cipherbit> encryptedPrivateKey;  
 
 			public:
 				PublicKey();
@@ -27,6 +25,17 @@ namespace Encryption
 				Cipherbit getEncryptedSkBit(int index);
 				unsigned int xsize();
 				unsigned int ysize();
+
+			private:
+				std::vector<long int> x;
+				std::vector<boost::rational<long int> > y;
+				std::vector<Cipherbit> encryptedPrivateKey;  
+
+				friend class boost::serialization::access;
+				template<class Archive>
+				void serialize( Archive & ar, const unsigned int version);
+				
+				
 		};
 	}
 }

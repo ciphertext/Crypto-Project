@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <vector>
+#include <boost/shared_ptr.hpp>
 #include <boost/rational.hpp>
 #include <boost/nondet_random.hpp>
 #include <boost/random/uniform_int.hpp>
@@ -24,12 +25,12 @@ namespace Encryption
 			
 			public:
 				KeyPair();
-				PublicKey getPublicKey();
-				PrivateKey getPrivateKey();
+				boost::shared_ptr<PublicKey> getPublicKey();
+				boost::shared_ptr<PrivateKey> getPrivateKey();
 				
 			private:
-				PrivateKey privateKey;
-				PublicKey publicKey;
+				boost::shared_ptr<PrivateKey> privateKey;
+				boost::shared_ptr<PublicKey> publicKey;
 				
 				boost::random_device rd;
 				boost::mt19937 base_gen;

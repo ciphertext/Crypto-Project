@@ -4,11 +4,14 @@
 using namespace boost;
 using namespace std;
 using namespace Encryption;
+using namespace Encryption::Keys;
 
-Cipherbit::Cipherbit(int c, vector<boost::rational<long int> > z)
+Cipherbit::Cipherbit(int c, vector<rational<long int> > z, shared_ptr<PublicKey> pubkey)
 {
+	
 	this->value = c;
 	this->Z = z;
+	this->pubkey=pubkey;
 }
 int Cipherbit::getValue()
 {
@@ -20,12 +23,28 @@ boost::rational<long int> Cipherbit::getZ(int index)
 	return this->Z.at(index);
 }
 
-int Cipherbit::getMultCount()
+
+Cipherbit Cipherbit::operator & ( const Cipherbit & cb)
 {
-	return this->multCount;
+	
+	//TODO: ADD REAL IMPLEMENTATION
+	//TODO: check for ciphertext with different public keys
+	return Cipherbit(value*cb.value,vector<boost::rational<long int> >(),pubkey);
 }
 
-void Cipherbit::setMultCount(int c)
+Cipherbit Cipherbit::operator ^ ( const Cipherbit & cb)
 {
-	this->multCount = c;
+	
+	//TODO: ADD REAL IMPLEMENTATION
+	//TODO: check for ciphertext with different public keys
+	return Cipherbit(value+cb.value,vector<boost::rational<long int> >(),pubkey);
+}
+
+
+template<class Archive>
+void Cipherbit::serialize( Archive & ar, const unsigned int version)
+{
+	ar & Z;
+	ar & c;
+	ar & pubkey;
 }

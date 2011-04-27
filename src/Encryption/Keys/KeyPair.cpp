@@ -51,23 +51,23 @@ KeyPair::KeyPair()
 	y_rational_array_t y = getY(u);
 
 	// private key is sArrow
-	privateKey = PrivateKey(sArrow);
+	privateKey = shared_ptr<PrivateKey> (new PrivateKey(sArrow));
 	// public key is pk, y, and encrypted private key	
 	
    encryptedSecretKey_array_t sk = getSk(sArrow,pk,y);
 
-	publicKey = PublicKey(pk, y, sk);
+	publicKey = shared_ptr<PublicKey> (new PublicKey(pk, y, sk));
 }
 
 
 
 
-PublicKey KeyPair::getPublicKey()
+shared_ptr<PublicKey> KeyPair::getPublicKey()
 {
 	return publicKey;
 }
 
-PrivateKey KeyPair::getPrivateKey()
+shared_ptr<PrivateKey> KeyPair::getPrivateKey()
 {	
 	return privateKey;
 }
