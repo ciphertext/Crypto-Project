@@ -4,3 +4,6 @@ docs/*.aux
 docs/*.log
 docs/*.gz
 docs/tmp.inputs
+*.P
+*.o
+Phase1Test
