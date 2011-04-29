@@ -1,11 +1,11 @@
 #ifndef __Encryption__Keys__PublicKey_h__
 #define __Encryption__Keys__PublicKey_h__
 
-#include <boost/rational.hpp>
 #include "Encryption/Cipherbit.hpp"
 #include <boost/serialization/serialization.hpp>
 #include <boost/serialization/vector.hpp>
 #include <vector>
+#include <gmpxx.h>
 
 namespace Encryption
 {
@@ -15,21 +15,24 @@ namespace Encryption
 		class PublicKey
 		{
 
+
+
 			public:
 				PublicKey();
-				PublicKey(std::vector<long int> x,
-						  std::vector<boost::rational<long int> > Y,
+				PublicKey(std::vector<mpz_class> x,
+						  std::vector<mpq_class> Y,
 						  std::vector<Cipherbit> sk);
-				long int getX(int index);
-				boost::rational<long int> getY(int index);
-				Cipherbit getEncryptedSkBit(int index);
+				mpz_class getX(unsigned int index);
+				mpq_class getY(unsigned int index);
+				Cipherbit getEncryptedSkBit(unsigned int index);
 				unsigned int xsize();
 				unsigned int ysize();
 
 			private:
-				std::vector<long int> x;
-				std::vector<boost::rational<long int> > y;
+				std::vector<mpz_class> x;
+				std::vector<mpq_class> y;
 				std::vector<Cipherbit> encryptedPrivateKey;  
+
 
 				friend class boost::serialization::access;
 				template<class Archive>

@@ -34,7 +34,7 @@ CC = g++
 
 #compiler and linker flags
 CFLAGS = -g -c -Wall $(INCLUDES) $(CLIBRARIES)
-LFLAGS = $(LLIBRARIES) -lboost_random
+LFLAGS = $(LLIBRARIES) -lboost_random -lgmpxx -lgmp
 
 
 

@@ -1,28 +1,27 @@
 
 #include "Encryption/Cipherbit.hpp"
 
-using namespace boost;
 using namespace std;
 using namespace Encryption;
 using namespace Encryption::Keys;
 
-Cipherbit::Cipherbit(int c, vector<rational<long int> > z, shared_ptr<PublicKey> pubkey)
+
+Cipherbit::Cipherbit(mpz_class c, vector<mpq_class> z)
 {
 	
 	this->value = c;
 	this->Z = z;
 	this->pubkey=pubkey;
 }
-int Cipherbit::getValue()
+mpz_class Cipherbit::getValue()
 {
 	return this->value;
 }
 
-boost::rational<long int> Cipherbit::getZ(int index)
+mpq_class Cipherbit::getZ(unsigned int index)
 {
 	return this->Z.at(index);
 }
-
 
 Cipherbit Cipherbit::operator & ( const Cipherbit & cb)
 {
@@ -31,6 +30,7 @@ Cipherbit Cipherbit::operator & ( const Cipherbit & cb)
 	//TODO: check for ciphertext with different public keys
 	return Cipherbit(value*cb.value,vector<boost::rational<long int> >(),pubkey);
 }
+
 
 Cipherbit Cipherbit::operator ^ ( const Cipherbit & cb)
 {

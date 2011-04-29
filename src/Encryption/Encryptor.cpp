@@ -6,64 +6,43 @@ using namespace Encryption::Keys;
 /* XXX: these should be defined in terms of lambda,
  *      which should be stored as part of the public
  *      and private keys. */
-const int secondary_noise = 8;
-const int _tau = 20;
-const int precision_bits = 5;
-
-boost::rational<long int> r_floor(boost::rational<long int> n) {
-	return boost::rational<long int>(n.numerator() - (n.numerator() % n.denominator()), n.denominator());
-}
-
-boost::rational<long int> r_round(boost::rational<long int> n) {
-	boost::rational<long int> half(1,2);
-	return r_floor(n + half);
-}
-
-boost::rational<long int> r_modulo(boost::rational<long int> a, int b) {
-	return boost::rational<long int>(a.numerator() % (b*a.denominator()),a.denominator());
-}
-
-boost::rational<long int> fix_precision_bits(boost::rational<long int> a, int bits) {
-	int power = (int) 2 << (bits-1);
-	return r_floor(a * power) / power;
-}
+const int secondary_noise = 14;
+const int _tau = 105;
+const int precision_bits = 6;
 
 Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 {
 	// generate a random number r in the range (-2^{\rho'},2^{\rho'})
 	boost::random_device rd;
-	boost::mt19937 base_gen(rd()); // seed based on random output from /dev/urandom
-	boost::variate_generator<boost::mt19937&, boost::uniform_int<> >
-			generator_1(base_gen,
-						boost::uniform_int<>(-(2 << (secondary_noise - 1))+1, (2 << (secondary_noise-1))-1));
+	gmp_randclass rand_gen(gmp_randinit_mt);
+	rand_gen.seed(rd());
 
-	int r = generator_1();
+	mpz_class r_lbound = -(mpz_class(2) << (secondary_noise - 1)) + 1;
+	mpz_class r_ubound = (mpz_class(2) << (secondary_noise - 1));
+	mpz_class r = rand_gen.get_z_range(r_ubound - r_lbound) + r_lbound;
 
 	/* select a random subset S of {1,2,...,\tau}
 	 * by selecting a random integer count in [1,\tau],
 	 * and selecting count random integers in [1,\tau],
 	 * not counting duplicates */
-	boost::variate_generator<boost::mt19937&, boost::uniform_int<> >
-			generator_2(base_gen, boost::uniform_int<>(1,_tau));
-	
-	unsigned int count = generator_2();
-	set<int> S;
+	unsigned int count = (unsigned int) mpz_get_ui(((mpz_class) rand_gen.get_z_range(mpz_class(_tau))).get_mpz_t()) + 1;
+	set<unsigned int> S;
 	while(S.size() < count)
-		S.insert(generator_2());
+		S.insert((unsigned int) mpz_get_ui(((mpz_class) rand_gen.get_z_range(mpz_class(_tau))).get_mpz_t()) + 1);
 	
 	/* compute the sum of x_i \in aPk.X, i \in S */
-	int sum_x = 0;
-	for(set<int>::iterator it = S.begin(); it != S.end(); it++)
+	mpz_class sum_x = 0;
+	for(set<unsigned int>::iterator it = S.begin(); it != S.end(); it++)
 		sum_x += aPk.getX(*it);
 	
 	/* c* = (m + 2r + 2sum_x) mod 2, as in the
 	 * original (non-squashed) scheme */
-	int c_val = (aM + 2*r + 2*sum_x) % aPk.getX(0);
+	mpz_class c_val = (aM + 2*r + 2*sum_x) % aPk.getX(0);
 
 	/* calculate z_i = (c* . y_i) mod 2, i \in {0,...,\Theta} */
-	vector<boost::rational<long int> > Z;
+	vector<mpq_class> Z;
 	for(unsigned int i = 0; i < aPk.ysize(); i++)
-		Z.push_back(fix_precision_bits(r_modulo(c_val * aPk.getY(i), 2),precision_bits));
+		Z.push_back(fix_precision_bits(r_modulo((c_val * aPk.getY(i)), 2),precision_bits));
 	
 	return Cipherbit(c_val, Z);
 }
@@ -71,9 +50,10 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 
 bool Encryptor::decrypt(Cipherbit aC, PrivateKey aSk)
 {
-	boost::rational<long int> sum;
+	mpq_class sum;
 	for(unsigned int i = 0; i < aSk.size(); i++) {
-		sum += aSk.getBit(i) * aC.getZ(i);
+		// GMP does not automatically convert bool to int
+		sum += ((int) aSk.getBit(i)) * aC.getZ(i);
 	}
 
 	return (r_modulo((aC.getValue() - r_round(sum)),2) == 1)? true : false;
