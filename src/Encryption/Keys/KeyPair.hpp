@@ -3,13 +3,13 @@
 
 #include <exception>
 #include <vector>
-<<<<<<< HEAD
+
 #include <boost/shared_ptr.hpp>
-#include <boost/rational.hpp>
-=======
+
+
 #include <iterator>
 #include <gmpxx.h>
->>>>>>> origin/GMP
+
 #include <boost/nondet_random.hpp>
 #include "Encryption/Keys/PublicKey.hpp"
 #include "Encryption/Keys/PrivateKey.hpp"

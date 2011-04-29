@@ -15,8 +15,7 @@ CLASSES = Encryption/Encryptor \
           Encryption/EncryptionFacade
 
 #list of testcases
-TESTCASES = Phase1Test \
-            Phase2Test
+TESTCASES = Phase1Test 
 
 #directory of source
 SRCDIR = ./src
@@ -34,7 +33,7 @@ CC = g++
 
 #compiler and linker flags
 CFLAGS = -g -c -Wall $(INCLUDES) $(CLIBRARIES)
-LFLAGS = $(LLIBRARIES) -lboost_random -lgmpxx -lgmp
+LFLAGS = $(LLIBRARIES) -lboost_random -lboost_serialization -lgmpxx -lgmp
 
 
 
@@ -54,6 +53,8 @@ TCOBJS = $(foreach SRC, $(TESTCASES),$(TESTDIR)/$(SRC).o)
 	   sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
 	     -e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $*.P; \
 	   rm -f $*.d
+
+
 
 #  dependencies
 -include $(SRCS:.cpp=.d)

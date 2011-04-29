@@ -9,8 +9,12 @@
 
 namespace Encryption
 {
+	
+   class Cipherbit;
+
 	namespace Keys
 	{
+
 	 
 		class PublicKey
 		{
