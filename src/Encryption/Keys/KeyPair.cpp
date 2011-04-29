@@ -36,10 +36,10 @@ KeyPair::KeyPair()
 	// generate random number between 2^_eta-1 / 2, 2^_eta / 2
 	// == 2^_eta-2, 2^_eta-1 == 2 << _eta-3, 2 << _eta-2
 	// by generating a number in [0, 2^_eta-2) and adding 2^_eta-2
-	// then multiply by 2, subtract 1 to ensure odd number
+	// then multiply by 2, add 1 to ensure odd number
 
 	mpz_class exp = mpz_class(2) << (_eta - 3);
-	mpz_class p = (2 * (rand_gen.get_z_range(exp) + exp)) - 1;
+	mpz_class p = (2 * (rand_gen.get_z_range(exp) + exp)) + 1;
 	
 	publicKey_array_t pk = getPk(p);	
 	
@@ -79,7 +79,7 @@ KeyPair::publicKey_array_t KeyPair::getPk(mpz_class p)
 		for (unsigned int i = 0; i <= _tau; i++) {
 			mpz_class q = rand_gen.get_z_range(q_ubound);
 			mpz_class r = rand_gen.get_z_range(r_ubound - r_lbound) + r_lbound;
-			mpz_class x = (p * q) + r;
+			mpz_class x = (p * q) + 2*r;
 			
 			pk.push_back(x);
 			
@@ -98,7 +98,7 @@ KeyPair::publicKey_array_t KeyPair::getPk(mpz_class p)
 		
 		// check if x_0 is odd and x_0 mod p is even
 		// if not, restart
-		if((temp % 2 == 1) && ((temp % p)%2 == 0))
+		if((temp % 2 == 1) && ((temp % p) % 2 == 0))
 			break;
 		else
 			pk.clear();
