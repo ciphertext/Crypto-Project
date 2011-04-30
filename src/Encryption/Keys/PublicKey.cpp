@@ -45,10 +45,3 @@ unsigned int PublicKey::xsize()
 
 
 
-template<class Archive>
-void PublicKey::serialize( Archive & ar, const unsigned int version)
-{
-	ar & x;
-	ar & y;
-	ar & encryptedPrivateKey;
-}

@@ -19,6 +19,7 @@ namespace Encryption
 	{
 
 		public:
+			
 			Cipherbit(mpz_class c, std::vector<mpq_class> z);
 			mpz_class getValue();
 			mpq_class getZ(unsigned int index);
@@ -27,13 +28,17 @@ namespace Encryption
 			Cipherbit operator ^ ( const Cipherbit & cb) const;
 
 		private:
-
+         Cipherbit(){};
 		//	boost::shared_ptr<Keys::PublicKey> pubkey;
 			
 			friend class boost::serialization::access;
 			template<class Archive>
-			void serialize( Archive & ar, const unsigned int version);
-
+			void serialize( Archive & ar, const unsigned int version)
+			{
+				ar & Z;
+				ar & value;
+				//ar & pubkey;
+			}
 			mpz_class value;
 			std::vector<mpq_class> Z;
 

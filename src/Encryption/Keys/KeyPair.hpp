@@ -25,12 +25,12 @@ namespace Encryption
 			
 			public:
 				KeyPair();
-				boost::shared_ptr<PublicKey> getPublicKey();
-				boost::shared_ptr<PrivateKey> getPrivateKey();
+				PublicKey getPublicKey();
+				PrivateKey getPrivateKey();
 				
 			private:
-				boost::shared_ptr<PrivateKey> privateKey;
-				boost::shared_ptr<PublicKey> publicKey;
+				PrivateKey privateKey;
+				PublicKey publicKey;
 				
 				boost::random_device rd;
 				gmp_randclass rand_gen;

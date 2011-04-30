@@ -24,8 +24,3 @@ unsigned int PrivateKey::size()
 	return this->sArrow.size();
 }
 
-template<class Archive>
-void PrivateKey::serialize( Archive & ar, const unsigned int version)
-{
-	ar & sArrow;
-}

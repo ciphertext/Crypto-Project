@@ -76,22 +76,3 @@ std::string EncryptionFacade::toString(bitstring_t bits) const
 
 
 
-template<typename T>
-string serialize(T t)
-{
-	ostringstream oss;
-	boost::archive::text_oarchive ar(oss);
-	ar << t;
-	return oss.str();
-}
-
-
-template<typename T>
-T unserialize(string s)
-{
-	T t;
-	istringstream iss(s);
-	boost::archive::text_iarchive ar(iss);
-	ar >> t;
-	return t;
-}

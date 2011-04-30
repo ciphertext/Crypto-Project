@@ -16,8 +16,8 @@ namespace boost {
 		template<class Archive>
 		void save(Archive & ar, const mpz_class & t, unsigned int version)
 		{
-
-			ar & t.get_str(10);
+         std::string num =t.get_str(10);
+			ar << num;
 			
 		}
 
@@ -25,7 +25,7 @@ namespace boost {
 		void load(Archive & ar,  mpz_class & t, unsigned int version)
 		{
 			std::string num;
-			ar & num;
+			ar >> num;
 			t.set_str(num,10);
 			
 		}

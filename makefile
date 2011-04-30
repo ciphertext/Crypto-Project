@@ -14,7 +14,7 @@ CLASSES = Encryption/Encryptor \
           Encryption/EncryptionFacade
 
 #list of testcases
-TESTCASES = Phase1Test 
+TESTCASES = Phase1Test
 
 #directory of source
 SRCDIR = ./src
@@ -32,7 +32,7 @@ CC = g++
 
 #compiler and linker flags
 CFLAGS = -g -c -Wall $(INCLUDES) $(CLIBRARIES)
-LFLAGS = $(LLIBRARIES) -lboost_random -lboost_serialization -lgmpxx -lgmp
+LFLAGS = $(LLIBRARIES) -lboost_random -l boost_serialization  -lgmpxx -lgmp
 
 
 

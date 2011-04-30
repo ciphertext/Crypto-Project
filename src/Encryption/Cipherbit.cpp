@@ -41,10 +41,4 @@ Cipherbit Cipherbit::operator ^ ( const Cipherbit & cb) const
 }
 
 
-template<class Archive>
-void Cipherbit::serialize( Archive & ar, const unsigned int version)
-{
-	ar & Z;
-	ar & value;
-	//ar & pubkey;
-}
+

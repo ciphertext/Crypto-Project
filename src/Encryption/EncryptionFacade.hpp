@@ -51,10 +51,24 @@ namespace Encryption
 	};   
 	
 	template<typename T>
-	std::string serialize(T t);
-	
+	std::string serialize(T t)
+	{
+		std::ostringstream oss;
+		boost::archive::text_oarchive ar(oss);
+		ar << t;
+		return oss.str();
+	};
+
+
 	template<typename T>
-	T unserialize(std::string s);
+	T unserialize(std::string s)
+	{
+		T t;
+		std::istringstream iss(s);
+		boost::archive::text_iarchive ar(iss);
+		ar >> t;
+		return t;
+	};
 }
 
 #endif
