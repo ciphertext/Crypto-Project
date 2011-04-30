@@ -14,7 +14,8 @@ CLASSES = Encryption/Encryptor \
           Encryption/EncryptionFacade
 
 #list of testcases
-TESTCASES = Phase1Test
+TESTCASES = Phase1Test \
+            Phase2Test
 
 #directory of source
 SRCDIR = ./src

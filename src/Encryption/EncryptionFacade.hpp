@@ -63,11 +63,17 @@ namespace Encryption
 	template<typename T>
 	T unserialize(std::string s)
 	{
-		T t;
+		//nothing to see here... move along.
+		char allocation[sizeof(T)];
+		T * t = reinterpret_cast<T*>(allocation);
+		boost::serialization::access::construct<T>(t);
+		
 		std::istringstream iss(s);
 		boost::archive::text_iarchive ar(iss);
-		ar >> t;
-		return t;
+		
+		ar >> *t;
+		
+		return *t;
 	};
 }
 
