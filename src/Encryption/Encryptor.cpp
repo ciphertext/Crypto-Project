@@ -37,7 +37,7 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	
 	/* c* = (m + 2r + 2sum_x) mod 2, as in the
 	 * original (non-squashed) scheme */
-	mpz_class c_val = (aM + 2*r + 2*sum_x) % aPk.getX(0);
+	mpz_class c_val = (aM + 2*r + sum_x) % aPk.getX(0);
 
 	/* calculate z_i = (c* . y_i) mod 2, i \in {0,...,\Theta} */
 	vector<mpq_class> Z;
