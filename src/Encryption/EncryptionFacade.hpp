@@ -72,7 +72,7 @@ namespace Encryption
 		boost::archive::text_iarchive ar(iss);
 		
 		ar >> *t;
-		
+		//TODO: Destructor
 		return *t;
 	};
 }

@@ -18,7 +18,6 @@ string EncryptionFacade::executeOperation(std::string command, std::string arg1,
 
 string EncryptionFacade::decrypt(std::string aCiphertext, std::string aPrivateKey) 
 {
-	
 	return toString( decryptString( unserialize<Cipherstring>(aCiphertext), unserialize<PrivateKey>(aPrivateKey) ));
 }
 
