@@ -12,7 +12,7 @@ using namespace Encryption::Operations;
 Cipherstring AndOperation::operate(Cipherstring aA, Cipherstring aB)
 {
 	Cipherstring s;
-	for(int i=0; i < min(aA.size(),aB.size()); i++)
+	for(unsigned int i=0; i < min(aA.size(),aB.size()); i++)
 		s.push_back(aA[i] & aB[i]);
 	
 	return s;
