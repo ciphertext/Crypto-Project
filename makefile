@@ -7,7 +7,6 @@ CLASSES = Encryption/Encryptor \
           Encryption/Keys/PublicKey \
           Encryption/Keys/PrivateKey \
           Encryption/Keys/KeyPair \
-          Encryption/Operations/CipherStringBinaryOperation \
           Encryption/Operations/AddOperation \
           Encryption/Operations/AndOperation \
           Encryption/Operations/XorOperation \

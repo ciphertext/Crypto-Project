@@ -12,8 +12,9 @@ namespace Encryption
 	{
 		public:
 			Cipherbit & operator [] (unsigned int index);
+			Cipherbit at(unsigned int index) const;
 			void push_back(const Cipherbit & b);
-			unsigned int size();
+			unsigned int size() const;
 			
 		private:
 			std::vector<Cipherbit> mBits;

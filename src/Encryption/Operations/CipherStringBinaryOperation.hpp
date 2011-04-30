@@ -13,7 +13,7 @@ namespace Encryption
 		class CipherStringBinaryOperation
 		{
 			public: 
-				Encryption::Cipherstring operate(Encryption::Cipherstring aA, Encryption::Cipherstring aB) = 0;
+				virtual Encryption::Cipherstring operate(Encryption::Cipherstring aA, Encryption::Cipherstring aB) = 0;
 		};
 	}
 }

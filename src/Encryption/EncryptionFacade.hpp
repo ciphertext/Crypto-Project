@@ -7,6 +7,9 @@
 
 #include "Encryption/Encryptor.hpp"
 #include "Encryption/Operations/CipherStringBinaryOperation.hpp"
+#include "Encryption/Keys/KeyPair.hpp"
+#include "Encryption/Keys/PublicKey.hpp"
+#include "Encryption/Keys/PrivateKey.hpp"
 #include <exception>
 #include <string>
 #include <list>
@@ -15,6 +18,9 @@
 #include <sstream>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
+#include <boost/ptr_container/ptr_map.hpp>
+#include <boost/dynamic_bitset.hpp>
+#include <boost/foreach.hpp>
 
 namespace Encryption
 {
@@ -30,8 +36,16 @@ namespace Encryption
 			std::pair<std::string,std::string> genKeyPair();
 			
 		private:
-			typedef std::map<std::string, Encryption::Operations::CipherStringBinaryOperation> CommandMap;
+			typedef boost::ptr_map<std::string, Encryption::Operations::CipherStringBinaryOperation> CommandMap;
+			typedef boost::dynamic_bitset<unsigned char> bitstring_t;
+			
 			CommandMap mCmdMap;
+			Cipherstring encryptString(std::string message, const Keys::PublicKey & pk) const;
+			bitstring_t decryptString(const Cipherstring & ciphertext, const Keys::PrivateKey & sk) const;
+			
+		   bitstring_t toBits(std::string text) const; 
+			std::string toString(bitstring_t bits) const;
+			
 			
 			
 	};   
