@@ -2,22 +2,14 @@
 #include <time.h>
 #include <boost/lexical_cast.hpp>
 #include <gmpxx.h>
-const bool verbose=true;
+#include "TestFramework.hpp"
+#include "TestUtility.hpp"
 
 using namespace std;
 using namespace Encryption;
 using namespace Encryption::Keys;
 using namespace Encryption::Operations;
 
-#define TESTASSERT(_exprname,_expr) testAssert(_exprname,_expr); if(!_expr) return false;
-#define TESTASSERTV(_exprname,_expr,_extra) testAssert(_exprname,_expr,_extra); if(!_expr) return false;
-
-void testAssert(string exprname, bool expr, string extra="");
-void log(string msg);
-void startTest(string testname);
-void endTest();
-void failTest();
-bool runTest(bool(test)(void), string name);
 
 bool testSerializeCipherbit();
 bool testSerializeCipherstring();
@@ -29,15 +21,6 @@ Cipherbit getRandomCipherbit();
 PublicKey getRandomPublicKey();
 PrivateKey getRandomPrivateKey();
 Cipherstring getRandomCipherstring();
-//bool equalCipherbit(Cipherbit c1, Cipherbit c2);
-//bool equalCipherstring(Cipherstring c1, Cipherstring c2);
-//bool equalPublicKey(PublicKey p1, PublicKey p2);
-//bool equalPrivateKey(PrivateKey p1, PrivateKey p2);
-
-bool operator == (const Cipherbit & c1, const Cipherbit & c2);
-bool operator == (const Cipherstring & c1, const Cipherstring & c2);
-bool operator == (const PublicKey & p1, const PublicKey & p2);
-bool operator == (const PrivateKey & p1, const PrivateKey & p2);
 
 //----------------------------------------
 //            Implementation
@@ -58,55 +41,7 @@ int main()
 
 
 
-//------------------------------------------
-//               Test Framework
-//------------------------------------------
 
-
-void log(string msg)
-{
-	if(verbose)
-	{
-		cout<<"INFO: "<<msg<<endl;
-		cout.flush();
-	}
-}
-
-void testAssert(string exprname, bool expr, string extra)
-{
-	if(!expr)
-		cout<<"Testing ("<<exprname<<") : Failed. "<<extra<< endl;
-	else if(verbose)
-		cout<<"Testing ("<<exprname<<") : Passed. "<<extra<< endl;
-}
-
-void startTest(string testname)
-{
-	cout<<"Starting test " << testname<<"..."<<endl;
-}
-
-void endTest()
-{
-	cout << "Test succeeded "<<endl<<"-----------------"<<endl;
-}
-
-void failTest()
-{
-	cout << "Test failed"<<endl<<"-----------------"<<endl;
-}
-
-
-bool runTest(bool(test)(void), string name)
-{
-	bool success;
-	startTest(name);
-	success=test();
-	if(success)
-		endTest();
-	else
-		failTest();
-	return success;
-}
 
 
 //-----------------------------------------------
@@ -132,7 +67,7 @@ bool testSerializeCipherbit()
 bool testSerializeCipherstring()
 {
 	Cipherstring cs(getRandomCipherstring());
-	log("Using cipherstring of length " + boost::lexical_cast<string>(cs.size()));
+	logmsg("Using cipherstring of length " + boost::lexical_cast<string>(cs.size()));
 	
 	string s = serialize(cs);
 	TESTASSERTV("Data was serialized", !s.empty(), boost::lexical_cast<string>(s.size())+" bytes.");
@@ -187,14 +122,9 @@ bool testSerializePrivateKey()
 
 
 
-
-//----------------------------------------------
-//    Implementation-specific helper functions
-//----------------------------------------------
-//
-//        When a class changes, come here
-//
-//----------------------------------------------
+///////////////////////////////////////////////////////////
+/////////////helpers///////////////////////////////////////
+///////////////////////////////////////////////////////////
 
 Cipherbit getRandomCipherbit()
 {
@@ -261,67 +191,3 @@ PrivateKey getRandomPrivateKey()
 	return PrivateKey(bits);
 }
 
-
-//bool equalCipherbit(Cipherbit c1, Cipherbit c2)
-bool operator == (const Cipherbit& c1, const Cipherbit& c2)
-{	
-   for(unsigned int i=0;i<1000;i++)
-	  if(c1.getZ(i) != c2.getZ(i)) 
-	    return false;
-	if(c1.getValue()!=c2.getValue())
-		return false;
-	
-	return true;
-}
-
-
-//bool equalCipherstring(Cipherstring c1, Cipherstring c2)
-bool operator == (const Cipherstring & c1, const Cipherstring & c2)
-{	
-	if(c1.size()!=c2.size())
-		return false;
-	
-	for(unsigned int i=0; i < c1.size(); i++)
-		if(!(c1.at(i)==c2.at(i)))
-			return false;
-	
-	return true;	
-}
-
-//bool equalPublicKey(PublicKey p1, PublicKey p2)
-bool operator == (const PublicKey & p1, const PublicKey & p2)
-{
-	if(p1.xsize()!=p2.xsize())
-		return false;
-	if(p1.ysize()!=p2.ysize())
-		return false;
-	if(p1.encryptedKeySize()!=p2.encryptedKeySize())
-		return false;
-	
-	for(unsigned int i=0; i < p1.xsize(); i++)
-	  if(p1.getX(i)!=p2.getX(i))
-		  return false;
-
-	for(unsigned int i=0; i < p1.ysize(); i++)
-		if(p1.getY(i)!=p2.getY(i))
-		  return false;
-
-	for(unsigned int i=0; i < p1.encryptedKeySize(); i++)
-		if(!(p1.getEncryptedSkBit(i)==p2.getEncryptedSkBit(i)))
-			return false;
-	
-	return true;
-}
-
-//bool equalPrivateKey(PrivateKey p1, PrivateKey p2)
-bool operator == (const PrivateKey & p1, const  PrivateKey & p2)
-{
-	if(p1.size()!=p2.size())
-		return false;
-	
-	for(unsigned int i=0; i < p1.size(); i++)
-	  if(p1.getBit(i)!=p2.getBit(i))
-		  return false;
-	
-	  return true;
-}
