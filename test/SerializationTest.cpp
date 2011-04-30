@@ -36,6 +36,11 @@ int main()
 	success&= runTest(testSerializePublicKey,"Test PublicKey Serialization");
 	success&= runTest(testSerializePrivateKey,"Test PrivateKey Serialization");
 	
+	if(!success)
+		cout << "Some tests have failed." <<endl<<endl;
+	else
+		cout << "All tests succeeded." <<endl<<endl;
+	
 	return (success) ? 0 : -1;
 }
 
