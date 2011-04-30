@@ -27,11 +27,12 @@ namespace Encryption
 				PublicKey(std::vector<mpz_class> x,
 						  std::vector<mpq_class> Y,
 						  std::vector<Cipherbit> sk);
-				mpz_class getX(unsigned int index);
-				mpq_class getY(unsigned int index);
-				Cipherbit getEncryptedSkBit(unsigned int index);
-				unsigned int xsize();
-				unsigned int ysize();
+				mpz_class getX(unsigned int index) const;
+				mpq_class getY(unsigned int index) const;
+				Cipherbit getEncryptedSkBit(unsigned int index) const;
+				unsigned int xsize() const;
+				unsigned int ysize() const;
+				unsigned int encryptedKeySize() const;
 
 			private:
 				std::vector<mpz_class> x;

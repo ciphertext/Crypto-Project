@@ -21,8 +21,8 @@ namespace Encryption
 		public:
 			
 			Cipherbit(mpz_class c, std::vector<mpq_class> z);
-			mpz_class getValue();
-			mpq_class getZ(unsigned int index);
+			mpz_class getValue() const;
+			mpq_class getZ(unsigned int index) const;
 
 			Cipherbit operator & ( const Cipherbit & cb) const;
 			Cipherbit operator ^ ( const Cipherbit & cb) const;

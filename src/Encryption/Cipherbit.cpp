@@ -13,12 +13,12 @@ Cipherbit::Cipherbit(mpz_class c, vector<mpq_class> z)
 	this->Z = z;
 	//this->pubkey=pubkey;
 }
-mpz_class Cipherbit::getValue()
+mpz_class Cipherbit::getValue() const
 {
 	return this->value;
 }
 
-mpq_class Cipherbit::getZ(unsigned int index)
+mpq_class Cipherbit::getZ(unsigned int index) const
 {
 	return this->Z.at(index);
 }
