@@ -49,10 +49,10 @@ TCOBJS = $(foreach SRC, $(TESTCASES),$(TESTDIR)/$(SRC).o)
 
 %.o : %.cpp
 	$(CC) $(CFLAGS) -MMD -o $@ $<
-	 @cp $*.d $*.P; \
-	   sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
-	     -e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $*.P; \
-	   rm -f $*.d
+#	 @cp $*.d $*.P; \
+#	   sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+#	     -e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $*.P; \
+#	   rm -f $*.d
 
 
 

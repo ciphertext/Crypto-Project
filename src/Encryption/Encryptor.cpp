@@ -15,7 +15,7 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	// generate a random number r in the range (-2^{\rho'},2^{\rho'})
 	boost::random_device rd;
 	gmp_randclass rand_gen(gmp_randinit_mt);
-	rand_gen.seed(rd());
+	rand_gen.seed(rd()); 
 
 	mpz_class r_lbound = -(mpz_class(2) << (secondary_noise - 1)) + 1;
 	mpz_class r_ubound = (mpz_class(2) << (secondary_noise - 1));
