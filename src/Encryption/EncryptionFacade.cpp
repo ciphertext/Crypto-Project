@@ -13,7 +13,6 @@ string EncryptionFacade::executeOperation(std::string command, std::string arg1,
 	CipherStringBinaryOperation & op= mCmdMap.at(command);
 	
 	return serialize( op.operate(unserialize<Cipherstring>(arg1), unserialize<Cipherstring>(arg2)) );
-		
 }
 
 string EncryptionFacade::decrypt(std::string aCiphertext, std::string aPrivateKey) 

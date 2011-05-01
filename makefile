@@ -15,7 +15,8 @@ CLASSES = Encryption/Encryptor \
 
 #list of testcases
 TESTCASES = Phase1Test \
-            SerializationTest
+            SerializationTest \
+            EncryptionFacadeTest
 
 #directory of source
 SRCDIR = ./src

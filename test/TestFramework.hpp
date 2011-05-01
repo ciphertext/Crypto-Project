@@ -25,9 +25,9 @@ void logmsg(std::string msg)
 void testAssert(std::string exprname, bool expr, std::string extra="")
 {
 	if(!expr)
-		std::cout<<"Testing ("<<exprname<<") : Failed. "<<extra<< std::endl;
+		std::cout<<"ERROR: Testing ("<<exprname<<") : Failed. "<<extra<< std::endl;
 	else if(verbose)
-		std::cout<<"Testing ("<<exprname<<") : Passed. "<<extra<< std::endl;
+		std::cout<<"INFO: Testing ("<<exprname<<") : Passed. "<<extra<< std::endl;
 }
 
 void startTest(std::string testname)

@@ -45,10 +45,6 @@ int main()
 }
 
 
-
-
-
-
 //-----------------------------------------------
 //                  TESTS
 //-----------------------------------------------
@@ -62,12 +58,11 @@ bool testSerializeCipherbit()
 	
 	Cipherbit b2 (unserialize<Cipherbit>(s));
 	
-   //bool equal = equalCipherbit(b,b2);
-	
 	TESTASSERT("Values preserved", (b==b2));
 	
 	return true;
 }
+
 
 bool testSerializeCipherstring()
 {
@@ -88,6 +83,7 @@ bool testSerializeCipherstring()
 	return true;
 }
 
+
 bool testSerializePublicKey()
 {
 	PublicKey pk(getRandomPublicKey());
@@ -96,8 +92,6 @@ bool testSerializePublicKey()
 	TESTASSERTV("Data was serialized", !s.empty(), boost::lexical_cast<string>(s.size())+" bytes.");
 	
 	PublicKey pk2( unserialize<PublicKey>(s) );
-	
-	//bool equal = equalPublicKey(pk,pk2);
 	
 	TESTASSERT("Data unserialized correctly", (pk==pk2));
 	
@@ -114,8 +108,6 @@ bool testSerializePrivateKey()
 	TESTASSERTV("Data was serialized", !s.empty(), boost::lexical_cast<string>(s.size())+" bytes.");
 	
 	PrivateKey sk2( unserialize<PrivateKey>(s) );
-	
-	//bool equal = equalSecretKey(sk,sk2);
 	
 	TESTASSERT("Data unserialized correctly", (sk==sk2));
 	
@@ -159,6 +151,7 @@ Cipherstring getRandomCipherstring()
 	return s;	
 }
 
+
 PublicKey getRandomPublicKey()
 {
 	gmp_randclass rnd(gmp_randinit_mt);
@@ -180,6 +173,7 @@ PublicKey getRandomPublicKey()
 	
 	return PublicKey(x,y,sk);	
 }
+
 
 PrivateKey getRandomPrivateKey()
 {
