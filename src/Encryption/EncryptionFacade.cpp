@@ -57,6 +57,7 @@ EncryptionFacade::bitstring_t EncryptionFacade::decryptString(const Cipherstring
 EncryptionFacade::bitstring_t EncryptionFacade::toBits(std::string text) const
 {
 	bitstring_t bits;
+	reverse(text.begin(),text.end());
 	BOOST_FOREACH(char c, text)
 	{
 		bits.append(c);
@@ -67,7 +68,18 @@ EncryptionFacade::bitstring_t EncryptionFacade::toBits(std::string text) const
 std::string EncryptionFacade::toString(bitstring_t bits) const
 {
 	ostringstream oss;
-	oss << bits;
+	for(unsigned int i=0; i < bits.size(); i+=8)
+	{
+		unsigned char c=0;
+		for(unsigned int j=0; j < 8 ; j++)
+		{
+			c *=2;
+			if(bits.test(bits.size()-(i+j)-1))
+				c++;
+		}
+		oss << c;
+	}
+	
 	return oss.str();
 }
 

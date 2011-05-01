@@ -18,7 +18,6 @@ namespace boost {
 		{
          std::string num =t.get_str(10);
 			ar << num;
-			
 		}
 
 		template<class Archive>
@@ -27,7 +26,6 @@ namespace boost {
 			std::string num;
 			ar >> num;
 			t.set_str(num,10);
-			
 		}
 			
 			
