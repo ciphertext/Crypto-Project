@@ -19,7 +19,7 @@ int main()
 {
    bool success=true;
 	
-	success&= runTest(testEncryption,"Test Encryption Facilities");
+	success&= runTest(testEncryption,"Encryption");
 	
 	if(!success)
 		cout << "Some tests have failed." <<endl<<endl;
