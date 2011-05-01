@@ -11,7 +11,9 @@ CLASSES = Encryption/Encryptor \
           Encryption/Operations/AndOperation \
           Encryption/Operations/XorOperation \
           Encryption/Cipherstring \
-          Encryption/EncryptionFacade
+          Encryption/EncryptionFacade \
+          UI/UserInterface \
+          main
 
 #list of testcases
 TESTCASES = Phase1Test \
