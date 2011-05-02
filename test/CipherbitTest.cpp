@@ -14,7 +14,6 @@ bool testCipherbitXorNorecrypt();
 bool testCipherbitAnd();
 bool testCipherbitXor();
 
-KeyPair kp;
 PublicKey pk;
 PrivateKey sk;
 
@@ -24,7 +23,7 @@ int main()
 	
 	for(unsigned int i = 0; i < 15; i++) {
 		logmsg("Generating keypair.");
-		kp = KeyPair();
+		KeyPair kp;
 		pk = kp.getPublicKey();
 		sk = kp.getPrivateKey();
 
