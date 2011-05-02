@@ -14,7 +14,7 @@ bool testCipherbitXorNorecrypt();
 bool testCipherbitAnd();
 bool testCipherbitXor();
 
-Keypair kp;
+KeyPair kp;
 PublicKey pk;
 PrivateKey sk;
 
