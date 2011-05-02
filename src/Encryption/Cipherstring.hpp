@@ -21,11 +21,18 @@ namespace Encryption
 		public:
 			Cipherstring();
 			Cipherstring(int count, const Cipherbit & value);
+
 			Cipherbit & operator [] (unsigned int index);
 			Cipherbit at(unsigned int index) const;
 			Cipherbit back() const;
 			void push_back(const Cipherbit & b);
+			void pop_back();
 			unsigned int size() const;
+			void insert(std::vector<Cipherbit>::iterator it, Cipherbit a);
+			std::vector<Cipherbit>::iterator begin();
+			std::vector<Cipherbit>::iterator end();
+			bool empty();
+
 
 			void unsaturate();
 			

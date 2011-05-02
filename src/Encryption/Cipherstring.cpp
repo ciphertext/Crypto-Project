@@ -32,10 +32,36 @@ void Cipherstring::push_back(const Cipherbit & b)
 	mBits.push_back(b);
 }
 
+void pop_back()
+{
+	mBits.pop_back();
+}
+
 unsigned int Cipherstring::size() const
 {
 	return mBits.size();
 }
+
+void insert(std::vector<Cipherbit>::iterator it, Cipherbit a)
+{
+	mBits.insert(it,a);
+}
+
+std::vector<Cipherbit>::iterator begin()
+{
+	return mBits.begin();
+}
+
+std::vector<Cipherbit>::iterator end()
+{
+	return mBits.end();
+}
+
+bool empty()
+{
+	return mBits.empty();
+}
+
 
 void unsaturate()
 {

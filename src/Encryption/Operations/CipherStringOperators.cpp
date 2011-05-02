@@ -90,6 +90,3 @@ Cipherstring operator ^( Cipherstring  aA,  Cipherstring  aB)
 	
 	return s;
 }
-
-		
-		
