@@ -11,20 +11,21 @@
 using namespace std;
 using namespace UI;
 using namespace Encryption;
-
+using namespace boost;
 
 void UserInterface::start() {
 	string input;
 	bool repeat = true;
-	cout << "Available Commands";	
-	cout << "==================";
+	cout << "Available Commands\n";	
+	cout << "==================\n";
 
-	cout << "encrypt <message> <public key file> <output file>";
-	cout << "decrypt <ciphertext file> <secret key file>";
-	cout << "keygen <public key file> <private key file>";
-	cout << "operation <operation name> <ciphertext file 1> <ciphertext file 2>  <public key file> <output file>";
+	cout << "encrypt <message> <public key file> <output file>\n";
+	cout << "decrypt <ciphertext file> <secret key file>\n";
+	cout << "keygen <public key file> <private key file>\n";
+	cout << "operation <operation name> <ciphertext file 1> <ciphertext file 2>  <public key file> <output file>\n";
 	cout << "==================\n";
 		
+	EncryptionFacade ef;
 	while(repeat)
 	{
 		// Get input from user
@@ -59,18 +60,11 @@ void UserInterface::start() {
 				string outputFileName(split_input[3]);
 				
 				// read in public key
-				string pk;
-				ifstream pkFile(pkFileName);
-				pkFile >> pk;
-				pkFile.close();
+				string pk = readFile(pkFileName);
 				
-				EncryptionFacade ef;
 				string ciphertext = ef.encrypt(message, pk);
 				
-				// save cipherstring to archive
-				ofstream csFile(outputFileName);
-				csFile << ciphertext;
-				csFile.close();
+				writeFile(outputFileName,ciphertext);
 			}
 		}
 		else if(command.compare("decrypt") == 0)
@@ -86,17 +80,10 @@ void UserInterface::start() {
 				string csFileName(split_input[1]);
 				string skFileName(split_input[2]);
 				
-				string ciphertext;
-				ifstream csFile(csFileName);
-				csFile >> ciphertext;
-				csFile.close();
+				string ciphertext = readFile(csFileName);
 				
-				string sk;
-				ifstream skFile(skFileName);
-				skFile >> sk;
-				skFile.close();
+				string sk = readFile(skFileName);
 				
-				EncryptionFacade ef;
 				string message = ef.decrypt(ciphertext, sk);
 				
 				cout << message;
@@ -112,7 +99,6 @@ void UserInterface::start() {
 			}
 			else
 			{
-				EncryptionFacade ef;
 				pair<string, string> kp = ef.genKeyPair();					
 				
 				// get file names
@@ -120,15 +106,8 @@ void UserInterface::start() {
 				string skFileName(split_input[2]);
 				
 				// create files
-				ofstream pkFile(pkFileName);
-				ofstream skFile(skFileName);	
-				
-				// save data
-				pkFile << kp.first;
-				skFile << kp.second;
-				
-				pkFile.close();
-				skFile.close();
+				writeFile(pkFileName,kp.first);
+				writeFile(skFileName,kp.second);
 			}
 		}
 		else if(command.compare("operation") == 0)
@@ -148,26 +127,15 @@ void UserInterface::start() {
 				string pkName(split_input[4]);
 				string outName(split_input[5]);
 				
-				string cs1;
-				string cs2;
-				string pk;
-				ifstream cs1File(cs1Name);
-				cs1File >> cs1;
-				ifstream cs2File(cs2Name);
-				cs2File >> cs2;
-				ifstream pkFile(pkName);
-				pkFile >> pk;
+				string cs1 = readFile(cs1Name);
+				string cs2 = readFile(cs2Name);
+				string pk  = readFile(pkName);
 				
-				cs1File.close();
-				cs2File.close();
-				pkFile.close();
 				
-				EncryptionFacade ef;
+				
 				string result = ef.executeOperation(op, cs1, cs2, pk);
 				
-				ofstream outFile(outName);
-				outFile << result;
-				outFile.close();
+				writeFile(outName, result);
 			}
 		}
 		else if(command.compare("exit") == 0)
@@ -180,6 +148,15 @@ void UserInterface::start() {
 		}
 	}
 }
+std::string UserInterface::readFile(std::string file)
+{
+	ifstream input(file.c_str());
+   return string((istreambuf_iterator<char>(input)), istreambuf_iterator<char>());
+}
 
-
-
+void UserInterface::writeFile(std::string file, std::string data)
+{
+	ofstream output(file.c_str());
+	copy(data.begin(), data.end(), ostreambuf_iterator<char>(output));
+}
+ 
