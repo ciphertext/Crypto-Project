@@ -118,9 +118,15 @@ void UserInterface::handleEncrypt(std::string message, std::string pkfile, std::
 	// read in public key
 	string pk = readFile(pkfile);
 	
-	string ciphertext = encryption.encrypt(message, pk);
+	try{
+		string ciphertext = encryption.encrypt(message, pk);
+		writeFile(outfile,ciphertext);
+	}
+	catch (boost::archive::archive_exception ex)
+	{
+		cout << "Invalid public key file!"<<endl;
+	}
 	
-	writeFile(outfile,ciphertext);
 }
 
 
@@ -132,9 +138,15 @@ void UserInterface::handleDecrypt(std::string csfile, std::string skfile)
 	string sk = readFile(skfile);
 	
 	
-	string message = encryption.decrypt(ciphertext, sk);
-	
-	cout <<endl<< message << endl;
+	try{
+		string message = encryption.decrypt(ciphertext, sk);
+		
+		cout <<endl<< message << endl;
+	}
+	catch (boost::archive::archive_exception ex)
+	{
+		cout << "Invalid input files!"<<endl;
+	}
 }
 
 
@@ -156,10 +168,15 @@ void UserInterface::handleOperation(std::string operation, std::string csfile1,
 	string cs2 = readFile(csfile2);
 	string pk  = readFile(pkfile);
 	
-	
-	string result = encryption.executeOperation(operation, cs1, cs2, pk);
-	
-	writeFile(outfile, result);
+
+	try{
+		string result = encryption.executeOperation(operation, cs1, cs2, pk);
+		writeFile(outfile, result);
+	}
+	catch (boost::archive::archive_exception ex)
+	{
+		cout << "Invalid input files!"<<endl;
+	}
 }
 
 void UserInterface::handleExit()
