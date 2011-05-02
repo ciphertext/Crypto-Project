@@ -30,18 +30,19 @@ namespace Encryption
 				PublicKey();
 				PublicKey(std::vector<mpz_class> x,
 						  std::vector<mpq_class> Y,
-						  Cipherstring sk);
+						  const Cipherstring & sk);
 				mpz_class getX(unsigned int index) const;
 				mpq_class getY(unsigned int index) const;
 				Cipherbit getEncryptedSkBit(unsigned int index) const;
 				unsigned int xsize() const;
 				unsigned int ysize() const;
 				unsigned int encryptedKeySize() const;
+				~PublicKey();
 
 			private:
 				std::vector<mpz_class> x;
 				std::vector<mpq_class> y;
-				Cipherstring encryptedPrivateKey;  
+				Cipherstring * encryptedPrivateKey;  
 
 				template<class Archive>
 				void serialize( Archive & ar, const unsigned int version)
