@@ -1,6 +1,9 @@
 #name of the default executable to compile to for build target 'all'
 EXECUTABLE = encrypt
 
+#name of main file
+MAIN = main
+
 #classes (effectively all .cpp files that need compiled)
 CLASSES = Encryption/Encryptor \
           Encryption/Cipherbit \
@@ -15,8 +18,7 @@ CLASSES = Encryption/Encryptor \
           Encryption/Operations/XorOperation \
           Encryption/Cipherstring \
           Encryption/EncryptionFacade \
-          UI/UserInterface \
-          main
+          UI/UserInterface
 
 #list of testcases
 TESTCASES = Phase1Test \
@@ -53,6 +55,9 @@ OBJS = $(foreach SRC, $(CLASSES),$(SRCDIR)/$(SRC).o)
 TCSRCS = $(foreach SRC, $(TESTCASES),$(TESTDIR)/$(SRC).cpp)
 TCOBJS = $(foreach SRC, $(TESTCASES),$(TESTDIR)/$(SRC).o)
 
+MAINSRC = $(SRCDIR)/$(MAIN).cpp
+MAINOBJ = $(SRCDIR)/$(MAIN).o
+
 %.o : %.cpp
 	$(CC) $(CFLAGS) -MMD -o $@ $<
 #	 @cp $*.d $*.P; \
@@ -68,10 +73,16 @@ TCOBJS = $(foreach SRC, $(TESTCASES),$(TESTDIR)/$(SRC).o)
 #  test cases
 -include $(TCSRCS:.cpp=.d)
 
+#  main
+-include $(MAINSRC:.cpp=.d)
+
 
 #link
-all: $(OBJS)
-	$(CC) $(LFLAGS) $(OBJS) -o $(EXECUTABLE)
+all: $(OBJS) $(MAINOBJ)
+	$(CC) $(LFLAGS) $(OBJS) $(MAINOBJ)  -o $(EXECUTABLE)
+
+
+	
 
 tests: $(OBJS) $(TCOBJS)
 	@for tc in $(TESTCASES); do $(CC) $(LFLAGS) $(OBJS) $(TESTDIR)/$$tc.o -o $$tc ; done
