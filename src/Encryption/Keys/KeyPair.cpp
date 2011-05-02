@@ -204,9 +204,9 @@ KeyPair::y_rational_array_t KeyPair::getY(u_array_t u)
 	return y;
 }	
 
-KeyPair::encryptedSecretKey_array_t  KeyPair::getSk(bitmap_t sArrow, publicKey_array_t pk, y_rational_array_t y)
+Cipherstring  KeyPair::getSk(bitmap_t sArrow, publicKey_array_t pk, y_rational_array_t y)
 {
-	encryptedSecretKey_array_t sk;
+	Cipherstring sk;
 	
 	for(unsigned int z = 0; z < sArrow.size(); z++)
 		sk.push_back(Encryptor::encrypt(sArrow[z], PublicKey(pk, y, sk)));
