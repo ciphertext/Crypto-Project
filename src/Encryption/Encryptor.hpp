@@ -18,6 +18,7 @@
 namespace Encryption
 {
 	class Cipherbit;
+	class Keys::PublicKey;
 
 	class Encryptor
 	{
