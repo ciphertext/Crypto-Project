@@ -10,6 +10,15 @@
 namespace Encryption
 {
 	class Cipherbit;
+	class Cipherstring;
+}
+
+#include "Encryption/Cipherbit.hpp"
+#include "Encryption/Cipherstring.hpp"
+
+
+namespace Encryption
+{
 
 	namespace Keys
 	{
@@ -21,7 +30,7 @@ namespace Encryption
 				PublicKey();
 				PublicKey(std::vector<mpz_class> x,
 						  std::vector<mpq_class> Y,
-						  std::vector<Cipherbit> sk);
+						  Cipherstring sk);
 				mpz_class getX(unsigned int index) const;
 				mpq_class getY(unsigned int index) const;
 				Cipherbit getEncryptedSkBit(unsigned int index) const;
@@ -32,7 +41,7 @@ namespace Encryption
 			private:
 				std::vector<mpz_class> x;
 				std::vector<mpq_class> y;
-				std::vector<Cipherbit> encryptedPrivateKey;  
+				Cipherstring encryptedPrivateKey;  
 
 				template<class Archive>
 				void serialize( Archive & ar, const unsigned int version)
@@ -45,7 +54,5 @@ namespace Encryption
 		};
 	}
 }
-
-#include "Encryption/Cipherbit.hpp"
 
 #endif

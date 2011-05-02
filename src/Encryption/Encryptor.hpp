@@ -8,9 +8,6 @@
 #include <cmath>
 #include <gmpxx.h>
 #include <boost/nondet_random.hpp>
-#include "Encryption/Cipherbit.hpp"
-#include "Encryption/Keys/PublicKey.hpp"
-#include "Encryption/Keys/PrivateKey.hpp"
 #include "Encryption/RationalUtilities.hpp"
 
 
@@ -22,7 +19,15 @@ namespace Encryption
 	{
 		class PublicKey;
 	}
+}
 
+#include "Encryption/Cipherbit.hpp"
+#include "Encryption/Keys/PublicKey.hpp"
+#include "Encryption/Keys/PrivateKey.hpp"
+
+
+namespace Encryption
+{
 	class Encryptor
 	{
 		public:

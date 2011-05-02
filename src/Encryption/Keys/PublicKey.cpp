@@ -10,7 +10,7 @@ PublicKey::PublicKey()
 {
 }
 
-PublicKey::PublicKey(vector<mpz_class> x, vector<mpq_class> Y, vector<Cipherbit> sk)
+PublicKey::PublicKey(vector<mpz_class> x, vector<mpq_class> Y, Cipherstring sk)
 {
 	this->x = x;
 	this->y = Y;
@@ -29,7 +29,7 @@ mpq_class PublicKey::getY(unsigned int index) const
 
 Cipherbit PublicKey::getEncryptedSkBit(unsigned int index) const
 {
-	return encryptedPrivateKey[index];
+	return encryptedPrivateKey.at(index);
 }
 
 unsigned int PublicKey::ysize() const

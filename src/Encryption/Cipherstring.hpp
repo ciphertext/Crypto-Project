@@ -2,14 +2,20 @@
 #define ENCRYPTOR_CIPHERSTRING
 
 
-#include "Encryption/Cipherbit.hpp"
+
 #include <vector>
 #include <boost/serialization/serialization.hpp>
 
 namespace Encryption
 {
 	class Cipherbit;
-
+}
+#include "Encryption/Cipherbit.hpp"
+	
+	
+namespace Encryption
+{
+	
 	class Cipherstring
 	{
 		public:

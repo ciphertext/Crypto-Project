@@ -9,11 +9,12 @@ using namespace Encryption::Operations;
 const unsigned int _theta = 7;
 const int precision_bits = 6;
 
-Cipherbit::Cipherbit(mpz_class c, vector<mpq_class> z, PublicKey pubkey)
+Cipherbit::Cipherbit(mpz_class c, vector<mpq_class> z, const PublicKey & pubkey)
+:pubkey(new PublicKey(pubkey))
 {
 	this->value = c;
 	this->Z = z;
-	this->pubkey=pubkey;
+	
 	this->saturated = true;
 }
 
@@ -40,10 +41,10 @@ Cipherbit Cipherbit::operator & ( const Cipherbit & cb) const
 
 	/* calculate z_i = (c* . y_i) mod 2, i \in {0,...,\Theta} */
 	vector<mpq_class> Z;
-	for(unsigned int i = 0; i < pubkey.ysize(); i++)
-		Z.push_back(fix_precision_bits(r_modulo((val * pubkey.getY(i)), 2),precision_bits));
+	for(unsigned int i = 0; i < pubkey->ysize(); i++)
+		Z.push_back(fix_precision_bits(r_modulo((val * pubkey->getY(i)), 2),precision_bits));
 	
-	Cipherbit ret(val, Z, pubkey);
+	Cipherbit ret(val, Z, *pubkey);
 	if(saturated)
 		ret.recrypt();
 	else
@@ -61,10 +62,10 @@ Cipherbit Cipherbit::operator ^ ( const Cipherbit & cb) const
 
 	/* calculate z_i = (c* . y_i) mod 2, i \in {0,...,\Theta} */
 	vector<mpq_class> Z;
-	for(unsigned int i = 0; i < pubkey.ysize(); i++)
-		Z.push_back(fix_precision_bits(r_modulo((val * pubkey.getY(i)), 2),precision_bits));
+	for(unsigned int i = 0; i < pubkey->ysize(); i++)
+		Z.push_back(fix_precision_bits(r_modulo((val * pubkey->getY(i)), 2),precision_bits));
 	
-	Cipherbit ret(val, Z, pubkey);
+	Cipherbit ret(val, Z, *pubkey);
 	if(saturated)
 		ret.recrypt();
 	else
@@ -85,7 +86,7 @@ void Cipherbit::recrypt()
 	bitstring_t cbits = mpzToBitstring(value);
 	Cipherstring c_bar;
 	for(unsigned int i = 0; i < cbits.size(); i++)
-		c_bar.push_back(Encryptor::encrypt(cbits[i],pubkey));
+		c_bar.push_back(Encryptor::encrypt(cbits[i],*pubkey));
 	c_bar.unsaturate();
 
 	//compute A = {a_i}, i in {0,...,_bigtheta = Z.size()}
@@ -94,7 +95,7 @@ void Cipherbit::recrypt()
 		bitstring_t z_bits = mpqToBitstring(Z[i]);
 		Cipherstring z_bar;
 		for(unsigned int j = 0; j < z_bits.size(); j++)
-			z_bar.push_back(Encryptor::encrypt(z_bits[j],pubkey));
+			z_bar.push_back(Encryptor::encrypt(z_bits[j],*pubkey));
 		z_bar.unsaturate();
 
 		//compute a_i = s_i * z_i
@@ -102,7 +103,7 @@ void Cipherbit::recrypt()
 		for(unsigned int j = 0; j < z_bar.size(); j++) {
 			// because s_i is one bit,
 			// s_i * z_i = s_i & z_i[j] for each bit of z_i
-			a.push_back(pubkey.getEncryptedSkBit(i) & z_bar[j]);
+			a.push_back(pubkey->getEncryptedSkBit(i) & z_bar[j]);
 		}
 		a.unsaturate();
 		A.push_back(a);
@@ -121,11 +122,11 @@ void Cipherbit::recrypt()
 	{
 		Cipherstring scale;
 		for(unsigned int i = 0; i < W.size(); i++) {
-			W[j].push_back(Encryptor::encrypt(false,pubkey));
+			W[j].push_back(Encryptor::encrypt(false,*pubkey));
 			if(i == j)
-				scale.push_back(Encryptor::encrypt(true,pubkey));
+				scale.push_back(Encryptor::encrypt(true,*pubkey));
 			else
-				scale.push_back(Encryptor::encrypt(false,pubkey));
+				scale.push_back(Encryptor::encrypt(false,*pubkey));
 		}
 
 		W[j].unsaturate();
@@ -155,7 +156,7 @@ void Cipherbit::recrypt()
 
 			// u is a collection of carry-bits, and there can
 			// be no carry-in bit, so append 0
-			u.push_back(Encryptor::encrypt(false,pubkey));
+			u.push_back(Encryptor::encrypt(false,*pubkey));
 
 			u.unsaturate();
 
@@ -179,11 +180,11 @@ void Cipherbit::recrypt()
 	// of sum, then adding
 	Cipherstring inv;
 	for(unsigned int i = 0; i < sum.size(); i++)
-		inv.push_back(Encryptor::encrypt(true,pubkey));
+		inv.push_back(Encryptor::encrypt(true,*pubkey));
 	inv.unsaturate();
 	
 	Cipherstring one;
-	one.push_back(Encryptor::encrypt(true,pubkey));
+	one.push_back(Encryptor::encrypt(true,*pubkey));
 	one.unsaturate();
 
 	Cipherstring diff = adder.operate(c_bar,adder.operate(xorer.operate(sum,inv),one));
@@ -198,12 +199,12 @@ Cipherstring Cipherbit::getHammingColumn(vector<Cipherstring> M, unsigned int co
 	//TODO: check that the upper bound on j, 2^i == _theta
 	vector<Cipherstring> P;
 	//P[0][0] = 1
-	P.push_back(Cipherstring(1, Encryptor::encrypt(true, pubkey)));
+	P.push_back(Cipherstring(1, Encryptor::encrypt(true, *pubkey)));
 	P.back().unsaturate();
 
 	//P[j][0] = 0 for j = 1,...,_theta
 	for(unsigned int j = 0; j < _theta; j++) {
-		P.push_back(Cipherstring(1, Encryptor::encrypt(false, pubkey)));
+		P.push_back(Cipherstring(1, Encryptor::encrypt(false, *pubkey)));
 		P.back().unsaturate();
 	}
 	
@@ -262,4 +263,10 @@ Cipherbit::bitstring_t Cipherbit::mpqToBitstring(mpq_class a)
 	}
 
 	return bits;
+}
+
+
+Cipherbit::~Cipherbit()
+{
+	delete pubkey;
 }
