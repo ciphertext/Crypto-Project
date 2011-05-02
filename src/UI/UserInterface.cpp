@@ -134,7 +134,7 @@ void UserInterface::start() {
 		else if(command.compare("operation") == 0)
 		{
 			// check command before continuing
-			if(split_input.size() != 5)
+			if(split_input.size() != 6)
 			{
 				cout << "Check command parameters.";
 				break;
