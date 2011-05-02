@@ -29,7 +29,7 @@ Cipherstring getRandomCipherstring();
 
 int main()
 {
-   bool success=true;
+	bool success=true;
 	
 	success&= runTest(testSerializeCipherbit,"Test Cipherbit Serialization");
 	success&= runTest(testSerializeCipherstring,"Test Cipherstring Serialization");
@@ -76,7 +76,7 @@ bool testSerializeCipherstring()
 	
 	TESTASSERT("Cipherstrings of same length", (cs.size()==cs2.size()));
 	
-   bool equal = (cs==cs2);
+	bool equal = (cs==cs2);
 	
 	TESTASSERT("Cipherstring unserialized correctly", equal);
 	
@@ -125,16 +125,16 @@ bool testSerializePrivateKey()
 
 Cipherbit getRandomCipherbit()
 {
-   vector<mpq_class> z;
+	vector<mpq_class> z;
 	gmp_randclass rnd(gmp_randinit_mt);
 	rnd.seed(time(NULL));
 	
 	for(unsigned int i=0;i<1000;i++)
-	  z.push_back( mpq_class(rnd.get_z_range(50000),rnd.get_z_range(50000)+1));
+		z.push_back( mpq_class(rnd.get_z_range(50000),rnd.get_z_range(50000)+1));
 	
 	mpz_class v =rnd.get_z_range(50000);
 	
-	return Cipherbit(v,z);
+	return Cipherbit(v,z,Cipherstring());
 }
 
 
