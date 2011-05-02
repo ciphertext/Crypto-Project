@@ -220,7 +220,7 @@ Cipherstring Cipherbit::getHammingColumn(vector<Cipherstring> M, unsigned int co
 	return ret;
 }
 
-Cipherbit::bitstring_t Cipherbit::mpzToBitstring(mpz_class a);
+Cipherbit::bitstring_t Cipherbit::mpzToBitstring(mpz_class a)
 {
 	string s = a.get_str(2);
 	bitstring_t bits;
