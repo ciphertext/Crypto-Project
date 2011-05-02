@@ -10,7 +10,8 @@
 #include <string>
 #include <vector>
 #include <boost/algorithm/string.hpp>
-
+#include <readline/readline.h>
+#include <readline/history.h>
 namespace UI
 {
 	class UserInterface
@@ -33,9 +34,11 @@ namespace UI
 										std::string csfile2, std::string pkfile, std::string outfile);
 			void handleExit();
 			
-			bool checkParameters(std::vector<std::string> tokens,int count);
+			bool checkParameters(std::vector<std::string> tokens, unsigned int count);
 			
 			void displayHelp();
+			
+			std::string getInput();
 			
 			
 	};

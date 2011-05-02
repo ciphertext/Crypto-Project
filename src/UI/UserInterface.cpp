@@ -22,10 +22,8 @@ void UserInterface::start() {
 		// keygen <public key file> <private key file>
 		// operation <op name> <ciphertext file 1> <ciphertext file 2> <public key file> <output file>
 				
-		cout << "Enter command: ";
-		getline(cin, input);
+		input = getInput();
 		
-
 		vector<string> split_input = tokenize(input);
 		// split input on space
 		// token compress to discount extra spacing
@@ -133,6 +131,7 @@ void UserInterface::handleDecrypt(std::string csfile, std::string skfile)
 	
 	string sk = readFile(skfile);
 	
+	
 	string message = encryption.decrypt(ciphertext, sk);
 	
 	cout <<endl<< message << endl;
@@ -169,7 +168,7 @@ void UserInterface::handleExit()
 	running=false;
 }
 
-bool UserInterface::checkParameters(vector<string> tokens,int count)
+bool UserInterface::checkParameters(vector<string> tokens,unsigned int count)
 {
   if ( tokens.size()!= count+1)
   {
@@ -194,3 +193,25 @@ void UserInterface::displayHelp()
 	cout << "==================\n"; 
 }
 
+
+//use GNU Readline to get a line of input.
+string UserInterface::getInput()
+{
+	string prompt = "Enter Command: ";
+	char * line=NULL;
+	while(line==NULL)
+	{
+	  line=readline(prompt.c_str());
+	
+	  add_history(line);
+	  string sline(line);
+  	  free(line);
+	  line=NULL;
+	  if(sline!="")
+	    return sline;
+	}
+	
+	//needed to get rid of annoying compiler warning
+	return string();
+}
+    
