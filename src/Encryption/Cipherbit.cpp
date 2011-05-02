@@ -10,12 +10,27 @@ const unsigned int _theta = 7;
 const int precision_bits = 6;
 
 Cipherbit::Cipherbit(mpz_class c, vector<mpq_class> z, const PublicKey & pubkey)
-:pubkey(new PublicKey(pubkey))
+:pubkey(boost::shared_ptr<PublicKey>(new PublicKey(pubkey)))
 {
 	this->value = c;
 	this->Z = z;
 	
 	this->saturated = true;
+}
+
+Cipherbit::Cipherbit(const Cipherbit & c)
+:pubkey(c.pubkey)
+{
+	value=c.value;
+	Z = c.Z;
+}
+
+Cipherbit Cipherbit::operator = (const Cipherbit & c)
+{
+	pubkey=c.pubkey;
+	value=c.value;
+	Z = c.Z;
+	return *this;
 }
 
 mpz_class Cipherbit::getValue() const
@@ -268,7 +283,4 @@ Cipherbit::bitstring_t Cipherbit::mpqToBitstring(mpq_class a)
 }
 
 
-Cipherbit::~Cipherbit()
-{
-	delete pubkey;
-}
+

@@ -11,21 +11,21 @@ PublicKey::PublicKey()
 }
 
 PublicKey::PublicKey(vector<mpz_class> x, vector<mpq_class> Y, const Cipherstring & sk)
-:encryptedPrivateKey(new Cipherstring(sk))
+:encryptedPrivateKey(boost::shared_ptr<Cipherstring>(new Cipherstring(sk)))
 {
-	this->x = x;
-	this->y = Y;
+	this->x = boost::shared_ptr<vector<mpz_class> > (new vector<mpz_class> (x));
+	this->y = boost::shared_ptr<vector<mpq_class> > (new vector<mpq_class> (Y));
 	
 }
 
 mpz_class PublicKey::getX(unsigned int index) const
 {
-	return x.at(index);
+	return x->at(index);
 }
 
 mpq_class PublicKey::getY(unsigned int index) const
 {
-	return y.at(index);
+	return y->at(index);
 }
 
 Cipherbit PublicKey::getEncryptedSkBit(unsigned int index) const
@@ -35,21 +35,16 @@ Cipherbit PublicKey::getEncryptedSkBit(unsigned int index) const
 
 unsigned int PublicKey::ysize() const
 {
-	return y.size();
+	return y->size();
 }
 
 unsigned int PublicKey::xsize() const
 {
-	return x.size();
+	return x->size();
 }
 
 
 unsigned int PublicKey::encryptedKeySize() const
 {
 	return encryptedPrivateKey->size();
-}
-
-PublicKey::~PublicKey()
-{
-	delete encryptedPrivateKey;
 }

@@ -6,6 +6,7 @@
 #include <boost/serialization/vector.hpp>
 #include <vector>
 #include <gmpxx.h>
+#include <boost/shared_ptr.hpp>
 
 namespace Encryption
 {
@@ -37,12 +38,12 @@ namespace Encryption
 				unsigned int xsize() const;
 				unsigned int ysize() const;
 				unsigned int encryptedKeySize() const;
-				~PublicKey();
+				
 
 			private:
-				std::vector<mpz_class> x;
-				std::vector<mpq_class> y;
-				Cipherstring * encryptedPrivateKey;  
+				boost::shared_ptr<std::vector<mpz_class> > x;
+				boost::shared_ptr<std::vector<mpq_class> > y;
+				boost::shared_ptr<Cipherstring> encryptedPrivateKey;  
 
 				template<class Archive>
 				void serialize( Archive & ar, const unsigned int version)

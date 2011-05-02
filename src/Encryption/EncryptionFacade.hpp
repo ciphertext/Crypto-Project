@@ -21,6 +21,7 @@
 #include <boost/ptr_container/ptr_map.hpp>
 #include <boost/dynamic_bitset.hpp>
 #include <boost/foreach.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 
 namespace Encryption
 {

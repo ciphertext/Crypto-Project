@@ -13,7 +13,7 @@
 #include <boost/serialization/vector.hpp>
 #include <boost/dynamic_bitset.hpp>
 
-#include <boost/scoped_ptr.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <vector>
 #include <deque>
@@ -41,6 +41,8 @@ namespace Encryption
 			
 			Cipherbit(){};
 			Cipherbit(mpz_class c, std::vector<mpq_class> z, const Keys::PublicKey & pubkey);
+			Cipherbit(const Cipherbit & c);
+			Cipherbit operator = (const Cipherbit & c);
 			mpz_class getValue() const;
 			mpq_class getZ(unsigned int index) const;
 			void setSaturated(bool s);
@@ -48,14 +50,14 @@ namespace Encryption
 			Cipherbit operator & ( const Cipherbit & cb) const;
 			Cipherbit operator ^ ( const Cipherbit & cb) const;
 			Cipherbit operator | ( const Cipherbit & cb) const;
-			~Cipherbit();
+	
 
 		private:
 			typedef boost::dynamic_bitset<unsigned char> bitstring_t;
 
 			mpz_class value;
 			std::vector<mpq_class> Z;
-			Keys::PublicKey * pubkey;
+			boost::shared_ptr<Keys::PublicKey> pubkey;
 			bool saturated;
 			
 			friend class boost::serialization::access;
