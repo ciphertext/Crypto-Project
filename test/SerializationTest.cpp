@@ -17,7 +17,7 @@ bool testSerializePublicKey();
 bool testSerializePrivateKey();
 
 
-Cipherbit getRandomCipherbit();
+Cipherbit getRandomCipherbit(bool nopubkey = false);
 PublicKey getRandomPublicKey();
 PrivateKey getRandomPrivateKey();
 Cipherstring getRandomCipherstring();
@@ -123,7 +123,7 @@ bool testSerializePrivateKey()
 /////////////helpers///////////////////////////////////////
 ///////////////////////////////////////////////////////////
 
-Cipherbit getRandomCipherbit()
+Cipherbit getRandomCipherbit(bool nopubkey)
 {
 	vector<mpq_class> z;
 	gmp_randclass rnd(gmp_randinit_mt);
@@ -134,6 +134,8 @@ Cipherbit getRandomCipherbit()
 	
 	mpz_class v =rnd.get_z_range(50000);
 	
+	if(nopubkey)
+		return Cipherbit(v,z,PublicKey());
 	return Cipherbit(v,z,getRandomPublicKey());
 }
 
@@ -154,7 +156,6 @@ Cipherstring getRandomCipherstring()
 
 PublicKey getRandomPublicKey()
 {
-	logmsg("Generating random public key");
 	gmp_randclass rnd(gmp_randinit_mt);
 	rnd.seed(time(NULL));
 
@@ -170,7 +171,7 @@ PublicKey getRandomPublicKey()
 	
 	mpz_class length =rnd.get_z_range(50) + 10;
 	for(unsigned int i =0; i < length; i++)
-		sk.push_back(getRandomCipherbit());
+		sk.push_back(getRandomCipherbit(true));
 	
 	return PublicKey(x,y,sk);	
 }
