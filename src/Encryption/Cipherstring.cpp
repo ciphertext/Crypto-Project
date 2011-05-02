@@ -7,7 +7,7 @@ Cipherstring::Cipherstring()
 {
 }
 
-Cipherstring(int count, const Cipherbit& value)
+Cipherstring::Cipherstring(int count, const Cipherbit& value)
 : mBits(count, value)
 {
 }
@@ -32,7 +32,7 @@ void Cipherstring::push_back(const Cipherbit & b)
 	mBits.push_back(b);
 }
 
-void pop_back()
+void Cipherstring::pop_back()
 {
 	mBits.pop_back();
 }
@@ -42,28 +42,28 @@ unsigned int Cipherstring::size() const
 	return mBits.size();
 }
 
-void insert(std::vector<Cipherbit>::iterator it, Cipherbit a)
+void Cipherstring::insert(std::vector<Cipherbit>::iterator it, Cipherbit a)
 {
 	mBits.insert(it,a);
 }
 
-std::vector<Cipherbit>::iterator begin()
+std::vector<Cipherbit>::iterator Cipherstring::begin()
 {
 	return mBits.begin();
 }
 
-std::vector<Cipherbit>::iterator end()
+std::vector<Cipherbit>::iterator Cipherstring::end()
 {
 	return mBits.end();
 }
 
-bool empty()
+bool Cipherstring::empty()
 {
 	return mBits.empty();
 }
 
 
-void unsaturate()
+void Cipherstring::unsaturate()
 {
 	for(vector<Cipherbit>::iterator it; it = mBits.begin(); it++)
 		*it.setSaturated(false);
