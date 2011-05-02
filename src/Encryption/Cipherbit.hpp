@@ -39,6 +39,7 @@ namespace Encryption
 	{
 		public:
 			
+			Cipherbit(){};
 			Cipherbit(mpz_class c, std::vector<mpq_class> z, const Keys::PublicKey & pubkey);
 			mpz_class getValue() const;
 			mpq_class getZ(unsigned int index) const;
@@ -51,7 +52,6 @@ namespace Encryption
 
 		private:
 			typedef boost::dynamic_bitset<unsigned char> bitstring_t;
-			Cipherbit(){};
 
 			mpz_class value;
 			std::vector<mpq_class> Z;
