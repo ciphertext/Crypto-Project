@@ -1,6 +1,5 @@
-
-#ifndef __Encryption__Operations__AndOperation_h__
-#define __Encryption__Operations__AndOperation_h__
+#ifndef __Encryption__Operations__OrOperation_h__
+#define __Encryption__Operations__OrOperation_h__
 
 #include "Encryption/Operations/CipherStringBinaryOperation.hpp"
 
