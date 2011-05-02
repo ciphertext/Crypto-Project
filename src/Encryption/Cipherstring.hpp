@@ -15,6 +15,7 @@ namespace Encryption
 			Cipherbit at(unsigned int index) const;
 			void push_back(const Cipherbit & b);
 			unsigned int size() const;
+			void unsaturate();
 			
 		private:
 			std::vector<Cipherbit> mBits;

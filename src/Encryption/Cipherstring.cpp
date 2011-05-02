@@ -22,3 +22,8 @@ unsigned int Cipherstring::size() const
 	return mBits.size();
 }
 
+void unsaturate()
+{
+	for(vector<Cipherbit>::iterator it; it = mBits.begin(); it++)
+		*it.setSaturated(false);
+}
