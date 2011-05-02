@@ -155,8 +155,6 @@ void Cipherbit::recrypt()
 			// v = a xor b xor c
 			Cipherstring v = xorer.operate(a, xorer.operate(b,c));
 
-			v.unsaturate();
-
 			w2.push_back(u);
 			w2.push_back(v);
 		}
@@ -191,12 +189,16 @@ void Cipherbit::recrypt()
 Cipherstring Cipherbit::getHammingColumn(vector<Cipherstring> M, unsigned int col)
 {
 	//TODO: check that the upper bound on j, 2^i == _theta
-	vector< vector<Cipherbit> > P();
+	vector<Cipherstring> P();
 	//P[0][0] = 1
-	P.push_back(vector<Cipherbit>(1, Encryptor::encrypt(true, pubkey)));
+	P.push_back(Cipherstring(1, Encryptor::encrypt(true, pubkey)));
+	P.back().unsaturate();
+
 	//P[j][0] = 0 for j = 1,...,_theta
-	for(unsigned int j = 0; j < _theta; j++)
-		P.push_back(vector<Cipherbit>(1, Encryptor::encrypt(false, pubkey)));
+	for(unsigned int j = 0; j < _theta; j++) {
+		P.push_back(Cipherstring(1, Encryptor::encrypt(false, pubkey)));
+		P.back().unsaturate();
+	}
 	
 	for(unsigned int k = 1; k <= M.size(); k++) {
 		for(unsigned int j = _theta; j > 0; j--) {
