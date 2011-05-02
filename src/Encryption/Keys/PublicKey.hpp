@@ -1,7 +1,7 @@
 #ifndef __Encryption__Keys__PublicKey_h__
 #define __Encryption__Keys__PublicKey_h__
 
-#include "Encryption/Cipherbit.hpp"
+
 #include <boost/serialization/serialization.hpp>
 #include <boost/serialization/vector.hpp>
 #include <vector>
@@ -45,5 +45,7 @@ namespace Encryption
 		};
 	}
 }
+
+#include "Encryption/Cipherbit.hpp"
 
 #endif

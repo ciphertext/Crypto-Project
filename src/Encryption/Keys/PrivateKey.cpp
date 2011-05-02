@@ -1,4 +1,4 @@
-#include <exception>
+
 #include "Encryption/Keys/PrivateKey.hpp"
 
 using namespace std;
