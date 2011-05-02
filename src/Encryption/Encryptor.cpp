@@ -44,7 +44,7 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	for(unsigned int i = 0; i < aPk.ysize(); i++)
 		Z.push_back(fix_precision_bits(r_modulo((c_val * aPk.getY(i)), 2),precision_bits));
 	
-	return Cipherbit(c_val, Z);
+	return Cipherbit(c_val, Z, aPk);
 }
 
 
