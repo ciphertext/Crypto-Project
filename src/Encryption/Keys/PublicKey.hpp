@@ -29,8 +29,8 @@ namespace Encryption
 
 			public:
 				PublicKey();
-				PublicKey(std::vector<mpz_class> x,
-						  std::vector<mpq_class> Y,
+				PublicKey(boost::shared_ptr<std::vector<mpz_class> > x,
+						  boost::shared_ptr<std::vector<mpq_class> > Y,
 						  const Cipherstring & sk);
 				mpz_class getX(unsigned int index) const;
 				mpq_class getY(unsigned int index) const;
@@ -41,9 +41,10 @@ namespace Encryption
 				
 
 			private:
+				boost::shared_ptr<Cipherstring> encryptedPrivateKey;  
 				boost::shared_ptr<std::vector<mpz_class> > x;
 				boost::shared_ptr<std::vector<mpq_class> > y;
-				boost::shared_ptr<Cipherstring> encryptedPrivateKey;  
+				
 
 				template<class Archive>
 				void serialize( Archive & ar, const unsigned int version)

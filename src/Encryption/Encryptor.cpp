@@ -10,7 +10,7 @@ const int secondary_noise = 14;
 const int _tau = 105;
 const int precision_bits = 6;
 
-Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
+Cipherbit Encryptor::encrypt(bool aM, boost::shared_ptr<PublicKey> aPk)
 {
 	// generate a random number r in the range (-2^{\rho'},2^{\rho'})
 	boost::random_device rd;
@@ -33,16 +33,16 @@ Cipherbit Encryptor::encrypt(bool aM, PublicKey aPk)
 	/* compute the sum of x_i \in aPk.X, i \in S */
 	mpz_class sum_x = 0;
 	for(set<unsigned int>::iterator it = S.begin(); it != S.end(); it++)
-		sum_x += aPk.getX(*it);
+		sum_x += aPk->getX(*it);
 	
 	/* c* = (m + 2r + 2sum_x) mod 2, as in the
 	 * original (non-squashed) scheme */
-	mpz_class c_val = (aM + 2*r + sum_x) % aPk.getX(0);
+	mpz_class c_val = (aM + 2*r + sum_x) % aPk->getX(0);
 
 	/* calculate z_i = (c* . y_i) mod 2, i \in {0,...,\Theta} */
 	vector<mpq_class> Z;
-	for(unsigned int i = 0; i < aPk.ysize(); i++)
-		Z.push_back(fix_precision_bits(r_modulo((c_val * aPk.getY(i)), 2),precision_bits));
+	for(unsigned int i = 0; i < aPk->ysize(); i++)
+		Z.push_back(fix_precision_bits(r_modulo((c_val * aPk->getY(i)), 2),precision_bits));
 	
 	return Cipherbit(c_val, Z, aPk);
 }

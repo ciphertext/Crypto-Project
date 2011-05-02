@@ -26,21 +26,21 @@ namespace Encryption
 			
 			public:
 				KeyPair();
-				PublicKey getPublicKey();
-				PrivateKey getPrivateKey();
+				boost::shared_ptr<PublicKey> getPublicKey();
+				boost::shared_ptr<PrivateKey> getPrivateKey();
 				
 			private:
-				PrivateKey privateKey;
-				PublicKey publicKey;
+				boost::shared_ptr<PrivateKey> privateKey;
+				boost::shared_ptr<PublicKey> publicKey;
 				
 				boost::random_device rd;
 				gmp_randclass rand_gen;
 
 				typedef std::vector<bool> bitmap_t;
-				typedef std::vector<mpz_class> publicKey_array_t;
+				typedef boost::shared_ptr<std::vector<mpz_class> > publicKey_array_t;
 				typedef std::vector<mpz_class> u_array_t;
 				typedef std::set<unsigned int> s_set_t; 
-				typedef std::vector<mpq_class> y_rational_array_t;
+				typedef boost::shared_ptr<std::vector<mpq_class> > y_rational_array_t;
 				
 				publicKey_array_t getPk(mpz_class p);
 				s_set_t getS();
