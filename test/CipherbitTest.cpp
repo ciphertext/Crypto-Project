@@ -24,6 +24,7 @@ int main()
 	
 	for(unsigned int i = 0; i < 15; i++) {
 		logmsg("Generating keypair.");
+		kp = KeyPair();
 		pk = kp.getPublicKey();
 		sk = kp.getPrivateKey();
 
@@ -96,10 +97,6 @@ bool testCipherbitAndNorecrypt()
 bool testCipherbitXorNorecrypt()
 {
 	bool success = true;
-	logmsg("Generating keypair.");
-	KeyPair kp;
-	PublicKey pk = kp.getPublicKey();
-	PrivateKey sk = kp.getPrivateKey();
 
 	logmsg("Encrypting (0,1).");
 	Cipherbit zero = Encryptor::encrypt(false,pk);
@@ -155,10 +152,6 @@ bool testCipherbitXorNorecrypt()
 bool testCipherbitAnd()
 {
 	bool success = true;
-	logmsg("Generating keypair.");
-	KeyPair kp;
-	PublicKey pk = kp.getPublicKey();
-	PrivateKey sk = kp.getPrivateKey();
 
 	logmsg("Encrypting (0,1).");
 	Cipherbit zero = Encryptor::encrypt(false,pk);
@@ -210,10 +203,6 @@ bool testCipherbitAnd()
 bool testCipherbitXor()
 {
 	bool success = true;
-	logmsg("Generating keypair.");
-	KeyPair kp;
-	PublicKey pk = kp.getPublicKey();
-	PrivateKey sk = kp.getPrivateKey();
 
 	logmsg("Encrypting (0,1).");
 	Cipherbit zero = Encryptor::encrypt(false,pk);
