@@ -23,6 +23,11 @@
 
 namespace Encryption
 {
+	namespace Keys
+	{
+		class PublicKey;
+	}
+
 	class Cipherbit
 	{
 		public:
