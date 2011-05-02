@@ -53,7 +53,7 @@ namespace Encryption
 				ar & pubkey;
 			}
 			void recrypt();
-			Cipherstring getHammingColumn(vector<Cipherstring> M, unsigned int col);
+			Cipherstring getHammingColumn(std::vector<Cipherstring> M, unsigned int col);
 			bitstring_t mpzToBitstring(mpz_class a);
 			bitstring_t mpqToBitstring(mpq_class a);
 	};
