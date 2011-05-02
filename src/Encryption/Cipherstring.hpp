@@ -11,10 +11,13 @@ namespace Encryption
 	class Cipherstring
 	{
 		public:
+			Cipherstring();
+			Cipherstring(int count, const Cipherbit& value);
 			Cipherbit & operator [] (unsigned int index);
 			Cipherbit at(unsigned int index) const;
 			void push_back(const Cipherbit & b);
 			unsigned int size() const;
+
 			void unsaturate();
 			
 		private:

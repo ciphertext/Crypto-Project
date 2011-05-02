@@ -66,7 +66,6 @@ Cipherbit Cipherbit::operator ^ ( const Cipherbit & cb) const
 	return Cipherbit(val, Z, pubkey);
 }
 
-//TODO: set saturated = false
 void Cipherbit::recrypt()
 {
 	AddOperation adder();

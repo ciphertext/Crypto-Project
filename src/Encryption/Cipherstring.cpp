@@ -2,6 +2,16 @@
 using namespace Encryption;
 using namespace std;
 
+Cipherstring::Cipherstring()
+: mBits()
+{
+}
+
+Cipherstring(int count, const Cipherbit& value)
+: mBits(count, value)
+{
+}
+
 Cipherbit & Cipherstring::operator [] (unsigned int index)
 {
 	return mBits[index];
