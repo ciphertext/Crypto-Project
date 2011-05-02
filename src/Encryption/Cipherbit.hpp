@@ -17,7 +17,7 @@
 #include <boost/dynamic_bitset.hpp>
 
 #include <vector>
-#include <dequeue>
+#include <deque>
 #include <gmpxx.h>
 
 namespace Encryption

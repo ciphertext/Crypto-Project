@@ -109,7 +109,7 @@ void Cipherbit::recrypt()
 		W.push_back(getHammingColumn(A,j));
 	
 	// compute w_j = 2^-j W_j mod 2
-	dequeue<Cipherstring> w();
+	deque<Cipherstring> w();
 	for(unsigned int j = 0; j < W.size(); j++)
 	{
 		Cipherstring scale();
@@ -132,7 +132,7 @@ void Cipherbit::recrypt()
 	// with two (u,v) that have the same sum
 	// apply the trick repeatedly, until w contains
 	// exactly two numbers, then sum those numbers
-	dequeue<Cipherstring> w2();
+	deque<Cipherstring> w2();
 	while(w.size() >= 3) {
 		while(w.size() >= 3) {
 			Cipherstring a = w.front(); w.pop_front(); a.unsaturate();
