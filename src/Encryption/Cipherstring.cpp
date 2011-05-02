@@ -66,5 +66,5 @@ bool Cipherstring::empty()
 void Cipherstring::unsaturate()
 {
 	for(vector<Cipherbit>::iterator it = mBits.begin(); it != mBits.end(); it++)
-		*it.setSaturated(false);
+		(*it).setSaturated(false);
 }
