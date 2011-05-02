@@ -23,6 +23,7 @@ Cipherbit::Cipherbit(const Cipherbit & c)
 {
 	value=c.value;
 	Z = c.Z;
+	saturated = c.saturated;
 }
 
 Cipherbit Cipherbit::operator = (const Cipherbit & c)
@@ -30,6 +31,7 @@ Cipherbit Cipherbit::operator = (const Cipherbit & c)
 	pubkey=c.pubkey;
 	value=c.value;
 	Z = c.Z;
+	saturated = c.saturated;
 	return *this;
 }
 
