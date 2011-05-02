@@ -22,6 +22,11 @@ Cipherbit Cipherstring::at(unsigned int index) const
 	return mBits.at(index);
 }
 
+Cipherbit Cipherstring::back() const
+{
+	return mBits.back();
+}
+
 void Cipherstring::push_back(const Cipherbit & b)
 {
 	mBits.push_back(b);

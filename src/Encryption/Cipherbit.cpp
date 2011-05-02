@@ -121,7 +121,7 @@ void Cipherbit::recrypt()
 	{
 		Cipherstring scale;
 		for(unsigned int i = 0; i < W.size(); i++) {
-			W[j].push_back(Encryptor:encrypt(false,pubkey));
+			W[j].push_back(Encryptor::encrypt(false,pubkey));
 			if(i == j)
 				scale.push_back(Encryptor::encrypt(true,pubkey));
 			else
@@ -188,9 +188,9 @@ void Cipherbit::recrypt()
 
 	Cipherstring diff = adder.operate(c_bar,adder.operate(xorer.operate(sum,inv),one));
 
-	// return diff mod 2 == the last bit of diff
+	// the result is diff mod 2 == the last bit of diff
 	diff.back().setSaturated(true);
-	return diff.back();
+	*this = diff.back();
 }
 
 Cipherstring Cipherbit::getHammingColumn(vector<Cipherstring> M, unsigned int col)
@@ -220,7 +220,7 @@ Cipherstring Cipherbit::getHammingColumn(vector<Cipherstring> M, unsigned int co
 	return ret;
 }
 
-bitstring_t Cipherbit::mpzToBitstring(mpz_class a);
+Cipherbit::bitstring_t Cipherbit::mpzToBitstring(mpz_class a);
 {
 	string s = a.get_str(2);
 	bitstring_t bits;
@@ -246,7 +246,7 @@ bitstring_t Cipherbit::mpzToBitstring(mpz_class a);
 }
 
 // Convert an mpq in [0,2) to binary. only works on elemnts of Z
-bitstring_t Cipherbit::mpqToBitstring(mpq_class a)
+Cipherbit::bitstring_t Cipherbit::mpqToBitstring(mpq_class a)
 {
 	double frac = 1;
 	unsigned int i = 0;
