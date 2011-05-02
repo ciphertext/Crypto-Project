@@ -8,6 +8,8 @@
 
 namespace Encryption
 {
+	class Cipherbit;
+
 	class Cipherstring
 	{
 		public:
