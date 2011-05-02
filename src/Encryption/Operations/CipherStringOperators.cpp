@@ -1,8 +1,10 @@
 #include "Encryption/Operations/CipherStringOperators.hpp"
 
 
-using namespace Encryption;
 using namespace std;
+
+namespace Encryption {
+namespace Operations {
 
 
 //TODO: Need to figure out default behavior for ANDing strings of different length.
@@ -88,4 +90,5 @@ Cipherstring operator *( Cipherstring aA,  Cipherstring aB)
 	return prod;
 }
 
-
+} //namespace Operations
+} //namespace Encryption
