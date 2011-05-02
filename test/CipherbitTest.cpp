@@ -9,7 +9,10 @@ using namespace Encryption;
 using namespace Encryption::Keys;
 using namespace Encryption::Operations;
 
-bool testCipherbit();
+bool testCipherbitAndNorecrypt();
+bool testCipherbitXorNorecrypt();
+bool testCipherbitAnd();
+bool testCipherbitXor();
 
 Keypair kp;
 PublicKey pk;
