@@ -8,6 +8,8 @@ CLASSES = Encryption/Encryptor \
           Encryption/Keys/PrivateKey \
           Encryption/Keys/KeyPair \
           Encryption/Operations/AddOperation \
+          Encryption/Operations/MultOperation \
+          Encryption/Operations/OrOperation \
           Encryption/Operations/AndOperation \
           Encryption/Operations/XorOperation \
           Encryption/Cipherstring \

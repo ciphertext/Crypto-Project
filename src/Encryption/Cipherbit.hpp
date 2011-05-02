@@ -7,11 +7,7 @@
 #include "Encryption/RationalUtilities.hpp"
 
 #include "Encryption/GmpSerialization.hpp"
-#include "Encryption/Operations/AddOperation.hpp"
-#include "Encryption/Operations/MultOperation.hpp"
-#include "Encryption/Operations/AndOperation.hpp"
-#include "Encryption/Operations/OrOperation.hpp"
-#include "Encryption/Operations/XorOperation.hpp"
+#include "Encryption/Operations/CipherStringOperators.hpp"
 
 #include <boost/serialization/serialization.hpp>
 #include <boost/serialization/vector.hpp>

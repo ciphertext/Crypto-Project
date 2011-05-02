@@ -10,9 +10,6 @@ using namespace Encryption::Operations;
 //TODO: Need to figure out default behavior for XORing strings of different length.
 Cipherstring XorOperation::operate(Cipherstring aA, Cipherstring aB)
 {
-	Cipherstring s;
-	for(unsigned int i=0; i < min(aA.size(),aB.size()); i++)
-		s.push_back(aA[i] ^ aB[i]);
-	
-	return s;
+
+	return aA^aB;
 }

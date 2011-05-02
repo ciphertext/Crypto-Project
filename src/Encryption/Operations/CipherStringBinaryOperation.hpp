@@ -4,7 +4,7 @@
 
 #include "Encryption/Cipherstring.hpp"
 
-
+#include "Encryption/Operations/CipherStringOperators.hpp"
 
 namespace Encryption
 {

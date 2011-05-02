@@ -11,9 +11,6 @@ using namespace Encryption::Operations;
 //TODO: Need to figure out default behavior for ANDing strings of different length.
 Cipherstring OrOperation::operate(Cipherstring aA, Cipherstring aB)
 {
-	Cipherstring s;
-	for(unsigned int i=0; i < min(aA.size(),aB.size()); i++)
-		s.push_back((aA[i] & aB[i]) ^ (aA[i] ^ aB[i]));
-	
-	return s;
+
+	return aA|aB;
 }

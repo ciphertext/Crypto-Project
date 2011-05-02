@@ -76,11 +76,7 @@ Cipherbit Cipherbit::operator ^ ( const Cipherbit & cb) const
 
 void Cipherbit::recrypt()
 {
-	AddOperation adder;
-	MultOperation multer;
-	AndOperation ander;
-	OrOperation orer;
-	XorOperation xorer;
+
 
 	// Encrypt value
 	bitstring_t cbits = mpzToBitstring(value);
@@ -130,7 +126,7 @@ void Cipherbit::recrypt()
 		}
 
 		W[j].unsaturate();
-		w.push_back(multer.operate(scale,W[j]));
+		w.push_back(scale*W[j]);
 		w.back().unsaturate();
 	}
 
@@ -147,13 +143,13 @@ void Cipherbit::recrypt()
 			Cipherstring b = w.front(); w.pop_front(); b.unsaturate();
 			Cipherstring c = w.front(); w.pop_front(); c.unsaturate();
 
-			// u = (a & b) | (b & c) | (a & c)
-			Cipherstring u = orer.operate(
+			 Cipherstring u = (a & b) | (b & c) | (a & c);
+			/*Cipherstring u = orer.operate(
 								ander.operate(a,b),
 								orer.operate(
 									ander.operate(b,c),
 									ander.operate(a,c)));
-
+*/
 			// u is a collection of carry-bits, and there can
 			// be no carry-in bit, so append 0
 			u.push_back(Encryptor::encrypt(false,*pubkey));
@@ -161,7 +157,8 @@ void Cipherbit::recrypt()
 			u.unsaturate();
 
 			// v = a xor b xor c
-			Cipherstring v = xorer.operate(a, xorer.operate(b,c));
+			//Cipherstring v = xorer.operate(a, xorer.operate(b,c));
+			Cipherstring v = a ^ b ^ c;
 
 			w2.push_back(u);
 			w2.push_back(v);
@@ -172,7 +169,7 @@ void Cipherbit::recrypt()
 		}
 	}
 
-	Cipherstring sum = adder.operate(w[0], w[1]);
+	Cipherstring sum = w[0] + w[1];
 	sum.unsaturate();
 
 	// finally, compute c* - sum
@@ -187,7 +184,8 @@ void Cipherbit::recrypt()
 	one.push_back(Encryptor::encrypt(true,*pubkey));
 	one.unsaturate();
 
-	Cipherstring diff = adder.operate(c_bar,adder.operate(xorer.operate(sum,inv),one));
+	//Cipherstring diff = adder.operate(c_bar,adder.operate(xorer.operate(sum,inv),one));
+	Cipherstring diff = c_bar +(sum^inv)+one;
 
 	// the result is diff mod 2 == the last bit of diff
 	diff.back().setSaturated(true);
