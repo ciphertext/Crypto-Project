@@ -11,10 +11,10 @@ namespace Encryption{
 	namespace Operations{
 		
 		Cipherstring operator &( Cipherstring  aA,  Cipherstring  aB);
-		Cipherstring operator *( Cipherstring  aA,  Cipherstring  aB);
 		Cipherstring operator ^( Cipherstring  aA,  Cipherstring  aB);
 		Cipherstring operator |( Cipherstring  aA,  Cipherstring  aB);
 		Cipherstring operator +( Cipherstring  aA,  Cipherstring  aB);
+		Cipherstring operator *( Cipherstring  aA,  Cipherstring  aB);
 
 	}
 }

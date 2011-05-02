@@ -184,8 +184,7 @@ void Cipherbit::recrypt()
 	one.push_back(Encryptor::encrypt(true,*pubkey));
 	one.unsaturate();
 
-	//Cipherstring diff = adder.operate(c_bar,adder.operate(xorer.operate(sum,inv),one));
-	Cipherstring diff = c_bar +(sum^inv)+one;
+	Cipherstring diff = c_bar + (sum^inv) + one;
 
 	// the result is diff mod 2 == the last bit of diff
 	diff.back().setSaturated(true);

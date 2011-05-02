@@ -5,6 +5,44 @@ using namespace Encryption;
 using namespace std;
 
 
+//TODO: Need to figure out default behavior for ANDing strings of different length.
+Cipherstring operator &( Cipherstring  aA,  Cipherstring  aB)
+{
+	Cipherstring s;
+	for(unsigned int i=0; i < min(aA.size(),aB.size()); i++)
+		s.push_back(aA[i] & aB[i]);
+	
+	return s;
+}
+
+
+Cipherstring operator ^( Cipherstring  aA,  Cipherstring  aB)
+{
+	Cipherstring s;
+	for(unsigned int i=0; i < min(aA.size(),aB.size()); i++)
+		s.push_back(aA[i] ^ aB[i]);
+	
+	return s;
+}
+
+
+//TODO: Need to figure out default behavior for ANDing strings of different length.
+Cipherstring operator |( Cipherstring  aA,  Cipherstring  aB)
+{
+	return (aA & aB) ^ (aA ^ aB);
+}
+
+
+Cipherstring operator +( Cipherstring  aA,   Cipherstring  aB)
+{
+	Cipherstring s;
+	for(unsigned int i=0; i < min(aA.size(),aB.size()); i++)
+		; //TODO: implement me
+	
+	return s;
+}
+
+
 Cipherstring operator *( Cipherstring aA,  Cipherstring aB)
 {
 	Cipherstring prod;
@@ -39,54 +77,15 @@ Cipherstring operator *( Cipherstring aA,  Cipherstring aB)
 		else
 			carry = sum;
 
-		prod.insert(prod.begin(), carry.pop_back());
+		prod.insert(prod.begin(), carry.back());
+		carry.pop_back();
 	}
-	if(!carry.empty())
-		prod.insert(prod.begin(), carry.pop_back());
+	if(!carry.empty()) {
+		prod.insert(prod.begin(), carry.back());
+		carry.pop_back();
+	}
 
 	return prod;
 }
 
 
-
-
-//TODO: Need to figure out default behavior for ANDing strings of different length.
-Cipherstring operator &( Cipherstring  aA,  Cipherstring  aB)
-{
-	Cipherstring s;
-	for(unsigned int i=0; i < min(aA.size(),aB.size()); i++)
-		s.push_back(aA[i] & aB[i]);
-	
-	return s;
-}
-
-
-Cipherstring operator +( Cipherstring  aA,   Cipherstring  aB)
-{
-	Cipherstring s;
-	for(unsigned int i=0; i < min(aA.size(),aB.size()); i++)
-		; //TODO: implement me
-	
-	return s;
-}
-
-
-//TODO: Need to figure out default behavior for ANDing strings of different length.
-Cipherstring operator |( Cipherstring  aA,  Cipherstring  aB)
-{
-	Cipherstring s;
-	for(unsigned int i=0; i < min(aA.size(),aB.size()); i++)
-		s.push_back((aA[i] & aB[i]) ^ (aA[i] ^ aB[i]));
-	
-	return s;
-}
-
-
-Cipherstring operator ^( Cipherstring  aA,  Cipherstring  aB)
-{
-	Cipherstring s;
-	for(unsigned int i=0; i < min(aA.size(),aB.size()); i++)
-		s.push_back(aA[i] ^ aB[i]);
-	
-	return s;
-}
