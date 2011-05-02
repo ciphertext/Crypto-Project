@@ -1,13 +1,7 @@
-#include <exception>
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <boost/algorithm/string.hpp>
-#include <Encryption/EncryptionFacade.hpp>
 
 
 #include "UI/UserInterface.hpp"
-#include "Encryption/EncryptionFacade.hpp"
+
 using namespace std;
 using namespace UI;
 using namespace Encryption;
@@ -15,18 +9,12 @@ using namespace boost;
 
 void UserInterface::start() {
 	string input;
-	bool repeat = true;
-	cout << "Available Commands\n";	
-	cout << "==================\n";
+   running=true;
 
-	cout << "encrypt <message> <public key file> <output file>\n";
-	cout << "decrypt <ciphertext file> <secret key file>\n";
-	cout << "keygen <public key file> <private key file>\n";
-	cout << "operation <operation name> <ciphertext file 1> <ciphertext file 2>  <public key file> <output file>\n";
-	cout << "==================\n";
+	displayHelp();
 		
-	EncryptionFacade ef;
-	while(repeat)
+
+	while(running)
 	{
 		// Get input from user
 		// encrypt <message> <public key file> <output file>
@@ -37,114 +25,61 @@ void UserInterface::start() {
 		cout << "Enter command: ";
 		getline(cin, input);
 		
+
+		vector<string> split_input = tokenize(input);
 		// split input on space
 		// token compress to discount extra spacing
-		vector<string> split_input = tokenize(input);
 		//split(split_input,input,is_any_of(" "), token_compress_on);
 		
 		string command(split_input[0]);
 		to_lower(command);
 		
-		if(command.compare("encrypt") == 0)
+		if(command =="encrypt")
 		{
-			// check command before continuing
-			if(split_input.size() != 4)
-			{
-				cout << "Check command parameters.";
-				break;
-			}
-			else
-			{
-				string message(split_input[1]);
-				string pkFileName(split_input[2]);
-				string outputFileName(split_input[3]);
-				
-				// read in public key
-				string pk = readFile(pkFileName);
-				
-				string ciphertext = ef.encrypt(message, pk);
-				
-				writeFile(outputFileName,ciphertext);
-			}
+          if(!checkParameters(split_input, 3)) 
+				 continue;
+          handleEncrypt(split_input[1],split_input[2],split_input[3]);
 		}
-		else if(command.compare("decrypt") == 0)
+		
+		else if(command == "decrypt")
 		{
-			// check command before continuing
-			if(split_input.size() != 3)
-			{
-				cout << "Check command parameters.";
-				break;
-			}
-			else
-			{
-				string csFileName(split_input[1]);
-				string skFileName(split_input[2]);
-				
-				string ciphertext = readFile(csFileName);
-				
-				string sk = readFile(skFileName);
-				
-				string message = ef.decrypt(ciphertext, sk);
-				
-				cout << message;
-			}
+          if(!checkParameters(split_input,2)) 
+				 continue;
+          handleDecrypt(split_input[1],split_input[2]);
 		}
-		else if(command.compare("keygen") == 0)
+		
+		else if(command == "keygen")
 		{
-			// check command before continuing
-			if(split_input.size() != 3)
-			{
-				cout << "Check command parameters.";
-				break;
-			}
-			else
-			{
-				pair<string, string> kp = ef.genKeyPair();					
-				
-				// get file names
-				string pkFileName(split_input[1]);
-				string skFileName(split_input[2]);
-				
-				// create files
-				writeFile(pkFileName,kp.first);
-				writeFile(skFileName,kp.second);
-			}
+          if(!checkParameters(split_input,2)) 
+				 continue;
+          handleKeygen(split_input[1],split_input[2]);
 		}
-		else if(command.compare("operation") == 0)
+		
+		else if(command == "operation")
 		{
-			// check command before continuing
-			if(split_input.size() != 6)
-			{
-				cout << "Check command parameters.";
-				break;
-			}
-			else
-			{
-				// operations: add, and, xor
-				string op(split_input[1]);
-				string cs1Name(split_input[2]);
-				string cs2Name(split_input[3]);
-				string pkName(split_input[4]);
-				string outName(split_input[5]);
-				
-				string cs1 = readFile(cs1Name);
-				string cs2 = readFile(cs2Name);
-				string pk  = readFile(pkName);
-				
-				
-				
-				string result = ef.executeOperation(op, cs1, cs2, pk);
-				
-				writeFile(outName, result);
-			}
+          if(!checkParameters(split_input,5)) 
+				 continue;
+          handleOperation(split_input[1],split_input[2],split_input[3],split_input[4],split_input[5]);
 		}
-		else if(command.compare("exit") == 0)
+
+		else if(command == "help")
 		{
-			repeat = false;
+			if(!checkParameters(split_input,0)) 
+				continue;
+			displayHelp();
 		}
+		
+
+		else if(command == "exit")
+		{
+			if(!checkParameters(split_input,0)) 
+				continue;
+			handleExit();
+		}
+		
 		else
 		{
-			cout << "Invalid command.";
+			cout << "Invalid command.\n";
 		}
 	}
 }
@@ -178,3 +113,84 @@ void UserInterface::writeFile(std::string file, std::string data)
 	copy(data.begin(), data.end(), ostreambuf_iterator<char>(output));
 }
  
+
+void UserInterface::handleEncrypt(std::string message, std::string pkfile, std::string outfile)
+{
+	
+	// read in public key
+	string pk = readFile(pkfile);
+	
+	string ciphertext = encryption.encrypt(message, pk);
+	
+	writeFile(outfile,ciphertext);
+}
+
+
+void UserInterface::handleDecrypt(std::string csfile, std::string skfile)
+{
+	
+	string ciphertext = readFile(csfile);
+	
+	string sk = readFile(skfile);
+	
+	string message = encryption.decrypt(ciphertext, sk);
+	
+	cout <<endl<< message << endl;
+}
+
+
+void UserInterface::handleKeygen (std::string pkfile, std::string skfile)
+{
+	pair<string, string> kp = encryption.genKeyPair();
+	
+	// create files
+	writeFile(pkfile,kp.first);
+	writeFile(skfile,kp.second);
+}
+
+void UserInterface::handleOperation(std::string operation, std::string csfile1, 
+							std::string csfile2, std::string pkfile, std::string outfile)
+{
+		// operations: add, and, xor
+
+	string cs1 = readFile(csfile1);
+	string cs2 = readFile(csfile2);
+	string pk  = readFile(pkfile);
+	
+	
+	string result = encryption.executeOperation(operation, cs1, cs2, pk);
+	
+	writeFile(outfile, result);
+}
+
+void UserInterface::handleExit()
+{
+	cout<<"\nExiting...\n";
+	running=false;
+}
+
+bool UserInterface::checkParameters(vector<string> tokens,int count)
+{
+  if ( tokens.size()!= count+1)
+  {
+	  cout<< "\nError: Incorrect number of arguments for command.\n";
+	  return false;
+  }
+  return true;
+}
+
+
+void UserInterface::displayHelp()
+{
+ 	cout << "Available Commands\n";	
+	cout << "==================\n";
+
+	cout << "encrypt <message> <public key file> <output file>\n";
+	cout << "decrypt <ciphertext file> <secret key file>\n";
+	cout << "keygen <public key file> <private key file>\n";
+	cout << "operation <operation name> <ciphertext file 1> <ciphertext file 2>  <public key file> <output file>\n";
+	cout << "help\n";
+	cout << "exit\n";
+	cout << "==================\n"; 
+}
+
