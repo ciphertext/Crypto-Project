@@ -17,6 +17,8 @@
 
 namespace Encryption
 {
+	class Cipherbit;
+
 	class Encryptor
 	{
 		public:

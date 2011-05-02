@@ -25,7 +25,6 @@ namespace Encryption
 {
 	class Cipherbit
 	{
-
 		public:
 			
 			Cipherbit(mpz_class c, std::vector<mpq_class> z, Keys::PublicKey pubkey);
