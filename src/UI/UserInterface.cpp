@@ -177,6 +177,10 @@ void UserInterface::handleOperation(std::string operation, std::string csfile1,
 	{
 		cout << "Invalid input files!"<<endl;
 	}
+	catch (const char * ex)
+	{
+		cout << ex<<endl;
+	}
 }
 
 void UserInterface::handleExit()

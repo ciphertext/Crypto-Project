@@ -5,10 +5,22 @@ using namespace Encryption;
 using namespace Encryption::Keys;
 using namespace Encryption::Operations;
 
+
+EncryptionFacade::EncryptionFacade()
+{
+   addOperation("add",new AddOperation());
+   addOperation("and",new AndOperation());
+   addOperation("or",new OrOperation());
+   addOperation("xor",new XorOperation());
+   addOperation("mult",new MultOperation());
+	
+}
+
+
 string EncryptionFacade::executeOperation(std::string command, std::string arg1, std::string arg2, std::string aPublicKey) 
 {
 	if(mCmdMap.count(command)==0)
-		throw "Invalid command";
+		throw "Invalid command!";
 	
 	CipherStringBinaryOperation & op= mCmdMap.at(command);
 	
@@ -84,5 +96,9 @@ std::string EncryptionFacade::toString(bitstring_t bits) const
 }
 
 
+void EncryptionFacade::addOperation(string opname, CipherStringBinaryOperation * operation)
+{
+	mCmdMap.insert(opname,operation);
+}
 
 

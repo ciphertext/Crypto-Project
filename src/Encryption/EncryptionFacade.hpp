@@ -7,6 +7,12 @@
 
 #include "Encryption/Encryptor.hpp"
 #include "Encryption/Operations/CipherStringBinaryOperation.hpp"
+#include "Encryption/Operations/AddOperation.hpp"
+#include "Encryption/Operations/AndOperation.hpp"
+#include "Encryption/Operations/MultOperation.hpp"
+#include "Encryption/Operations/OrOperation.hpp"
+#include "Encryption/Operations/XorOperation.hpp"
+
 #include "Encryption/Keys/KeyPair.hpp"
 #include "Encryption/Keys/PublicKey.hpp"
 #include "Encryption/Keys/PrivateKey.hpp"
@@ -28,6 +34,8 @@ namespace Encryption
 	class EncryptionFacade
 	{
 		public:
+			EncryptionFacade();
+			
 			std::string executeOperation(std::string command, std::string arg1, std::string arg2, std::string aPublicKey);
 			
 			std::string decrypt(std::string aCiphertext, std::string aPrivateKey);
@@ -46,6 +54,8 @@ namespace Encryption
 			
 		   bitstring_t toBits(std::string text) const; 
 			std::string toString(bitstring_t bits) const;
+			
+			void addOperation(std::string opname, Encryption::Operations::CipherStringBinaryOperation * operation);
 			
 			
 			
