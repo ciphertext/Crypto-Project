@@ -154,6 +154,7 @@ Cipherstring getRandomCipherstring()
 
 PublicKey getRandomPublicKey()
 {
+	logmsg("Generating random public key");
 	gmp_randclass rnd(gmp_randinit_mt);
 	rnd.seed(time(NULL));
 
@@ -161,7 +162,7 @@ PublicKey getRandomPublicKey()
 	std::vector<mpq_class> y;
 	Cipherstring sk;
 	
-	for(unsigned int i = 0; i< 1000;i++)
+	for(unsigned int i = 0; i< 10;i++)
 	{
 		x.push_back(rnd.get_z_range(500) + 10);
 		y.push_back(mpq_class(rnd.get_z_range(1000),rnd.get_z_range(1000)+1));

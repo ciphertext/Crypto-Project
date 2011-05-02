@@ -39,8 +39,8 @@ void UserInterface::start() {
 		
 		// split input on space
 		// token compress to discount extra spacing
-		vector<string> split_input;
-		split(split_input,input,is_any_of(" "), token_compress_on);
+		vector<string> split_input = tokenize(input);
+		//split(split_input,input,is_any_of(" "), token_compress_on);
 		
 		string command(split_input[0]);
 		to_lower(command);
@@ -148,6 +148,24 @@ void UserInterface::start() {
 		}
 	}
 }
+
+vector<string> UserInterface::tokenize(std::string line)
+{
+	boost::escaped_list_separator<char> els(std::string(""),std::string(" "),std::string("\"\'"));
+        boost::tokenizer<boost::escaped_list_separator<char> > tok(line, els);
+	
+	//boost::tokenizer<> tok(line);
+	vector<string> tokens;
+	for(boost::tokenizer<boost::escaped_list_separator<char> >::iterator i=tok.begin(); i!=tok.end();i++)
+	{
+	  if(*i=="")
+	    continue;
+	  tokens.push_back(*i);
+	}
+	return tokens;
+};
+
+
 std::string UserInterface::readFile(std::string file)
 {
 	ifstream input(file.c_str());
