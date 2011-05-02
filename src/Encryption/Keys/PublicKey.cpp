@@ -11,7 +11,7 @@ PublicKey::PublicKey()
 }
 
 PublicKey::PublicKey(vector<mpz_class> x, vector<mpq_class> Y, const Cipherstring & sk)
-:encryptedPrivateKey(boost::shared_ptr<Cipherstring>(new Cipherstring()))
+:encryptedPrivateKey(boost::shared_ptr<Cipherstring>(new Cipherstring(sk)))
 {
 	this->x = boost::shared_ptr<vector<mpz_class> > (new vector<mpz_class> (x));
 	this->y = boost::shared_ptr<vector<mpq_class> > (new vector<mpq_class> (Y));
