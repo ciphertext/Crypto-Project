@@ -4,6 +4,7 @@
 using namespace std;
 using namespace Encryption;
 using namespace Encryption::Keys;
+using namespace Encryption::Operations;
 
 const unsigned int _theta = 7;
 const int precision_bits = 6;
@@ -26,7 +27,7 @@ mpq_class Cipherbit::getZ(unsigned int index) const
 	return this->Z.at(index);
 }
 
-void setSaturated(bool s)
+void Cipherbit::setSaturated(bool s)
 {
 	this->saturated = s;
 }
@@ -39,13 +40,16 @@ Cipherbit Cipherbit::operator & ( const Cipherbit & cb) const
 
 	/* calculate z_i = (c* . y_i) mod 2, i \in {0,...,\Theta} */
 	vector<mpq_class> Z;
-	for(unsigned int i = 0; i < aPk.ysize(); i++)
-		Z.push_back(fix_precision_bits(r_modulo((c_val * aPk.getY(i)), 2),precision_bits));
+	for(unsigned int i = 0; i < pubkey.ysize(); i++)
+		Z.push_back(fix_precision_bits(r_modulo((val * pubkey.getY(i)), 2),precision_bits));
 	
+	Cipherbit ret(val, Z, pubkey);
 	if(saturated)
-		recrypt();
-	
-	return Cipherbit(val, Z, pubkey);
+		ret.recrypt();
+	else
+		ret.setSaturated(false);
+
+	return ret;
 }
 
 
@@ -57,13 +61,16 @@ Cipherbit Cipherbit::operator ^ ( const Cipherbit & cb) const
 
 	/* calculate z_i = (c* . y_i) mod 2, i \in {0,...,\Theta} */
 	vector<mpq_class> Z;
-	for(unsigned int i = 0; i < aPk.ysize(); i++)
-		Z.push_back(fix_precision_bits(r_modulo((c_val * aPk.getY(i)), 2),precision_bits));
+	for(unsigned int i = 0; i < pubkey.ysize(); i++)
+		Z.push_back(fix_precision_bits(r_modulo((val * pubkey.getY(i)), 2),precision_bits));
 	
+	Cipherbit ret(val, Z, pubkey);
 	if(saturated)
-		recrypt();
-	
-	return Cipherbit(val, Z, pubkey);
+		ret.recrypt();
+	else
+		ret.setSaturated(false);
+
+	return ret;
 }
 
 void Cipherbit::recrypt()
@@ -76,7 +83,7 @@ void Cipherbit::recrypt()
 
 	// Encrypt value
 	bitstring_t cbits = mpzToBitstring(value);
-	Cipherstring c_bar;
+	Cipherstring c_bar();
 	for(unsigned int i = 0; i < cbits.size(); i++)
 		c_bar.push_back(Encryptor::encrypt(cbits[i],pubkey));
 	c_bar.unsaturate();
@@ -85,9 +92,9 @@ void Cipherbit::recrypt()
 	vector<Cipherstring> A();
 	for(unsigned int i = 0; i < Z.size(); i++) {
 		bitstring_t z_bits = mpqToBitstring(Z[i]);
-		Cipherstring z_bar;
+		Cipherstring z_bar();
 		for(unsigned int j = 0; j < z_bits.size(); j++)
-			z_bar.push_back(Encryptor::encrypt(Zbits[i],pubkey));
+			z_bar.push_back(Encryptor::encrypt(z_bits[j],pubkey));
 		z_bar.unsaturate();
 
 		//compute a_i = s_i * z_i
@@ -213,7 +220,7 @@ Cipherstring Cipherbit::getHammingColumn(vector<Cipherstring> M, unsigned int co
 	return ret;
 }
 
-bitstring_t mpzToBitstring(mpz_class a);
+bitstring_t Cipherbit::mpzToBitstring(mpz_class a);
 {
 	string s = a.get_str(2);
 	bitstring_t bits();
@@ -239,7 +246,7 @@ bitstring_t mpzToBitstring(mpz_class a);
 }
 
 // Convert an mpq in [0,2) to binary. only works on elemnts of Z
-bitstring_t mpqToBitstring(mpq_class a)
+bitstring_t Cipherbit::mpqToBitstring(mpq_class a)
 {
 	double frac = 1;
 	unsigned int i = 0;

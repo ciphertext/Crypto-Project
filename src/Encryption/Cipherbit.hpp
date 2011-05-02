@@ -2,8 +2,9 @@
 #ifndef __Encryption__Cipherbit_h__
 #define __Encryption__Cipherbit_h__
 
-
+#include "Encryption/Encryptor.hpp"
 #include "Encryption/Cipherstring.hpp"
+#include "Encryption/RationalUtilities.hpp"
 #include "Encryption/Keys/PublicKey.hpp"
 #include "Encryption/GmpSerialization.hpp"
 #include "Encryption/Operations/AddOperation.hpp"
@@ -27,7 +28,7 @@ namespace Encryption
 
 		public:
 			
-			Cipherbit(mpz_class c, std::vector<mpq_class> z);
+			Cipherbit(mpz_class c, std::vector<mpq_class> z, Keys::PublicKey pubkey);
 			mpz_class getValue() const;
 			mpq_class getZ(unsigned int index) const;
 			void setSaturated(bool s);

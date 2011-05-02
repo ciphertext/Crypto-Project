@@ -12,7 +12,7 @@ namespace Encryption
 	{
 		public:
 			Cipherstring();
-			Cipherstring(int count, const Cipherbit& value);
+			Cipherstring(int count, const Cipherbit & value);
 			Cipherbit & operator [] (unsigned int index);
 			Cipherbit at(unsigned int index) const;
 			void push_back(const Cipherbit & b);
@@ -30,10 +30,6 @@ namespace Encryption
 				ar & mBits;
 			};
 	};
-	
-
-	
-	
 }
 
 
