@@ -17,6 +17,12 @@
 
 namespace Encryption
 {
+	class Cipherbit;
+	namespace Keys
+	{
+		class PublicKey;
+	}
+
 	class Encryptor
 	{
 		public:

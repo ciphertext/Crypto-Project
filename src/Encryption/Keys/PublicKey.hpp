@@ -9,18 +9,13 @@
 
 namespace Encryption
 {
-	
-   class Cipherbit;
+	class Cipherbit;
 
 	namespace Keys
 	{
-
-	 
 		class PublicKey
 		{
 			friend class boost::serialization::access;
-
-
 
 			public:
 				PublicKey();
@@ -38,8 +33,6 @@ namespace Encryption
 				std::vector<mpz_class> x;
 				std::vector<mpq_class> y;
 				std::vector<Cipherbit> encryptedPrivateKey;  
-
-
 
 				template<class Archive>
 				void serialize( Archive & ar, const unsigned int version)

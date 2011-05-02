@@ -5,11 +5,15 @@
 #include <boost/algorithm/string.hpp>
 #include <Encryption/EncryptionFacade.hpp>
 
+
+#include "UI/UserInterface.hpp"
+#include "Encryption/EncryptionFacade.hpp"
 using namespace std;
+using namespace UI;
+using namespace Encryption;
 
-#include "UI/UserInterface.h"
 
-void UI::UserInterface::start() {
+void UserInterface::start() {
 	string input;
 	bool repeat = true;
 	cout << "Available Commands";	
