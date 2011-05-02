@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <boost/algorithm/string.hpp>
+#include <Encryption/EncryptionFacade.hpp>
 
 
 #include "UI/UserInterface.hpp"
@@ -10,27 +11,28 @@
 using namespace std;
 using namespace UI;
 using namespace Encryption;
-
+using namespace boost;
 
 void UserInterface::start() {
 	string input;
 	bool repeat = true;
-	cout << "Available Commands";	
-	cout << "==================";
+	cout << "Available Commands\n";	
+	cout << "==================\n";
 
-	cout << "encrypt <message> <public key file> <output file>";
-	cout << "decrypt <ciphertext file> <secret key file>";
-	cout << "keygen <public key file> <private key file>";
-	cout << "operation <operation name> <ciphertext file 1> <ciphertext file 2> <output file>";
+	cout << "encrypt <message> <public key file> <output file>\n";
+	cout << "decrypt <ciphertext file> <secret key file>\n";
+	cout << "keygen <public key file> <private key file>\n";
+	cout << "operation <operation name> <ciphertext file 1> <ciphertext file 2>  <public key file> <output file>\n";
 	cout << "==================\n";
 		
+	EncryptionFacade ef;
 	while(repeat)
 	{
 		// Get input from user
 		// encrypt <message> <public key file> <output file>
 		// decrypt <ciphertext file> <secret key file>
 		// keygen <public key file> <private key file>
-		// operation <op name> <ciphertext file 1> <ciphertext file 2> <output file>
+		// operation <op name> <ciphertext file 1> <ciphertext file 2> <public key file> <output file>
 				
 		cout << "Enter command: ";
 		getline(cin, input);
@@ -58,30 +60,11 @@ void UserInterface::start() {
 				string outputFileName(split_input[3]);
 				
 				// read in public key
-				PublicKey pk;
-				ifstream pkFile(pkFileName);
-				boost::archive::text_iarchive iaPK(pkFile);
-				iaPK >> pk;
+				string pk = readFile(pkFileName);
 				
-				Cipherstring c;
-				for(int x = 0; x < message.size(); x++)
-				{
-					if(message[x] == '0')
-					{
-						Cipherbit b = Encryptor::encrypt(0,pk);
-						c.push_back(b);
-					}
-					else
-					{
-						Cipherbit b = Encryptor::encrypt(1,pk);
-						c.push_back(b);
-					}
-				}
+				string ciphertext = ef.encrypt(message, pk);
 				
-				// save cipherstring to archive
-				ofstream csFile(outputFileName);
-				boost::archive::text_oarchive oaCS(csFile);
-				oaCS << c;
+				writeFile(outputFileName,ciphertext);
 			}
 		}
 		else if(command.compare("decrypt") == 0)
@@ -97,26 +80,11 @@ void UserInterface::start() {
 				string csFileName(split_input[1]);
 				string skFileName(split_input[2]);
 				
-				Cipherstring c; 
-				ifstream csFile(csFileName);
-				boost::archive::text_iarchive iaCS(csFile);
-				iaCS >> c;
+				string ciphertext = readFile(csFileName);
 				
-				PrivateKey sk;
-				ifstream skFile(skFileName);
-				boost::archive::text_iarchive iaPK(skFile);
-				iaPK >> sk;
+				string sk = readFile(skFileName);
 				
-				string message;
-				int size = c.size();
-				for(int x = 0; x < size; x++)
-				{
-					bool b = Encryptor::decrypt(c[x],sk);
-					if(b)
-						message.push_back('1');
-					else
-						message.push_back('0');
-				}
+				string message = ef.decrypt(ciphertext, sk);
 				
 				cout << message;
 			}
@@ -131,30 +99,21 @@ void UserInterface::start() {
 			}
 			else
 			{
-				KeyPair kp;
-				PublicKey pk = kp.getPublicKey();
-				PrivateKey sk = kp.getPrivateKey();
+				pair<string, string> kp = ef.genKeyPair();					
 				
 				// get file names
 				string pkFileName(split_input[1]);
 				string skFileName(split_input[2]);
 				
 				// create files
-				ofstream pkFile(pkFileName);
-				ofstream skFile(skFileName);	
-				
-				// save data to archive
-				boost::archive::text_oarchive oaPK(pkFile);
-				oaPK << pk;
-				
-				boost::archive::text_oarchive oaSK(skFile);
-				oaSK << sk;
+				writeFile(pkFileName,kp.first);
+				writeFile(skFileName,kp.second);
 			}
 		}
 		else if(command.compare("operation") == 0)
 		{
 			// check command before continuing
-			if(split_input.size() != 5)
+			if(split_input.size() != 6)
 			{
 				cout << "Check command parameters.";
 				break;
@@ -165,45 +124,18 @@ void UserInterface::start() {
 				string op(split_input[1]);
 				string cs1Name(split_input[2]);
 				string cs2Name(split_input[3]);
-				string outName(split_input[4]);
+				string pkName(split_input[4]);
+				string outName(split_input[5]);
 				
-				Cipherstring cs1;
-				Cipherstring cs2;
-				ifstream cs1File(cs1Name);
-				boost::archive::text_iarchive iaCS1(cs1File);
-				iaCS1 >> cs1;
-				ifstream cs2File(cs2Name);
-				boost::archive::text_iarchive iaCS2(cs2File);
-				iaCS2 >> cs2;
+				string cs1 = readFile(cs1Name);
+				string cs2 = readFile(cs2Name);
+				string pk  = readFile(pkName);
 				
-				to_lower(op);
-				Cipherstring result;
 				
-				if(op.compare("add") == 0)
-				{
-					result = AddOperation(cs1, cs2);
-					ofstream outFile(outName);
-					boost::archive::text_oarchive oaOutput(outFile);
-					oaOutput << result;
-				}
-				else if(op.compare("and") == 0)
-				{
-					result = AndOperation(cs1, cs2);
-					ofstream outFile(outName);
-					boost::archive::text_oarchive oaOutput(outFile);
-					oaOutput << result;
-				}
-				else if(op.compare("xor") == 0)
-				{
-					result = XorOperation(cs1, cs2);
-					ofstream outFile(outName);
-					boost::archive::text_oarchive oaOutput(outFile);
-					oaOutput << result;
-				}
-				else
-				{
-					cout << "Invalid operation specified";
-				}
+				
+				string result = ef.executeOperation(op, cs1, cs2, pk);
+				
+				writeFile(outName, result);
 			}
 		}
 		else if(command.compare("exit") == 0)
@@ -216,6 +148,15 @@ void UserInterface::start() {
 		}
 	}
 }
+std::string UserInterface::readFile(std::string file)
+{
+	ifstream input(file.c_str());
+   return string((istreambuf_iterator<char>(input)), istreambuf_iterator<char>());
+}
 
-
-
+void UserInterface::writeFile(std::string file, std::string data)
+{
+	ofstream output(file.c_str());
+	copy(data.begin(), data.end(), ostreambuf_iterator<char>(output));
+}
+ 
