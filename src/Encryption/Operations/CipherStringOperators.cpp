@@ -7,8 +7,8 @@ using namespace std;
 
 Cipherstring operator *( Cipherstring aA,  Cipherstring aB)
 {
-	Cipherstring prod();
-	Cipherstring carry();
+	Cipherstring prod;
+	Cipherstring carry;
 	unsigned int k = 0, m = 0;
 	while(k < aA.size() && m < aA.size()) {
 		if(k == aA.size() - 1)
@@ -26,12 +26,12 @@ Cipherstring operator *( Cipherstring aA,  Cipherstring aB)
 
 		Cipherstring sum;
 		for(vector<Cipherbit>::iterator it = summands.begin(); it != summands.end(); it++) {
-			Cipherstring temp();
+			Cipherstring temp;
 			temp.push_back(*it);
 			if(it == summands.begin())
 				sum = temp;
 			else
-				sum = sum+ temp;
+				sum = sum + temp;
 		}
 
 		if(!carry.empty())
