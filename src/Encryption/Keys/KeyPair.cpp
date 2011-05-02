@@ -6,7 +6,7 @@ using namespace Encryption::Keys;
 using namespace boost;
 
 // Lambda - security parameter
-const unsigned int _lambda = 7;
+const unsigned long int _lambda = 7;
 
 // Key generation parameters calculated based off lamdba
 // rho - bit length of noise = lambda
@@ -17,14 +17,14 @@ const unsigned int _lambda = 7;
 // kappa = (gamma * eta)/rho'
 // theta = lambda
 // big-theta = k * log_2(lambda)
-const unsigned int _rho		 = 7;
-const unsigned int _rho2	 = 14;
-const unsigned int _eta		 = 49;
-const unsigned int _gamma	 = 98;
-const unsigned int _tau		 = 105;
-const unsigned int _kappa	 = 343;
-const unsigned int _theta	 = 7;
-const unsigned int _bigTheta = 375;
+const unsigned long int _rho		 = 7;
+const unsigned long int _rho2	 = 14;
+const unsigned long int _eta		 = 49;
+const unsigned long int _gamma	 = 98;
+const unsigned long int _tau		 = 105;
+const unsigned long int _kappa	 = 343;
+const unsigned long int _theta	 = 7;
+const unsigned long int _bigTheta = 375;
 
 KeyPair::KeyPair()
 : rd(),
@@ -43,7 +43,7 @@ KeyPair::KeyPair()
 	
 	publicKey_array_t pk = getPk(p);	
 	
-	// sArrow = random big-_theta bit vector with hamming weight _theta
+ 	// sArrow = random big-_theta bit vector with hamming weight _theta
 	s_set_t S = getS();
 	bitmap_t sArrow= getSArrow(S);
 	
@@ -55,7 +55,7 @@ KeyPair::KeyPair()
 	privateKey = PrivateKey(sArrow);
 	// public key is pk, y, and encrypted private key	
 	
-	Cipherstring sk = getSk(sArrow,pk,y);
+   encryptedSecretKey_array_t sk = getSk(sArrow,pk,y);
 
 	publicKey = PublicKey(pk, y, sk);
 }
@@ -75,14 +75,14 @@ PrivateKey KeyPair::getPrivateKey()
 
 KeyPair::publicKey_array_t KeyPair::getPk(mpz_class p)
 {
-
-	// pk*
+  
+  	// pk*
 	// for i = 0 to _tau
 	// choose random q, [0, 2^_gamma / p)
 	// choose random r, (-2^_rho, 2^_rho)
 	// x_i = pq+r
 	// x_0 largest and restart unless x_0 is odd and x_0 mod p is even
-	publicKey_array_t pk;
+  	publicKey_array_t pk;
 	
 	while(true) {	
 		unsigned int largestIndex = 0;
@@ -126,7 +126,7 @@ KeyPair::s_set_t KeyPair::getS()
 	// choose random S
 	mpz_class s_ubound = _bigTheta;
 	s_set_t S; //Use set to guarantee unique elements
-	while(S.size() < _theta) {
+	while(S.size() < (unsigned int) _theta) {
 		S.insert((unsigned int) mpz_get_ui(((mpz_class) rand_gen.get_z_range(s_ubound)).get_mpz_t()));
 	} 
 	
@@ -148,7 +148,7 @@ KeyPair::bitmap_t KeyPair::getSArrow(s_set_t S)
 
 KeyPair::u_array_t KeyPair::getU(mpz_class p, s_set_t S)
 {
-	// generate u_i = [0, 2^k+1) for i = 1..._bigTheta
+	// generate u_i = [0, 2^k+1) for i = 1...big-_theta
 	// where, 2^k+1 == 2 << k
 	u_array_t u;
 	mpz_class u_ubound = mpz_class(2) << _kappa;
@@ -210,8 +210,6 @@ KeyPair::encryptedSecretKey_array_t  KeyPair::getSk(bitmap_t sArrow, publicKey_a
 	
 	for(unsigned int z = 0; z < sArrow.size(); z++)
 		sk.push_back(Encryptor::encrypt(sArrow[z], PublicKey(pk, y, sk)));
-	
-	sk.unsaturate();
 	return sk;
 }
 
