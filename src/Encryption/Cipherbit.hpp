@@ -46,6 +46,7 @@ namespace Encryption
 
 			Cipherbit operator & ( const Cipherbit & cb) const;
 			Cipherbit operator ^ ( const Cipherbit & cb) const;
+			Cipherbit operator | ( const Cipherbit & cb) const;
 			~Cipherbit();
 
 		private:

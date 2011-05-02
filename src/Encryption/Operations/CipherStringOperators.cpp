@@ -38,8 +38,29 @@ Cipherstring operator |( Cipherstring  aA,  Cipherstring  aB)
 Cipherstring operator +( Cipherstring  aA,   Cipherstring  aB)
 {
 	Cipherstring s;
-	for(unsigned int i=0; i < min(aA.size(),aB.size()); i++)
-		; //TODO: implement me
+	Cipherbit carry;
+	unsigned int i;
+	for(i = 0; i < min(aA.size(),aB.size()); i++) {
+		if(i == 0) {
+			s.push_back(aA[i] ^ aB[i]);
+			carry = aA[i] & aB[i];
+		} else {
+			s.push_back(aA[i] ^ aB[i] ^ carry);
+			carry = (aA[i] & aB[i]) | (aA[i] & carry) | (aB[i] & carry);
+		}
+	}
+	if(aA.size() > i) {
+		for(unsigned int j = i; j < aA.size(); j++) {
+			s.push_back(aA[i] & carry);
+			carry = aA[j] & carry;
+		}
+	} else if(aB.size() > i) {
+		for(unsigned int j = i; j < aB.size(); j++) {
+			s.push_back(aB[i] & carry);
+			carry = aB[j] & carry;
+		}
+	}
+	s.push_back(carry);
 	
 	return s;
 }

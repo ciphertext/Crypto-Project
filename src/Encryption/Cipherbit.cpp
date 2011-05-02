@@ -74,6 +74,11 @@ Cipherbit Cipherbit::operator ^ ( const Cipherbit & cb) const
 	return ret;
 }
 
+Cipherbit Cipherbit::operator | ( const Cipherbit & cb) const
+{
+	return (*this & cb) ^ (*this ^ cb);
+}
+
 void Cipherbit::recrypt()
 {
 
