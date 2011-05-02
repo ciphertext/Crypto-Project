@@ -42,7 +42,7 @@ CC = g++
 
 #compiler and linker flags
 CFLAGS = -g -c -Wall $(INCLUDES) $(CLIBRARIES)
-LFLAGS = $(LLIBRARIES) -lboost_random -l boost_serialization -lreadline  -lgmpxx -lgmp
+LFLAGS = $(LLIBRARIES) -lboost_random -l boost_serialization -lreadline  -lncurses -lgmpxx -lgmp
 
 
 
