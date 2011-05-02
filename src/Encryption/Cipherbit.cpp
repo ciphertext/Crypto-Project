@@ -75,30 +75,30 @@ Cipherbit Cipherbit::operator ^ ( const Cipherbit & cb) const
 
 void Cipherbit::recrypt()
 {
-	AddOperation adder();
-	MultOperation multer();
-	AndOperation ander();
-	OrOperation orer();
-	XorOperation xorer();
+	AddOperation adder;
+	MultOperation multer;
+	AndOperation ander;
+	OrOperation orer;
+	XorOperation xorer;
 
 	// Encrypt value
 	bitstring_t cbits = mpzToBitstring(value);
-	Cipherstring c_bar();
+	Cipherstring c_bar;
 	for(unsigned int i = 0; i < cbits.size(); i++)
 		c_bar.push_back(Encryptor::encrypt(cbits[i],pubkey));
 	c_bar.unsaturate();
 
 	//compute A = {a_i}, i in {0,...,_bigtheta = Z.size()}
-	vector<Cipherstring> A();
+	vector<Cipherstring> A;
 	for(unsigned int i = 0; i < Z.size(); i++) {
 		bitstring_t z_bits = mpqToBitstring(Z[i]);
-		Cipherstring z_bar();
+		Cipherstring z_bar;
 		for(unsigned int j = 0; j < z_bits.size(); j++)
 			z_bar.push_back(Encryptor::encrypt(z_bits[j],pubkey));
 		z_bar.unsaturate();
 
 		//compute a_i = s_i * z_i
-		Cipherstring a();
+		Cipherstring a;
 		for(unsigned int j = 0; j < z_bar.size(); j++) {
 			// because s_i is one bit,
 			// s_i * z_i = s_i & z_i[j] for each bit of z_i
@@ -111,15 +111,15 @@ void Cipherbit::recrypt()
 	// compute W_j = sum_i(a_i[j])
 	// if we view A as a matrix of bits (whose rows are a_i),
 	// W_j is the sum (aka Hamming weight) of column j
-	vector<Cipherstring> W();
+	vector<Cipherstring> W;
 	for(unsigned int j = 0; j < A[0].size(); j++)
 		W.push_back(getHammingColumn(A,j));
 	
 	// compute w_j = 2^-j W_j mod 2
-	deque<Cipherstring> w();
+	deque<Cipherstring> w;
 	for(unsigned int j = 0; j < W.size(); j++)
 	{
-		Cipherstring scale();
+		Cipherstring scale;
 		for(unsigned int i = 0; i < W.size(); i++) {
 			W[j].push_back(Encryptor:encrypt(false,pubkey));
 			if(i == j)
@@ -139,7 +139,7 @@ void Cipherbit::recrypt()
 	// with two (u,v) that have the same sum
 	// apply the trick repeatedly, until w contains
 	// exactly two numbers, then sum those numbers
-	deque<Cipherstring> w2();
+	deque<Cipherstring> w2;
 	while(w.size() >= 3) {
 		while(w.size() >= 3) {
 			Cipherstring a = w.front(); w.pop_front(); a.unsaturate();
@@ -177,12 +177,12 @@ void Cipherbit::recrypt()
 	// finally, compute c* - sum
 	// by calculating the two's complement
 	// of sum, then adding
-	Cipherstring inv();
+	Cipherstring inv;
 	for(unsigned int i = 0; i < sum.size(); i++)
 		inv.push_back(Encryptor::encrypt(true,pubkey));
 	inv.unsaturate();
 	
-	Cipherstring one();
+	Cipherstring one;
 	one.push_back(Encryptor::encrypt(true,pubkey));
 	one.unsaturate();
 
@@ -196,7 +196,7 @@ void Cipherbit::recrypt()
 Cipherstring Cipherbit::getHammingColumn(vector<Cipherstring> M, unsigned int col)
 {
 	//TODO: check that the upper bound on j, 2^i == _theta
-	vector<Cipherstring> P();
+	vector<Cipherstring> P;
 	//P[0][0] = 1
 	P.push_back(Cipherstring(1, Encryptor::encrypt(true, pubkey)));
 	P.back().unsaturate();
@@ -223,7 +223,7 @@ Cipherstring Cipherbit::getHammingColumn(vector<Cipherstring> M, unsigned int co
 bitstring_t Cipherbit::mpzToBitstring(mpz_class a);
 {
 	string s = a.get_str(2);
-	bitstring_t bits();
+	bitstring_t bits;
 	// Push the binary representation of a onto
 	// bits, using one's complement if negative
 	for(unsigned int i = 0; i < s.size(); i++) {
@@ -250,7 +250,7 @@ bitstring_t Cipherbit::mpqToBitstring(mpq_class a)
 {
 	double frac = 1;
 	unsigned int i = 0;
-	bitstring_t bits();
+	bitstring_t bits;
 	while(i++ < precision_bits + 1) {
 		if(a >= frac) {
 			bits.push_back(true);
