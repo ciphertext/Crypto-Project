@@ -134,7 +134,7 @@ Cipherbit getRandomCipherbit()
 	
 	mpz_class v =rnd.get_z_range(50000);
 	
-	return Cipherbit(v,z,Cipherstring());
+	return Cipherbit(v,z,getRandomPublicKey());
 }
 
 
@@ -159,7 +159,7 @@ PublicKey getRandomPublicKey()
 
 	std::vector<mpz_class> x;
 	std::vector<mpq_class> y;
-	std::vector<Cipherbit> sk;
+	Cipherstring sk;
 	
 	for(unsigned int i = 0; i< 1000;i++)
 	{
