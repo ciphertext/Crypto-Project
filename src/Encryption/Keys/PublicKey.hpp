@@ -39,9 +39,6 @@ namespace Encryption
 				unsigned int ysize() const;
 				unsigned int encryptedKeySize() const;
 				
-				void setSk(Cipherstring sk);
-
-				
 
 			private:
 				boost::shared_ptr<Cipherstring> encryptedPrivateKey;  

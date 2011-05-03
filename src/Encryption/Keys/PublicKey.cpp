@@ -49,10 +49,3 @@ unsigned int PublicKey::encryptedKeySize() const
 {
 	return encryptedPrivateKey->size();
 }
-
-
-
-void PublicKey::setSk(Cipherstring sk)
-{
-	encryptedPrivateKey=boost::shared_ptr<Cipherstring>(new Cipherstring(sk));
-}
