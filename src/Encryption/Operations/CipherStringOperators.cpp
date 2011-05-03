@@ -60,7 +60,7 @@ Cipherstring operator +( Cipherstring  aA,   Cipherstring  aB)
 			carry = aB[j] & carry;
 		}
 	}
-	s.push_back(carry);
+	//s.push_back(carry); // We no longer support overflow
 	
 	return s;
 }
