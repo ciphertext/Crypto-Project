@@ -34,7 +34,7 @@ namespace Encryption
 			bool empty();
 
 
-			void unsaturate();
+			//void unsaturate();
 			
 		private:
 			std::vector<Cipherbit> mBits;

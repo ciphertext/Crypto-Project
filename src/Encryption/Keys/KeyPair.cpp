@@ -219,7 +219,7 @@ Cipherstring  KeyPair::getSk(bitmap_t sArrow, boost::shared_ptr<PublicKey> pk, y
 		sk.push_back(b);
 	}
 	
-	sk.unsaturate();
+	//sk.unsaturate();
 	return sk;
 }
 

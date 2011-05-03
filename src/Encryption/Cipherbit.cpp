@@ -15,7 +15,7 @@ Cipherbit::Cipherbit(mpz_class c, vector<mpq_class> z,boost::shared_ptr<Keys::Pu
 	this->value = c;
 	this->Z = z;
 	
-	this->saturated = true;
+	//this->saturated = true;
 }
 
 Cipherbit::Cipherbit(const Cipherbit & c)
@@ -23,7 +23,7 @@ Cipherbit::Cipherbit(const Cipherbit & c)
 {
 	value=c.value;
 	Z = c.Z;
-	saturated = c.saturated;
+	//saturated = c.saturated;
 }
 
 Cipherbit Cipherbit::operator = (const Cipherbit & c)
@@ -31,7 +31,7 @@ Cipherbit Cipherbit::operator = (const Cipherbit & c)
 	pubkey=c.pubkey;
 	value=c.value;
 	Z = c.Z;
-	saturated = c.saturated;
+	//saturated = c.saturated;
 	return *this;
 }
 
@@ -45,10 +45,10 @@ mpq_class Cipherbit::getZ(unsigned int index) const
 	return this->Z.at(index);
 }
 
-void Cipherbit::setSaturated(bool s)
+/*void Cipherbit::setSaturated(bool s)
 {
 	this->saturated = s;
-}
+}*/
 
 Cipherbit Cipherbit::operator & ( const Cipherbit & cb) const
 {
@@ -62,10 +62,10 @@ Cipherbit Cipherbit::operator & ( const Cipherbit & cb) const
 		Z.push_back(fix_precision_bits(r_modulo((val * pubkey->getY(i)), 2),precision_bits));
 	
 	Cipherbit ret(val, Z, pubkey);
-	if(saturated)
+	/*if(saturated)
 		ret.recrypt();
 	else
-		ret.setSaturated(false);
+		ret.setSaturated(false);*/
 
 	return ret;
 }
@@ -83,10 +83,10 @@ Cipherbit Cipherbit::operator ^ ( const Cipherbit & cb) const
 		Z.push_back(fix_precision_bits(r_modulo((val * pubkey->getY(i)), 2),precision_bits));
 	
 	Cipherbit ret(val, Z, pubkey);
-	if(saturated)
+	/*if(saturated)
 		ret.recrypt();
 	else
-		ret.setSaturated(false);
+		ret.setSaturated(false); */
 
 	return ret;
 }
@@ -95,7 +95,7 @@ Cipherbit Cipherbit::operator | ( const Cipherbit & cb) const
 {
 	return (*this & cb) ^ (*this ^ cb);
 }
-
+/*
 void Cipherbit::recrypt()
 {
 
@@ -166,12 +166,6 @@ void Cipherbit::recrypt()
 			Cipherstring c = w.front(); w.pop_front(); c.unsaturate();
 
 			 Cipherstring u = (a & b) | (b & c) | (a & c);
-			/*Cipherstring u = orer.operate(
-								ander.operate(a,b),
-								orer.operate(
-									ander.operate(b,c),
-									ander.operate(a,c)));
-*/
 			// u is a collection of carry-bits, and there can
 			// be no carry-in bit, so append 0
 			u.push_back(Encryptor::encrypt(false,pubkey));
@@ -213,6 +207,7 @@ void Cipherbit::recrypt()
 	*this = diff.back();
 }
 
+// XXX This does not work!!!
 Cipherstring Cipherbit::getHammingColumn(vector<Cipherstring> M, unsigned int col)
 {
 	//TODO: check that the upper bound on j, 2^i == _theta
@@ -229,7 +224,7 @@ Cipherstring Cipherbit::getHammingColumn(vector<Cipherstring> M, unsigned int co
 	
 	for(unsigned int k = 1; k <= M.size(); k++) {
 		for(unsigned int j = _theta; j > 0; j--) {
-			P[j].push_back((M[k][col] & P[j-1][k-1]) ^ P[j][k-1]);
+			P[j].push_back((M[k-1][col] & P[j-1][k-1]) ^ P[j][k-1]);
 		}
 	}
 
@@ -284,4 +279,4 @@ Cipherbit::bitstring_t Cipherbit::mpqToBitstring(mpq_class a)
 	return bits;
 }
 
-
+*/

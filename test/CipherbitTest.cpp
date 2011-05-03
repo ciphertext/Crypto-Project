@@ -47,8 +47,8 @@ bool testCipherbitAndNorecrypt()
 	logmsg("Encrypting (0,1).");
 	Cipherbit zero = Encryptor::encrypt(false,pk);
 	Cipherbit one = Encryptor::encrypt(true,pk);
-	one.setSaturated(false);
-	zero.setSaturated(false);
+	//one.setSaturated(false);
+	//zero.setSaturated(false);
 
 	logmsg("Calculating 0 & 1...");
 	Cipherbit prod = zero & one;
@@ -100,8 +100,8 @@ bool testCipherbitXorNorecrypt()
 	logmsg("Encrypting (0,1).");
 	Cipherbit zero = Encryptor::encrypt(false,pk);
 	Cipherbit one = Encryptor::encrypt(true,pk);
-	one.setSaturated(false);
-	zero.setSaturated(false);
+	//one.setSaturated(false);
+	//zero.setSaturated(false);
 
 	logmsg("Calculating 0 ^ 1...");
 	Cipherbit prod = zero ^ one;

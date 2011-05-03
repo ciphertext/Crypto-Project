@@ -45,7 +45,7 @@ namespace Encryption
 			Cipherbit operator = (const Cipherbit & c);
 			mpz_class getValue() const;
 			mpq_class getZ(unsigned int index) const;
-			void setSaturated(bool s);
+			//void setSaturated(bool s);
 
 			Cipherbit operator & ( const Cipherbit & cb) const;
 			Cipherbit operator ^ ( const Cipherbit & cb) const;
@@ -60,7 +60,7 @@ namespace Encryption
 			mpz_class value;
 			std::vector<mpq_class> Z;
 			boost::shared_ptr<Keys::PublicKey> pubkey;
-			bool saturated;
+			//bool saturated;
 			
 			friend class boost::serialization::access;
 			template<class Archive>
@@ -70,10 +70,10 @@ namespace Encryption
 				ar & value;
 				ar & pubkey;
 			}
-			void recrypt();
+			/*void recrypt();
 			Cipherstring getHammingColumn(std::vector<Cipherstring> M, unsigned int col);
 			bitstring_t mpzToBitstring(mpz_class a);
-			bitstring_t mpqToBitstring(mpq_class a);
+			bitstring_t mpqToBitstring(mpq_class a);*/
 			
 			
 	};
