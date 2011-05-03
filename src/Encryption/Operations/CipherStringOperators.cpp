@@ -49,7 +49,7 @@ Cipherstring operator +( Cipherstring  aA,   Cipherstring  aB)
 			carry = (aA[i] & aB[i]) | (aA[i] & carry) | (aB[i] & carry);
 		}
 	}
-	if(aA.size() > i) {
+	/*if(aA.size() > i) {
 		for(unsigned int j = i; j < aA.size(); j++) {
 			s.push_back(aA[i] & carry);
 			carry = aA[j] & carry;
@@ -59,7 +59,7 @@ Cipherstring operator +( Cipherstring  aA,   Cipherstring  aB)
 			s.push_back(aB[i] & carry);
 			carry = aB[j] & carry;
 		}
-	}
+	}*/
 	//s.push_back(carry); // We no longer support overflow
 	
 	return s;
