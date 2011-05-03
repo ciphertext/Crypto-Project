@@ -19,10 +19,10 @@ const unsigned int _lambda = 7;
 // big-theta = k * log_2(lambda)
 const unsigned int _rho		 = 7;
 const unsigned int _rho2	 = 14;
-const unsigned int _eta		 = 49;
-const unsigned int _gamma	 = 98;
+const unsigned int _eta		 = 175;
+const unsigned int _gamma	 = 2353;
 const unsigned int _tau		 = 105;
-const unsigned int _kappa	 = 343;
+const unsigned int _kappa	 = 29408;//343;
 const unsigned int _theta	 = 7;
 const unsigned int _bigTheta = 375;
 
