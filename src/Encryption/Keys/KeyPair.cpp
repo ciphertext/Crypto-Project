@@ -211,7 +211,6 @@ Cipherstring  KeyPair::getSk(bitmap_t sArrow, publicKey_array_t pk, y_rational_a
 	for(unsigned int z = 0; z < sArrow.size(); z++)
 	{
 		Cipherbit b = Encryptor::encrypt(sArrow[z], PublicKey(pk, y, sk));
-		b.clearPubkey();
 		sk.push_back(b);
 	}
 	
