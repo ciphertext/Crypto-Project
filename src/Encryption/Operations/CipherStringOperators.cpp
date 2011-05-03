@@ -37,18 +37,47 @@ Cipherstring operator |( Cipherstring  aA,  Cipherstring  aB)
 
 Cipherstring operator +( Cipherstring  aA,   Cipherstring  aB)
 {
-	Cipherstring s;
+	Cipherstring propagate;
+	Cipherstring generate;
+	for(unsigned int i = 0; i < 8; i++) {
+		propagate.push_back(aA[i] ^ aB[i]);
+		generate.push_back(aA[i] & aB[i]);
+	}
+	
+	Cipherbit carry;
+	Cipherstring ret;
+	for(unsigned int i = 0; i < 8; i++) {
+		if(i == 0) {
+			ret.push_back(propagate[i]);
+			carry = generate[i];
+		} else {
+			ret.push_back(propagate[i] ^ carry);
+			carry = (generate[i] ^ (propagate[i] & carry));
+		}
+	}
+	
+	return ret;
+	
+	
+	
+	/*Cipherstring s;
 	Cipherbit carry;
 	int i;
-	for(i = aA.size() - 1; i >= 0; i--) {
-		if(i == aA.size() - 1) {
-			s.insert(s.begin(), aA[i] ^ aB[i]);
+	for(i = 0; i < 4; i++) {
+		if(i == 0) {
+			s.push_back(aA[i] ^ aB[i]);
 			carry = aA[i] & aB[i];
 		} else {
-			s.insert(s.begin(), aA[i] ^ aB[i] ^ carry);
+			s.push_back(aA[i] ^ aB[i] ^ carry);
 			carry = (aA[i] & aB[i]) | (aA[i] & carry) | (aB[i] & carry);
 		}
 	}
+	
+	for(i=0;i<4;i++)
+	{
+		aA[i]=s[i];
+	}
+	return aA;*/
 	/*if(aA.size() > i) {
 		for(unsigned int j = i; j < aA.size(); j++) {
 			s.push_back(aA[i] & carry);
@@ -62,7 +91,7 @@ Cipherstring operator +( Cipherstring  aA,   Cipherstring  aB)
 	}*/
 	//s.push_back(carry); // We no longer support overflow
 	
-	return s;
+	//return s;
 }
 
 
