@@ -40,8 +40,8 @@ Cipherstring operator +( Cipherstring  aA,   Cipherstring  aB)
 	Cipherstring s;
 	Cipherbit carry;
 	int i;
-	for(i = min(aA.size(),aB.size()) - 1; i >= 0; i--) {
-		if(i == 0) {
+	for(i = aA.size() - 1; i >= 0; i--) {
+		if(i == aA.size() - 1) {
 			s.insert(s.begin(), aA[i] ^ aB[i]);
 			carry = aA[i] & aB[i];
 		} else {
