@@ -124,7 +124,8 @@ void UserInterface::handleEncrypt(std::string message, std::string pkfile, std::
 	}
 	catch (boost::archive::archive_exception ex)
 	{
-		cout << "Invalid public key file!"<<endl;
+		
+		cout << "Invalid public key file!\n"<<ex.what()<<endl;
 	}
 	
 }

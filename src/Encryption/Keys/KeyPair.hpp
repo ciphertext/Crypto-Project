@@ -47,7 +47,7 @@ namespace Encryption
 				bitmap_t getSArrow(s_set_t S);
 				u_array_t getU(mpz_class p, s_set_t S);
 				y_rational_array_t getY(u_array_t u);
-				Cipherstring getSk(bitmap_t sArrow, publicKey_array_t pk, y_rational_array_t y);
+				Cipherstring getSk(bitmap_t sArrow,boost::shared_ptr<PublicKey> pk, y_rational_array_t y);
 		};
 	}
 }

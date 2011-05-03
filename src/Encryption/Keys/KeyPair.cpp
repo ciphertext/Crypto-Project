@@ -55,9 +55,14 @@ KeyPair::KeyPair()
 	privateKey = boost::shared_ptr<PrivateKey>(new PrivateKey(sArrow));
 	// public key is pk, y, and encrypted private key	
 	
-	Cipherstring sk = getSk(sArrow,pk,y);
-
-	publicKey = boost::shared_ptr<PublicKey>(new PublicKey(PublicKey(pk, y, sk)));
+	
+	publicKey = boost::shared_ptr<PublicKey>(new PublicKey(PublicKey(pk, y, Cipherstring())));
+	
+	Cipherstring sk = getSk(sArrow,publicKey,y);
+   
+	//publicKey->setSk(sk);
+	
+	
 }
 
 
@@ -204,13 +209,13 @@ KeyPair::y_rational_array_t KeyPair::getY(u_array_t u)
 	return y;
 }	
 
-Cipherstring  KeyPair::getSk(bitmap_t sArrow, publicKey_array_t pk, y_rational_array_t y)
+Cipherstring  KeyPair::getSk(bitmap_t sArrow, boost::shared_ptr<PublicKey> pk, y_rational_array_t y)
 {
 	Cipherstring sk;
 	
 	for(unsigned int z = 0; z < sArrow.size(); z++)
 	{
-		Cipherbit b = Encryptor::encrypt(sArrow[z], boost::shared_ptr<PublicKey>(new PublicKey(pk, y, sk)));
+		Cipherbit b = Encryptor::encrypt(sArrow[z], pk);
 		sk.push_back(b);
 	}
 	
