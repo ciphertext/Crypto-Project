@@ -62,7 +62,7 @@ Cipherbit Cipherbit::operator & ( const Cipherbit & cb) const
 		Z.push_back(fix_precision_bits(r_modulo((val * pubkey->getY(i)), 2),precision_bits));
 	
 	Cipherbit ret(val, Z, *pubkey);
-	if(saturated)
+	/*if(saturated)
 		ret.recrypt();
 	else
 		ret.setSaturated(false);*/
@@ -83,7 +83,7 @@ Cipherbit Cipherbit::operator ^ ( const Cipherbit & cb) const
 		Z.push_back(fix_precision_bits(r_modulo((val * pubkey->getY(i)), 2),precision_bits));
 	
 	Cipherbit ret(val, Z, *pubkey);
-	if(saturated)
+	/*if(saturated)
 		ret.recrypt();
 	else
 		ret.setSaturated(false); */
