@@ -208,11 +208,11 @@ Cipherstring  KeyPair::getSk(bitmap_t sArrow, publicKey_array_t pk, y_rational_a
 {
 	Cipherstring sk;
 	
-	for(unsigned int z = 0; z < sArrow.size(); z++)
+	/*for(unsigned int z = 0; z < sArrow.size(); z++)
 	{
 		Cipherbit b = Encryptor::encrypt(sArrow[z], PublicKey(pk, y, sk));
 		sk.push_back(b);
-	}
+	}*/
 	
 	//sk.unsaturate();
 	return sk;
