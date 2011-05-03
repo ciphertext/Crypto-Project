@@ -283,4 +283,4 @@ Cipherbit::bitstring_t Cipherbit::mpqToBitstring(mpq_class a)
 void Cipherbit::clearPubkey()
 {
 	pubkey= boost::shared_ptr<PublicKey>(new PublicKey());
-}
+} */
