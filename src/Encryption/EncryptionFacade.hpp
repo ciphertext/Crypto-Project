@@ -49,8 +49,8 @@ namespace Encryption
 			typedef boost::dynamic_bitset<unsigned char> bitstring_t;
 			
 			CommandMap mCmdMap;
-			Cipherstring encryptString(std::string message, boost::shared_ptr<Keys::PublicKey>  pk) const;
-			bitstring_t decryptString(const Cipherstring & ciphertext, boost::shared_ptr<Keys::PrivateKey>  sk) const;
+			Cipherstring encryptString(std::string message, const Keys::PublicKey & pk) const;
+			bitstring_t decryptString(const Cipherstring & ciphertext, const Keys::PrivateKey & sk) const;
 			
 		   bitstring_t toBits(std::string text) const; 
 			std::string toString(bitstring_t bits) const;

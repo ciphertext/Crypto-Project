@@ -40,7 +40,7 @@ namespace Encryption
 		public:
 			
 			Cipherbit(){};
-			Cipherbit(mpz_class c, std::vector<mpq_class> z, boost::shared_ptr<Keys::PublicKey>  pubkey);
+			Cipherbit(mpz_class c, std::vector<mpq_class> z, const Keys::PublicKey & pubkey);
 			Cipherbit(const Cipherbit & c);
 			Cipherbit operator = (const Cipherbit & c);
 			mpz_class getValue() const;
@@ -51,7 +51,7 @@ namespace Encryption
 			Cipherbit operator ^ ( const Cipherbit & cb) const;
 			Cipherbit operator | ( const Cipherbit & cb) const;
 			
-
+			void clearPubkey();
 	
 
 		private:

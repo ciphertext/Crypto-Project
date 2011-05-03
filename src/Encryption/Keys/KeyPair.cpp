@@ -52,21 +52,21 @@ KeyPair::KeyPair()
 	y_rational_array_t y = getY(u);
 
 	// private key is sArrow
-	privateKey = boost::shared_ptr<PrivateKey>(new PrivateKey(sArrow));
+	privateKey = PrivateKey(sArrow);
 	// public key is pk, y, and encrypted private key	
 	
 	Cipherstring sk = getSk(sArrow,pk,y);
 
-	publicKey = boost::shared_ptr<PublicKey>(new PublicKey(PublicKey(pk, y, sk)));
+	publicKey = PublicKey(pk, y, sk);
 }
 
 
-boost::shared_ptr<PublicKey> KeyPair::getPublicKey()
+PublicKey KeyPair::getPublicKey()
 {
 	return publicKey;
 }
 
-boost::shared_ptr<PrivateKey> KeyPair::getPrivateKey()
+PrivateKey KeyPair::getPrivateKey()
 {	
 	return privateKey;
 }
@@ -82,7 +82,7 @@ KeyPair::publicKey_array_t KeyPair::getPk(mpz_class p)
 	// choose random r, (-2^_rho, 2^_rho)
 	// x_i = pq+r
 	// x_0 largest and restart unless x_0 is odd and x_0 mod p is even
-	publicKey_array_t pk(new vector<mpz_class>());
+	publicKey_array_t pk;
 	
 	while(true) {	
 		unsigned int largestIndex = 0;
@@ -94,9 +94,9 @@ KeyPair::publicKey_array_t KeyPair::getPk(mpz_class p)
 			mpz_class r = rand_gen.get_z_range(r_ubound - r_lbound) + r_lbound;
 			mpz_class x = (p * q) + 2*r;
 			
-			pk->push_back(x);
+			pk.push_back(x);
 			
-			if( x > (*pk)[largestIndex])
+			if( x > pk[largestIndex])
 				largestIndex = i;
 		}
 		
@@ -104,9 +104,9 @@ KeyPair::publicKey_array_t KeyPair::getPk(mpz_class p)
 		// store temp value
 		// delete from location
 		// insert to front of vector
-		mpz_class temp = (*pk)[largestIndex];
-		(*pk)[largestIndex]=(*pk)[0];
-		(*pk)[0]=temp;
+		mpz_class temp = pk[largestIndex];
+		pk[largestIndex]=pk[0];
+		pk[0]=temp;
 	
 		
 		// check if x_0 is odd and x_0 mod p is even
@@ -114,7 +114,7 @@ KeyPair::publicKey_array_t KeyPair::getPk(mpz_class p)
 		if((temp % 2 == 1) && ((temp % p) % 2 == 0))
 			break;
 		else
-			pk->clear();
+			pk.clear();
 	}
 	
 	return pk;
@@ -195,10 +195,10 @@ KeyPair::u_array_t KeyPair::getU(mpz_class p, s_set_t S)
 KeyPair::y_rational_array_t KeyPair::getY(u_array_t u)
 {
 	// calculate y_i = u_i/2^k
-	y_rational_array_t y (new vector<mpq_class>);
+	y_rational_array_t y;
 	for(unsigned int i = 0; i < _bigTheta; i++) {
-		y->push_back(mpq_class(u[i], mpz_class(2) << (_kappa - 1)));
-		y->back().canonicalize();
+		y.push_back(mpq_class(u[i], mpz_class(2) << (_kappa - 1)));
+		y.back().canonicalize();
 	}
 	
 	return y;
@@ -210,7 +210,8 @@ Cipherstring  KeyPair::getSk(bitmap_t sArrow, publicKey_array_t pk, y_rational_a
 	
 	for(unsigned int z = 0; z < sArrow.size(); z++)
 	{
-		Cipherbit b = Encryptor::encrypt(sArrow[z], boost::shared_ptr<PublicKey>(new PublicKey(pk, y, sk)));
+		Cipherbit b = Encryptor::encrypt(sArrow[z], PublicKey(pk, y, sk));
+		b.clearPubkey();
 		sk.push_back(b);
 	}
 	

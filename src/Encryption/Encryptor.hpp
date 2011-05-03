@@ -31,7 +31,7 @@ namespace Encryption
 	class Encryptor
 	{
 		public:
-			static Cipherbit encrypt(bool aM, boost::shared_ptr<Keys::PublicKey> aPk);
+			static Cipherbit encrypt(bool aM, Keys::PublicKey aPk);
 			static bool decrypt(Cipherbit aC, Keys::PrivateKey aSk);
 	};
 }

@@ -29,14 +29,12 @@ string EncryptionFacade::executeOperation(std::string command, std::string arg1,
 
 string EncryptionFacade::decrypt(std::string aCiphertext, std::string aPrivateKey) 
 {
-	PrivateKey sk(unserialize<PrivateKey>(aPrivateKey));
-	return toString( decryptString( unserialize<Cipherstring>(aCiphertext), boost::shared_ptr<PrivateKey>( &sk  )));
+	return toString( decryptString( unserialize<Cipherstring>(aCiphertext), unserialize<PrivateKey>(aPrivateKey) ));
 }
 
 string EncryptionFacade::encrypt(std::string aMessage, std::string aPublicKey) 
 {
-	PublicKey pk(unserialize<PublicKey>(aPublicKey));
-	return serialize( encryptString( aMessage, boost::shared_ptr<PublicKey>( &pk ) ));
+	return serialize( encryptString( aMessage, unserialize<PublicKey>(aPublicKey) ) );
 }
 
 pair<string, string> EncryptionFacade::genKeyPair() 
@@ -47,7 +45,7 @@ pair<string, string> EncryptionFacade::genKeyPair()
 
 
 
-Cipherstring EncryptionFacade::encryptString(std::string message, boost::shared_ptr<PublicKey>  pk) const
+Cipherstring EncryptionFacade::encryptString(std::string message, const PublicKey & pk) const
 {
 	Cipherstring ciphertext;
 	bitstring_t bits = toBits(message);
@@ -58,12 +56,12 @@ Cipherstring EncryptionFacade::encryptString(std::string message, boost::shared_
 	return ciphertext;
 }
 
-EncryptionFacade::bitstring_t EncryptionFacade::decryptString(const Cipherstring & ciphertext, boost::shared_ptr<PrivateKey> sk) const
+EncryptionFacade::bitstring_t EncryptionFacade::decryptString(const Cipherstring & ciphertext, const PrivateKey & sk) const
 {
 	bitstring_t bits;
 	for(unsigned long i=0; i< ciphertext.size();i++)
 	{
-		bits.push_back( Encryptor::decrypt(ciphertext.at(i),*sk));
+		bits.push_back( Encryptor::decrypt(ciphertext.at(i),sk));
 	}
 	return bits;
 }
