@@ -40,7 +40,7 @@ Cipherstring operator +( Cipherstring  aA,   Cipherstring  aB)
 	Cipherstring s;
 	Cipherbit carry;
 	unsigned int i;
-	for(i = 0; i < min(aA.size(),aB.size()); i++) {
+	for(i = min(aA.size(),aB.size()) - 1; i >= 0; i--) {
 		if(i == 0) {
 			s.push_back(aA[i] ^ aB[i]);
 			carry = aA[i] & aB[i];
