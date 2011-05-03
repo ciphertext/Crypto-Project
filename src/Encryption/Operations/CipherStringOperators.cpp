@@ -45,7 +45,7 @@ Cipherstring operator +( Cipherstring  aA,   Cipherstring  aB)
 			s.push_back(aA[i] ^ aB[i]);
 			carry = aA[i] & aB[i];
 		} else {
-			s.push_back(aA[i] ^ aB[i] ^ carry);
+			s.insert(s.begin(), aA[i] ^ aB[i] ^ carry);
 			carry = (aA[i] & aB[i]) | (aA[i] & carry) | (aB[i] & carry);
 		}
 	}
