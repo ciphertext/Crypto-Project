@@ -115,11 +115,18 @@ void UserInterface::writeFile(std::string file, std::string data)
 void UserInterface::handleEncrypt(std::string message, std::string pkfile, std::string outfile)
 {
 	
+	unsigned char c = boost::lexical_cast<int>(message);
+	 
 	// read in public key
 	string pk = readFile(pkfile);
 	
+	string s;
+	
+	s+=c;
+	
+	
 	try{
-		string ciphertext = encryption.encrypt(message, pk);
+		string ciphertext = encryption.encrypt(s, pk);
 		writeFile(outfile,ciphertext);
 	}
 	catch (boost::archive::archive_exception ex)
@@ -141,7 +148,7 @@ void UserInterface::handleDecrypt(std::string csfile, std::string skfile)
 	try{
 		string message = encryption.decrypt(ciphertext, sk);
 		
-		cout <<endl<< message << endl;
+		cout <<endl<<(int)(unsigned char)message[0]<<endl;// boost::lexical_cast<int>(message) << endl;
 	}
 	catch (boost::archive::archive_exception ex)
 	{

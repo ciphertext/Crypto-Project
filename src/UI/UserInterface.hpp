@@ -12,6 +12,7 @@
 #include <boost/algorithm/string.hpp>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <boost/lexical_cast.hpp>
 namespace UI
 {
 	class UserInterface
