@@ -42,7 +42,7 @@ Cipherstring operator +( Cipherstring  aA,   Cipherstring  aB)
 	int i;
 	for(i = min(aA.size(),aB.size()) - 1; i >= 0; i--) {
 		if(i == 0) {
-			s.push_back(aA[i] ^ aB[i]);
+			s.insert(s.begin(), aA[i] ^ aB[i]);
 			carry = aA[i] & aB[i];
 		} else {
 			s.insert(s.begin(), aA[i] ^ aB[i] ^ carry);
