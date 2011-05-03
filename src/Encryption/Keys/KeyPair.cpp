@@ -216,6 +216,7 @@ Cipherstring  KeyPair::getSk(bitmap_t sArrow, boost::shared_ptr<PublicKey> pk, y
 	for(unsigned int z = 0; z < sArrow.size(); z++)
 	{
 		Cipherbit b = Encryptor::encrypt(sArrow[z], pk);
+		b.clearPubkey();
 		sk.push_back(b);
 	}
 	
