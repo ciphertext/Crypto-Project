@@ -10,9 +10,5 @@ using namespace Encryption::Operations;
 
 Cipherstring AddOperation::operate(Cipherstring aA, Cipherstring aB)
 {
-	Cipherstring s;
-	for(unsigned int i=0; i < min(aA.size(),aB.size()); i++)
-		; //TODO: implement me
-	
-	return s;
+	return aA+aB;
 }
